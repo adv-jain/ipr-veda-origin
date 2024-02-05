@@ -11,14 +11,19 @@ $routes = [
   '/home' => 'controller/home.php',
   '/about' => 'controller/about.php',
   '/contact' => 'controller/contact.php',
+  '/trademark' => 'controller/trademark.php',
+  '/copyright' => 'controller/copyright.php',
+  '/patent' => 'controller/patent.php',
   '/credits' => 'controller/credits.php',
-  '/404' => 'controller/404.php',
   '/blog' => 'controller/blog.php',
+  '/find-classes' => 'controller/find-classes.php',
+  '/login' => 'controller/login.php',
+  '/signup' => 'controller/signup.php',
+  '/404' => 'controller/404.php',
   '/disclaimer' => 'controller/disclaimer.php',
   '/privacy' => 'controller/privacy-policy.php',
   '/refund' => 'controller/refund-policy.php',
-  '/find-classes' => 'controller/find-classes.php',
-  '/login' => 'controller/login.php',
+  '/forgotten-password' => 'controller/forgotten-password.php',
 ];
 
 function abort($code = 404)

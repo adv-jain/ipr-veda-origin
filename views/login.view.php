@@ -5,22 +5,6 @@
     <?php require_once 'partials/nav.php'; ?>
 
     <main>
-        <div class='bg-light py-5 mb-5'>        
-            <div class="container py-5">
-                <div class="row">
-                    <div class="col s12">
-                        <nav class="breadcrumb">
-                            <a class="breadcrumb-item" href="home">Home</a>
-                            <a class="breadcrumb-item" href="tools">Tools</a>
-                            <span class="breadcrumb-item active" aria-current="page">Find Classes</span>
-                        </nav>
-                        
-                        <h1 class='display-1 fw-bold'>Find Classes</h1>
-                        <p>Find classes for your trademark.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     <section class="py-4 py-md-5 my-5">
         <div class="container py-md-5">
@@ -33,7 +17,7 @@
                         <div class="mb-3"><input class="shadow form-control" type="password" name="password" placeholder="Password"></div>
                         <div class="mb-5"><button class="btn btn-primary shadow" type="submit">Log in</button></div>
                     </form>
-                    <p class="text-muted"><a href="forgotten-password.html">Forgot your password?</a></p>
+                    <p class="text-muted"><a href="forgotten-password">Forgot your password?</a></p>
                 </div>
             </div>
         </div>
