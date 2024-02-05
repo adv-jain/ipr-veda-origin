@@ -1,3 +1,4 @@
+<!-- testimonial -->
 <!-- <section class="py-5 mt-5">
         <div class="container py-5">
             <div class="row mb-5">
@@ -58,17 +59,47 @@
 <footer>
   <div class="container">
     <div class="row">
-      <div class="col-12 col-md-6">
-        <div class="fw-bold d-flex align-items-center mb-2"><span>IPR Veda</span></div>
+      <div class="col-12 col-md-5">
+        <a class="navbar-brand d-flex align-items-center mb-4" href="/">
+          <img src="assets/img/ipr-perfect-rect.png" style="width: 150px;"></a>
         <p class="text-muted">Innovate with confidence, secure your future: From patents to copyrights, we shield your
           IP in India.</p>
+
+        <div class="mt-5 card rounded shadow-sm p-4">
+          <img src="assets/img/subscribe3.svg" width="200">
+          <span class="d-block mt-3">Subscribe to our newsletter in order not to miss new udpates, promotions and
+            discounts.</span>
+          <div class="">
+            <div class="input-group mb-3 mt-4">
+              <input type="text" class="form-control" placeholder="Enter email" aria-label="Recipient's username"
+                aria-describedby="button-addon2">
+              <button class="btn btn-warning border-rad" type="button" id="button-addon2">Subscribe</button>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="col-12 col-md-2">
-        <h3 class="fs-6 fw-bold">Services</h3>
+      <div class="col-12 col-md-3">
+        <h3 class="fs-6 fw-bold ">Services</h3>
         <ul class="list-unstyled">
-          <li><a href="#">Trademark</a></li>
-          <li><a href="#">Copyright</a></li>
-          <li><a href="#">Patent</a></li>
+          <li><a href="#">Trademark Registeration</a></li>
+          <li><a href="#">Copyright Registeration</a></li>
+          <li><a href="#">Patent Registeration</a></li>
+          <li><a href="#">MSME Registeration</a></li>
+          <li><a href="#">Startup India Registeration</a></li>
+          <li><a href="#">Trademark Renewal</a></li>
+          <li><a href="#">Objection Reply Filing</a></li>
+          <li><a href="#">Company Registeration</a></li>
+          <li><a href="#">GST Registeration</a></li>
+          <li><a href="#">GST Filing</a></li>
+          <li><a href="#">Annual Company Filings</a></li>
+        </ul>
+
+        <h3 class="fs-6 fw-bold mt-4">Helpful</h3>
+        <ul class="list-unstyled">
+          <li><a href="#">Protect from Infringement</a></li>
+          <li><a href="#">Everything about Renewals</a></li>
+          <li><a href="#">CA vs. IP Attorneys</a></li>
         </ul>
       </div>
       <div class="col-12 col-md-2">
@@ -90,13 +121,21 @@
           <li><a href="#">Shop</a></li>
           <li><a href="#">IPR&nbsp;Guide</a></li>
         </ul>
+
+        <h3 class="fs-6 fw-bold mt-4">Tools</h3>
+        <ul class="list-unstyled">
+          <li><a href="#">Find Attorney ID</a></li>
+          <li><a href="#">Track Application</a></li>
+          <li><a href="find-classes">Find classes</a></li>
+          <li><a href="#">IPR&nbsp;Guide</a></li>
+        </ul>
       </div>
     </div>
   </div>
   <div class="container py-4 py-lg-5">
     <hr>
     <div class="text-muted d-flex justify-content-between align-items-center pt-3">
-      <p class="mb-0 muted small">IPR VEDA&nbsp;© Copyright 2023. All Rights Reserved. x27 Experiments Technologies Pvt.
+      <p class="mb-0 muted small">IPR VEDA&nbsp;© Copyright 2024. All Rights Reserved. x27 Experiments Technologies Pvt.
         Ltd.</p>
       <ul class="list-inline mb-0">
         <li class="list-inline-item"><a href="https://www.facebook.com/iprveda/"><svg xmlns="http://www.w3.org/2000/svg"

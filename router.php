@@ -1,18 +1,24 @@
 <?php
 
-// $url = parse_url($_SERVER['REQUEST_URI'])['path'];
-$url = basename($_SERVER['REQUEST_URI']);
+require 'controller/functions.php';
+
+$url = parse_url($_SERVER['REQUEST_URI'])['path'];
+
+// dd($url);
+
 $routes = [
-  'home' => 'controller/home.php',
   '/' => 'controller/home.php',
-  'about' => 'controller/about.php',
-  'contacts' => 'controller/contacts.php',
-  'credits' => 'controller/credits.php',
-  '404' => 'controller/404.php',
-  'blog' => 'controller/blog.php',
-  'disclaimer' => 'controller/disclaimer.php',
-  'privacy' => 'controller/privacy-policy.php',
-  'refund' => 'controller/refund-policy.php',
+  '/home' => 'controller/home.php',
+  '/about' => 'controller/about.php',
+  '/contact' => 'controller/contact.php',
+  '/credits' => 'controller/credits.php',
+  '/404' => 'controller/404.php',
+  '/blog' => 'controller/blog.php',
+  '/disclaimer' => 'controller/disclaimer.php',
+  '/privacy' => 'controller/privacy-policy.php',
+  '/refund' => 'controller/refund-policy.php',
+  '/find-classes' => 'controller/find-classes.php',
+  '/login' => 'controller/login.php',
 ];
 
 function abort($code = 404)

@@ -1,6 +1,6 @@
 <?php require_once 'partials/head.php'; ?>
 
-<body style="padding-top 82px;">
+<body style="">
     
     <?php require_once 'partials/nav.php'; ?>
     <?php require_once 'partials/header.php'; ?>
@@ -14,48 +14,6 @@
         <a href="#"> <img class="m-3" src="assets/img/Untitled-removebg-preview(1).png" style="width: 75px;"></a>
         <a href="#"> <img class="m-3" src="assets/img/clipboard-image-8.png" style="width: 75px;"></a>
     </div>
-
-    <!-- <section class="my-5">
-        <div class="container">
-            <div class="row text-center justify-content-center mb-5">
-                <div class="col-lg-8 col-xl-6">
-                    <h2 class="font-weight-bold">How it Works?</h2>
-                    <p class="text-muted"><br>See the steps involved and understand the process&nbsp;</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div data-aos="fade-up" class="timeline-steps aos-init">
-                        <div class="timeline-step">
-                            <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
-                                <div class="inner-circle"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-search" style="/*font-size: 124px;*/">
-                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"></path>
-                                    </svg></div>
-                                <p class="h6 mt-3 mb-1">Trademark Search</p>
-                                <p class="text-muted h6 mb-0 mb-lg-0">&nbsp;Done same day or within 12 hours</p>
-                                <p class="text-muted h6 mb-0 mb-lg-0"></p>
-                            </div>
-                        </div>
-                        <div class="timeline-step">
-                            <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
-                                <div class="inner-circle"></div>
-                                <p class="h6 mt-3 mb-1">Application filling.</p>
-                                <p class="text-muted h6 mb-0 mb-lg-0">Start using TM Mark. e.g YourBrand™</p>
-                            </div>
-                        </div>
-                        <div class="timeline-step">
-                            <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
-                                <div class="inner-circle"></div>
-                                <p class="h6 mt-3 mb-1">0 - 9 Months Period</p>
-                                <p class="text-muted h6 mb-0 mb-lg-0">TM&nbsp;Registration Certificate</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-
 
 
     <section>

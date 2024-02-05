@@ -51,9 +51,9 @@
         <div
           class="d-sm-flex d-xl-flex flex-column align-items-sm-center position-relative justify-content-xl-center align-items-xxl-center">
           <div class="card mb-5 w-100" style="max-width: 350px;">
-            <div class='position-absolute' style="left: 63%;top: -48px;">
+            <!-- <div class='position-absolute' style="left: 63%;top: -48px;">
               <img src='assets/img/republic-offer.png' width='175'>
-            </div>
+            </div> -->
             <div class="card-body" style="padding: 20px;">
               <h5 class=" mb-4">Register Your Trademark !</h5>
               <form method="post">
