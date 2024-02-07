@@ -1,11 +1,8 @@
 <?php require_once 'partials/head.php'; ?>
 
-<?php require 'router.php'; ?>
-
 <body style="padding-top 82px;">
 
     <?php require_once 'partials/nav.php'; ?>
-    <?php require_once 'partials/header.php'; ?>
 
     <section class="py-5 mt-5">
         <div class="container py-5">

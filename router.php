@@ -21,8 +21,8 @@ $routes = [
   '/signup' => 'controller/signup.php',
   '/404' => 'controller/404.php',
   '/disclaimer' => 'controller/disclaimer.php',
-  '/privacy' => 'controller/privacy-policy.php',
-  '/refund' => 'controller/refund-policy.php',
+  '/privacy-policy' => 'controller/privacy-policy.php',
+  '/refund-policy' => 'controller/refund-policy.php',
   '/forgotten-password' => 'controller/forgotten-password.php',
 ];
 

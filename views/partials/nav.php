@@ -29,7 +29,7 @@
 
 
       </div>
-      <a class="btn small text-nowrap" role="button" href="#">
+      <a class="btn small text-nowrap" role="button" href="tel:+91 8506059559">
         <i class="fa-solid fa-phone fa-xs fa-shake me-1"></i>
         <small>
           Consult Attorney

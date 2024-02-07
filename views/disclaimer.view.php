@@ -1,14 +1,8 @@
-
-
 <?php require_once 'partials/head.php'; ?>
-
-<?php require 'router.php'; ?>
 
 <body style="padding-top 82px;">
     
     <?php require_once 'partials/nav.php'; ?>
-    <?php require_once 'partials/header.php'; ?>
-
 
     <section class="py-5 mt-5">
         <div class="container py-4 py-xl-5">
@@ -37,7 +31,7 @@
                     <h2 class="fw-bold text-warning mb-2">Not sure which plan suits you?</h2>
                     <p class="mb-0">Imperdiet consectetur dolor, tristique himenaeos ultrices tristique neque.</p>
                 </div>
-                <div class="my-2"><a class="btn btn-light fs-5 py-2 px-4" role="button" href="contacts.html">Contact us</a></div>
+                <div class="my-2"><a class="btn btn-light fs-5 py-2 px-4" role="button" href="contact">Contact us</a></div>
             </div>
         </div>
     </section>

@@ -227,7 +227,9 @@
                         <div class="text-white p-4 p-md-5">
                             <h2 class="fw-bold mb-3">Empowering innovation, safeguarding your brilliance.</h2>
                             <p class="mb-4">Ideas worth protecting? We empower innovation, safeguarding brilliance in India. Trademarks, patents, copyrights - your IP fortress under one roof.</p>
-                            <div class="my-3"><a class="btn btn-secondary me-2 mt-2" role="button" href="#">CALL:&nbsp;+91 85060-59559</a></div>
+                            <div class="my-3">
+                            <a class="btn btn-secondary me-2 mt-2 font-monospace" role="button" href="tel:+91 8506059559"><i class="fa-solid fa-phone fa-xs me-2"></i>85060-59559</a>
+                        </div>
                         </div>
                     </div>
                     <div class="col-md-6 order-first order-md-last" style="min-height: 250px;"><img class="w-100 h-100 fit-contain pt-5 pt-md-0" src="assets/img/illustrations/web-development.svg"></div>
@@ -272,13 +274,13 @@
                                                 <path d="M5 12l5 5l10 -10"></path>
                                             </svg></span><span>Fast &amp; Quick Process</span></li>
                                 </ul>
-                            </div><a class="btn btn-primary" role="button" href="#">Purchase</a>
+                            </div><a class="btn btn-primary" role="button" href="#">Safe</a>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card border-secondary border-2 h-100">
-                        <div class="card-body d-flex flex-column justify-content-between p-4"><span class="badge bg-secondary position-absolute top-0 end-0 rounded-bottom-left text-uppercase text-primary">Most Popular</span>
+                        <div class="card-body d-flex flex-column justify-content-between p-4"><span class="badge bg-secondary position-absolute top-0 end-0 rounded-bottom-left text-uppercase text-dark">Most Popular</span>
                             <div>
                                 <h6 class="fw-bold text-muted">Pro</h6>
                                 <h4 class="display-5 fw-bold mb-4">₹1999</h4>
@@ -316,7 +318,7 @@
                                                 <path d="M5 12l5 5l10 -10"></path>
                                             </svg></span><span>Free Consultations</span></li>
                                 </ul>
-                            </div><a class="btn btn-warning" role="button" href="#">Purchase</a>
+                            </div><a class="btn btn-warning" role="button" href="#">Protect</a>
                         </div>
                     </div>
                 </div>
@@ -368,7 +370,7 @@
                                                 <path d="M5 12l5 5l10 -10"></path>
                                             </svg></span><span>Unlimited Hearing</span></li>
                                 </ul>
-                            </div><a class="btn btn-primary" role="button" href="#">Purchase</a>
+                            </div><a class="btn btn-primary" role="button" href="#">Shield</a>
                         </div>
                     </div>
                 </div>
@@ -472,7 +474,7 @@
                     <h2 class="fw-bold text-secondary mb-2 text-white">Not sure which plan suits you?</h2>
                     <p class="mb-0">Consult with our Trademark, Patent or Copyright Expert.</p>
                 </div>
-                <div class="my-2"><a class="btn btn-light fs-5 py-2 px-4 text-primary" role="button" href="contacts.html">Talk to Expert</a></div>
+                <div class="my-2"><a class="btn btn-light fs-5 py-2 px-4 text-primary" role="button" href="contact">Talk to Expert</a></div>
             </div>
         </div>
     </section>
