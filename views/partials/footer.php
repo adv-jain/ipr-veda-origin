@@ -102,13 +102,13 @@
           <li><a href="copyright">Copyright Registeration</a></li>
           <li><a href="Patent">Patent Registeration</a></li>
           <li><a href="#">MSME Registeration</a></li>
-          <li><a href="#">Startup India Registeration</a></li>
           <li><a href="#">Trademark Renewal</a></li>
           <li><a href="#">Objection Reply Filing</a></li>
-          <li><a href="#">Company Registeration</a></li>
+          <!-- <li><a href="#">Company Registeration</a></li>
+          <li><a href="#">Startup India Registeration</a></li>
           <li><a href="#">GST Registeration</a></li>
           <li><a href="#">GST Filing</a></li>
-          <li><a href="#">Annual Company Filings</a></li>
+          <li><a href="#">Annual Company Filings</a></li> -->
         </ul>
 
         <h3 class="fs-6 fw-bold mt-4">Helpful</h3>

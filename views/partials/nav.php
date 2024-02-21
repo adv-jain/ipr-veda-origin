@@ -11,12 +11,12 @@
       <div class="d-flex justify-content-end w-100 align-items-center">
         <ul class="navbar-nav fw-bold small">
           <!-- <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li> -->
-          <li class="nav-item"><a class="nav-link<?= url('trademark') ?>" href="trademark">Trademark</a></li>
-          <li class="nav-item"><a class="nav-link<?= url('copyright') ?>" href="copyright">Copyright</a></li>
-          <li class="nav-item"><a class="nav-link<?= url('patent') ?>" href="patent">Patent</a></li>
-          <li class="nav-item"><a class="nav-link<?= url('about') ?>" href="about">About</a></li>
-          <li class="nav-item"><a class="nav-link<?= url('contact') ?>" href="contact">Contact</a></li>
-          <li class="nav-item"><a class="nav-link<?= url('blog') ?>" href="blog">Blog</a></li>
+          <li class="nav-item"><a class="nav-link<?= page('/trademark') ?>" href="trademark">Trademark</a></li>
+          <li class="nav-item"><a class="nav-link<?= page('/copyright') ?>" href="copyright">Copyright</a></li>
+          <li class="nav-item"><a class="nav-link<?= page('/patent') ?>" href="patent">Patent</a></li>
+          <li class="nav-item"><a class="nav-link<?= page('/about') ?>" href="about">About</a></li>
+          <li class="nav-item"><a class="nav-link<?= page('/contact') ?>" href="contact">Contact</a></li>
+          <li class="nav-item"><a class="nav-link<?= page('/blog') ?>" href="blog">Blog</a></li>
         </ul>
         <div>
           <div class="btn-group" role="group">
