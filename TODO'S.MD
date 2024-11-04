@@ -14,3 +14,5 @@ Chatbot, -m same as vakil search
 
 
  what is the way to design -> figma, or just experiments
+
+ ! 2 concers are there, one with desgin, the other body and head copy.

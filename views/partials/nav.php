@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md my-0 py-2 navbar-light" id="mainNav">
-  <div class="container-fluid">
+  <div class="container">
     <a class="navbar-brand d-flex align-items-center" href="/">
       <img src="assets/img/ipr-perfect-rect.png" style="width: 113px;"></a>
     <button data-bs-toggle="collapse" class="navbar-toggler border-0" data-bs-target="#navcol-1">
@@ -19,7 +19,7 @@
           <li class="nav-item"><a class="nav-link<?= page('/blog') ?>" href="blog">Blog</a></li>
         </ul>
         <div>
-          <div class="btn-group" role="group">
+          <div class="btn-group mx-3" role="group">
             <a type="button" class="btn btn-outline-warning" href='login'>Login</a>
             <a type="button" class="btn btn-warning " href='signup'>SignUp</a>
           </div>

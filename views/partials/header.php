@@ -1,12 +1,15 @@
 <header class="pt-5 "
-  style="background: url(assets/img/republic-day-01.jpg); background-position: center; background-size: cover;">
+  style="background url(assets/img/republic-day-01.jpg); background-position: center; background-size: cover;">
   <div class="container py-4 py-xl-5">
     <div class="row gy-4 gy-md-0">
       <div
         class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center align-items-center justify-content-md-start align-items-md-center justify-content-xl-center p-sm-5">
         <div>
-          <h1 class="display-6 fw-bold  mb-4 position-relative" style="line-height: 64px;">Apply
-            for&nbsp;Trademark<br>Registration Online.</h1>
+          <h1 class="display-6 fw-bold  mb-4 position-relative text-pop-up-top" style="line-height: 64px;">
+            Apply for ™ by Experts
+            <br>
+            in Under 2 Minutes.
+          </h1>
           <p class=" my-4">Protect your brand identity and gain exclusive rights with our hassle-free online
             trademark registration process.</p>
           <div>
@@ -41,7 +44,7 @@
                 </svg>
               </div>
               <div class="px-2">
-                <h5 class=" mb-0 mt-1">15% discount on 2+ applications</h5>
+                <h5 class=" mb-0 mt-1">25% discount on 2+ applications</h5>
               </div>
             </div>
           </div>
@@ -49,11 +52,11 @@
       </div>
       <div class="col-md-6 d-xxl-flex justify-content-xxl-center align-items-xxl-center">
         <div
-          class="d-sm-flex d-xl-flex flex-column align-items-sm-center position-relative justify-content-xl-center align-items-xxl-center">
-          <div class="card mb-5 w-100" style="max-width: 350px;">
-            <!-- <div class='position-absolute' style="left: 63%;top: -48px;">
-              <img src='assets/img/republic-offer.png' width='175'>
-            </div> -->
+          class="d-sm-flex d-xl-flex flex-column w-100 align-items-sm-center position-relative justify-content-xl-center align-items-xxl-center">
+          <div class="card mb-5 w-100" style="max-width: 450px;">
+             <!-- <div class='position-absolute' style="left: 63%;top: -48px;">
+              <img src='https://cdn-icons-png.freepik.com/512/17728/17728978.png?ga=GA1.1.811967511.1730751190' width='175'>
+            </div>  -->
             <div class="card-body" style="padding: 20px;">
               <h5 class=" mb-4">Register Your Trademark !</h5>
               <form method="post">
@@ -62,7 +65,9 @@
                 <div class="mb-3"><input class="form-control" type="tel" placeholder="Mobile" name="mobile"></div>
                 <div class="mb-3"><input class="form-control" type="text" id="name-3" name="trade_mark_name"
                     placeholder="What to TradeMark"></div>
-                <div><button class="btn btn-warning fw-semibold d-block w-100" type="submit">Apply</button></div>
+                <div><button class="shadow-pop-tr btn btn-warning fw-semibold d-block w-100" type="submit">Apply & Get
+                    10% OFF
+                  </button></div>
               </form>
             </div>
           </div>
