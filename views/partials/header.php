@@ -41,7 +41,7 @@
                 </svg>
               </div>
               <div class="px-2">
-                <h5 class=" mb-0 mt-1">15% discount on 1+ applications</h5>
+                <h5 class=" mb-0 mt-1">15% discount on 2+ applications</h5>
               </div>
             </div>
           </div>
