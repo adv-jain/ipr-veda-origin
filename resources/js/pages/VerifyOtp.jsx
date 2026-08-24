@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 function VerifyOtp() {
-
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -10,6 +9,61 @@ function VerifyOtp() {
 
     const [otp, setOtp] = useState('');
     const [error, setError] = useState('');
+    const [digits, setDigits] = useState(['', '', '', '', '', '']);
+
+    const inputRefs = useRef([]);
+
+    useEffect(() => {
+        inputRefs.current[0]?.focus();
+    }, []);
+
+    const handleChange = (index, value) => {
+        const digit = value.replace(/\D/g, '').slice(-1);
+
+        const next = [...digits];
+        next[index] = digit;
+        setDigits(next);
+        setOtp(next.join(''));
+
+        if (digit && index < 5) {
+            inputRefs.current[index + 1]?.focus();
+        }
+    };
+
+    const handleKeyDown = (index, e) => {
+        if (e.key === 'Backspace' && !digits[index] && index > 0) {
+            inputRefs.current[index - 1]?.focus();
+        }
+
+        if (e.key === 'ArrowLeft' && index > 0) {
+            inputRefs.current[index - 1]?.focus();
+        }
+
+        if (e.key === 'ArrowRight' && index < 5) {
+            inputRefs.current[index + 1]?.focus();
+        }
+    };
+
+    const handlePaste = (e) => {
+        e.preventDefault();
+
+        const pasted = e.clipboardData
+            .getData('text')
+            .replace(/\D/g, '')
+            .slice(0, 6);
+
+        const next = ['', '', '', '', '', ''];
+
+        pasted.split('').forEach((digit, index) => {
+            next[index] = digit;
+        });
+
+        setDigits(next);
+        setOtp(next.join(''));
+
+        const focusIndex = Math.min(pasted.length, 5);
+        inputRefs.current[focusIndex]?.focus();
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,12 +89,7 @@ function VerifyOtp() {
                 throw data;
             }
 
-            navigate('/reset-password', {
-                state: {
-                    email,
-                    reset_token: data.reset_token,
-                },
-            });
+            navigate('/');
 
         } catch (error) {
             setError(
@@ -50,47 +99,83 @@ function VerifyOtp() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="relative min-h-screen flex items-center justify-center px-4">
 
-            <div className="w-full max-w-md">
+            {/* Background overlay */}
+            <div className="fixed inset-0 bg-black/30 backdrop-blur-[1px] z-40" />
 
-                <h2 className="text-4xl font-bold mb-5">
-                    Verify OTP
-                </h2>
+            {/* OTP Modal */}
+            <div className="relative z-50 w-full max-w-[512px] rounded-lg bg-white px-8 py-9 sm:px-10 sm:py-8 shadow-2xl">
 
-                <p className="text-gray-500 mb-6">
-                    Enter the OTP sent to your email.
-                </p>
+                <div className="text-center">
 
-                {error && (
-                    <div className="mb-5 p-3 bg-red-100 text-red-700 rounded">
-                        {error}
-                    </div>
-                )}
+                    <h2 className="text-[28px] sm:text-[30px] font-bold text-black mb-5">
+                        OTP Verification
+                    </h2>
 
-                <form onSubmit={handleSubmit}>
+                    <p className="text-[17px] text-gray-500 mb-8">
+                        Enter OTP received on&nbsp;
+                        <span className="text-gray-700">
+                            {email || 'your whatsapp'}
+                        </span>
+                    </p>
 
-                    <input
-                        type="text"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
-                        placeholder="Enter 6 digit OTP"
-                        maxLength="6"
-                        required
-                        className="w-full px-4 py-3 border rounded-lg mb-5"
-                    />
+                    {error && (
+                        <div className="mb-5 p-3 bg-red-100 text-red-700 rounded text-sm">
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit}>
+
+                        <div
+                            className="flex justify-center gap-3 sm:gap-4 mb-12"
+                            onPaste={handlePaste}
+                        >
+                            {digits.map((digit, index) => (
+                                <input
+                                    key={index}
+                                    ref={(el) => {
+                                        inputRefs.current[index] = el;
+                                    }}
+                                    type="text"
+                                    inputMode="numeric"
+                                    maxLength="1"
+                                    value={digit}
+                                    onChange={(e) =>
+                                        handleChange(index, e.target.value)
+                                    }
+                                    onKeyDown={(e) =>
+                                        handleKeyDown(index, e)
+                                    }
+                                    className="w-[58px] h-[56px] sm:w-[58px] sm:h-[56px] rounded-md border border-gray-300 bg-white text-center text-xl text-gray-700 outline-none transition focus:border-gray-500 focus:ring-0"
+                                    aria-label={`OTP digit ${index + 1}`}
+                                />
+                            ))}
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="hidden"
+                            aria-hidden="true"
+                        >
+                            Verify OTP
+                        </button>
+
+                    </form>
 
                     <button
-                        type="submit"
-                        className="bg-yellow-500 px-6 py-3 rounded-lg font-semibold"
+                        type="button"
+                        onClick={() => {
+                            setError('');
+                        }}
+                        className="text-[18px] text-slate-700 underline underline-offset-2 hover:text-black transition"
                     >
-                        Verify OTP
+                        Resend OTP
                     </button>
 
-                </form>
-
+                </div>
             </div>
-
         </div>
     );
 }

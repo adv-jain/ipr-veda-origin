@@ -3,48 +3,122 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\PasswordOtp;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Support\Facades\Validator;
+use App\Models\Otp;
+use App\Services\WhatsAppOtpService;
+use Illuminate\Support\Carbon;
 
 class AuthController extends Controller
 {
     
-    public function signup(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
-            'password_repeat' => 'required|same:password',
-        ]);
+   public function signup(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'name'   => 'required|string|max:255',
+        'email'  => 'required|email|unique:users,email',
+        'number' => 'required|numeric',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $user = User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        // Create authentication token
-        $token = $user->createToken('react-app')->plainTextToken;
-
+    if ($validator->fails()) {
         return response()->json([
-            'success' => true,
-            'message' => 'Account created successfully',
-            'token' => $token,
-            'user' => [
-                'id' => $user->id,
-                'email' => $user->email,
-            ],
-        ], 201);
+            'success' => false,
+            'message' => 'Validation failed',
+            'errors'  => $validator->errors(),
+        ], 422);
     }
+
+    $user = User::create([
+        'name'   => $request->name,
+        'email'  => $request->email,
+        'number' => $request->number,
+    ]);
+
+    $this->generateAndSendOtp($user);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Account created successfully and otp send',
+        'user' => [
+            'id'     => $user->id,
+            'name'   => $user->name,
+            'email'  => $user->email,
+            'number' => $user->number,
+        ],
+    ], 201);
+}
+
+protected function generateAndSendOtp(User $user): void
+{
+    $code = (string) random_int(100000, 999999);
+ 
+    Otp::updateOrCreate(
+        ['user_id' => $user->id],
+        [
+            'code'       => $code,
+            'attempts'   => 0,
+            'expires_at' => Carbon::now()->addMinutes(5),
+        ]
+    );
+ 
+    app(WhatsAppOtpService::class)->sendOtp($user->number, $code);
+}
+ 
+
+public function verifyOtp(Request $request)
+{
+    $validated = $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'otp'     => 'required|string',
+    ]);
+ 
+    $otp = Otp::where('user_id', $validated['user_id'])->first();
+ 
+    if (!$otp) {
+        return response()->json(['message' => 'No OTP found. Please request a new one.'], 404);
+    }
+ 
+    if ($otp->expires_at->isPast()) {
+        return response()->json(['message' => 'OTP expired. Please request a new one.'], 422);
+    }
+ 
+    if ($otp->attempts >= 3) {
+        return response()->json(['message' => 'Too many attempts. Please request a new OTP.'], 429);
+    }
+ 
+    if ($otp->code !== $validated['otp']) {
+        $otp->increment('attempts');
+        return response()->json(['message' => 'Incorrect OTP.'], 422);
+    }
+ 
+    $user = User::find($validated['user_id']);
+    $user->update(['is_verified' => true]);
+    $otp->delete();
+ 
+    
+    return response()->json(['message' => 'Account verified successfully.']);
+}
+ 
+
+public function resendOtp(Request $request)
+{
+    $validated = $request->validate([
+        'user_id' => 'required|exists:users,id',
+    ]);
+ 
+    $user = User::find($validated['user_id']);
+ 
+    if ($user->is_verified) {
+        return response()->json(['message' => 'Account already verified.'], 422);
+    }
+ 
+    $this->generateAndSendOtp($user);
+ 
+    return response()->json(['message' => 'OTP resent.']);
+}
+ 
 
 
     
@@ -52,7 +126,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required',
+            
         ]);
 
         if ($validator->fails()) {
@@ -65,7 +139,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid email or password',
@@ -99,7 +173,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        // Delete current token
+         // Delete current token
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
@@ -117,88 +191,6 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Logged out from all devices',
-        ]);
-    }
-
-
-   
-    public function resetPassword(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user) {
-            return response()->json([
-                'success' => false,
-                'message' => 'User not found.',
-            ], 404);
-        }
-
-        $user->update([
-            'password' => Hash::make($request->password),
-        ]);
-
-        // Old tokens invalidate
-        $user->tokens()->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Password reset successfully.',
-        ]);
-    }
-
-
-    
-    public function verifyOtp(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'otp' => 'required|digits:6',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $otpRecord = PasswordOtp::where('email', $request->email)
-            ->where('otp', $request->otp)
-            ->first();
-
-        if (!$otpRecord) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid OTP.',
-            ], 422);
-        }
-
-        if ($otpRecord->expires_at->isPast()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'OTP has expired.',
-            ], 422);
-        }
-
-        $otpRecord->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'OTP verified successfully.',
         ]);
     }
 }

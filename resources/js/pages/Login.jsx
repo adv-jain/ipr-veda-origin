@@ -6,7 +6,7 @@ function Login() {
 
     const [formData, setFormData] = useState({
         email: '',
-        password: '',
+       
     });
 
     const [error, setError] = useState('');
@@ -113,17 +113,8 @@ function Login() {
                                     />
                                 </div>
 
-                                {/* Password */}
-                                <div className="mb-8">
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        placeholder="Password"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm outline-none focus:ring-2 focus:ring-yellow-400"
-                                    />
-                                </div>
+                               
+                                
 
                                 {/* Button */}
                                 <button
@@ -138,10 +129,10 @@ function Login() {
                             {/* Forgot password */}
                             <p className="mt-6 text-gray-500">
                                 <NavLink
-                                    to="/forgotten-password"
+                                    to="/verify-otp"
                                     className="text-gray-600 hover:text-yellow-600"
                                 >
-                                    Forgot your password?
+                                    Get Otp
                                 </NavLink>
                             </p>
 

@@ -10,7 +10,7 @@ export default function Navbar() {
         }`;
 
     return (
-        <nav className="fixed top-0 left-0 z-50 w-full border-b bg-white">
+        <nav className="w-full border-b bg-white">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
 
                 {/* Logo */}
@@ -76,6 +76,15 @@ export default function Navbar() {
                         }
                     >
                         SignUp
+                    </NavLink>
+                    
+                    <NavLink
+                     to="/verify-otp"
+                     className={({isActive})=>
+                    `rounded px-4 py-2 ${
+                        isActive ? 'bg-yellow-600 text-black':'bg-yellow-500 text-black'
+                    }`}
+                    >VerifyOtp
                     </NavLink>
 
                 </div>

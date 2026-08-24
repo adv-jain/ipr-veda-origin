@@ -18,6 +18,9 @@ import Patent from './pages/Patent';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import WhatsAppConnect from './pages/WhatsAppConnect';
+import VerifyOtp from './pages/VerifyOtp';
+
 
 
 function App() {
@@ -39,6 +42,8 @@ function App() {
    <Route path='/refund-policy' element={<RefundPolicy/>}/>
    <Route path='/patent' element={<Patent/>} />
 <Route path='/privacypolicy' element={<PrivacyPolicy/>}/>
+<Route path="/whatsapp/connect" element={<WhatsAppConnect/>}   />
+<Route path='/verify-otp' element={<VerifyOtp/>} />
 </Routes>
            <Footer/>
         </BrowserRouter>

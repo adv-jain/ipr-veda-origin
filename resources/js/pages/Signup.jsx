@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { signup } from '../services/auth';
+import whatsapplogo from "../../../config/assets/img/whatsapp-logo-free-png.webp";
 
 function Signup() {
 
     const [formData, setFormData] = useState({
+        name:'',
         email: '',
-        password: '',
-        password_repeat: '',
+        number:'',
+        
     });
     const navigate = useNavigate();
 
@@ -33,11 +35,12 @@ function Signup() {
             setSuccess(data.message);
 
             setFormData({
-                email: '',
-                password: '',
-                password_repeat: '',
+       name:'',
+        email: '',
+        number:'',
+        
             });
-            navigate("/");
+           navigate("/verify-otp", { state: { email: formData.email } });
 
         } catch (error) {
 
@@ -77,7 +80,14 @@ function Signup() {
                 )}
 
                 <form onSubmit={handleSubmit}>
-
+       <input
+       type='text'
+       name='name'
+       value={formData.name}
+       onChange={handleChange}
+       placeholder='Name'
+       className="w-full mb-6 px-5 py-4 border rounded-lg shadow-sm"
+       />
                     <input
                         type="email"
                         name="email"
@@ -86,30 +96,34 @@ function Signup() {
                         placeholder="Email"
                         className="w-full mb-6 px-5 py-4 border rounded-lg shadow-sm"
                     />
+ <input
+ type='number'
+ name='number'
+ value={formData.number}
+ placeholder='number'
+ onChange={handleChange}
+ className="w-full mb-6 px-5 py-4 border rounded-lg shadow-sm"
+ />
 
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        placeholder="Password"
-                        className="w-full mb-6 px-5 py-4 border rounded-lg shadow-sm"
-                    />
 
-                    <input
-                        type="password"
-                        name="password_repeat"
-                        value={formData.password_repeat}
-                        onChange={handleChange}
-                        placeholder="Repeat Password"
-                        className="w-full mb-6 px-5 py-4 border rounded-lg shadow-sm"
-                    />
+                      <div className="flex items-center gap-2 mb-6">
+    <h3 className="text-sm font-medium text-gray-700 mb-2">
+        Get Easy Updates Through WhatsApp
+    </h3>
+    <img
+        src={whatsapplogo}
+        alt="WhatsApp"
+        className="w-10 h-10 rounded-md"
+    />
+    <h3>Whatsapp</h3>
+    <input type='radio'/>
+</div>
 
                     <button
                         type="submit"
                         className="bg-yellow-500 px-7 py-3 rounded-lg font-semibold"
                     >
-                        Create account
+                        Get start
                     </button>
 
                 </form>

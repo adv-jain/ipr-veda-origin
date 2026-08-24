@@ -9,8 +9,9 @@ use App\Http\Controllers\CreditsController;
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot-password',[AuthController::class,'forgotpassword']);
-Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
 
 Route::post('/contact', [ContactController::class, 'sendMessage']);
 Route::post(
@@ -22,14 +23,10 @@ Route::post(
     [DisclaimerController::class, 'contactClick']
 );
 
-
-
 Route::get('/credits', [CreditsController::class, 'index']);
 
-
 Route::middleware('auth:sanctum')->group(function () {
-
-   
+  
     Route::get('/me', [AuthController::class, 'me']);
 
    
