@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import subscribe from "../../../config/assets/img/subscribe3.svg"
+import iprPrefect from "../../../config/assets/img/ipr-perfect-rect.png"
 
 const Footer = () => {
     const [email, setEmail] = useState("");
@@ -78,7 +80,7 @@ const Footer = () => {
                             className="mb-4 flex items-center"
                         >
                             <img
-                                src="/assets/img/ipr-perfect-rect.png"
+                                src={iprPrefect}
                                 alt="IPR VEDA"
                                 className="w-[150px]"
                             />
@@ -134,9 +136,9 @@ const Footer = () => {
                         <div className="mt-10 rounded-lg bg-white p-6 shadow-sm ring-1 ring-gray-100">
                             <div className="flex items-center gap-4">
                                 <img
-                                    src="/assets/img/subscribe3.svg"
+                                    src={subscribe}
                                     alt="Subscribe"
-                                    className="w-[100px] shrink-0"
+                                    className="w-[100px]  shrink-0"
                                 />
 
                                 <span className="text-gray-600">

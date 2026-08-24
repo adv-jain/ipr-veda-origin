@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import iprPrefect from "../../../config/assets/img/ipr-perfect-rect.png"
 
 export default function Navbar() {
     const navClass = ({ isActive }) =>
@@ -15,9 +16,7 @@ export default function Navbar() {
 
                 {/* Logo */}
                 <Link to="/" className="flex items-center">
-                    <span className="text-xl font-bold">
-                        IPR VEDA
-                    </span>
+                    <img src={iprPrefect} className='w-[100px]'/>
                 </Link>
 
                 {/* Navigation */}
@@ -82,9 +81,9 @@ export default function Navbar() {
                      to="/verify-otp"
                      className={({isActive})=>
                     `rounded px-4 py-2 ${
-                        isActive ? 'bg-yellow-600 text-black':'bg-yellow-500 text-black'
+                        isActive ? '':''
                     }`}
-                    >VerifyOtp
+                    >
                     </NavLink>
 
                 </div>

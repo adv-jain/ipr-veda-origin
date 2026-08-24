@@ -1,12 +1,27 @@
 import React, { useState } from "react";
-
+import webDevelopment from "../../../config/assets/img/illustrations/web-development.svg"
+import clipboard1 from "../../../config/assets/img/clipboard-image-1.png"
+import clipboard2 from "../../../config/assets/img/clipboard-image-2.png"
+import clipboard3 from "../../../config/assets/img/clipboard-image-3.png"
+import clipboard4 from "../../../config/assets/img/clipboard-image-4.png"
+import clipboard5 from "../../../config/assets/img/clipboard-image-5.png"
+import clipboard6 from "../../../config/assets/img/clipboard-image-6.png"
+import clipboard7 from "../../../config/assets/img/clipboard-image-7.png"
+import clipboard8 from "../../../config/assets/img/clipboard-image-8.png"
+import clipboard9 from "../../../config/assets/img/clipboard-image.png"
+import Header from "../components/Header";
+import teamwork from "../../../config/assets/img/illustrations/teamwork.svg"
 const brandImages = [
-  "clipboard-image.png",
-  "clipboard-image-2.png",
-  "clipboard-image-4.png",
-  "Untitled-removebg-preview(2).png",
-  "Untitled-removebg-preview(1).png",
-  "clipboard-image-8.png",
+  clipboard1,
+  clipboard2,
+  clipboard3,
+  clipboard4,
+  clipboard5,
+  clipboard6,
+  clipboard7,
+  clipboard8,
+  clipboard9,
+  
 ];
 
 const guides = [
@@ -255,10 +270,8 @@ export default function Home() {
 
   return (
     <>
-      {/* Keep your existing React Navbar/Header components here */}
-      {/* <Navbar /> */}
-      {/* <Header /> */}
-
+     
+<Header/>
       <div className="text-center mt-12" id="social-proof-wrapper">
         <p className="mb-4 text-[1.6rem]">
           Our Expert attorneys have Trademarked for&nbsp;
@@ -268,7 +281,7 @@ export default function Home() {
         <div className="flex flex-wrap justify-center items-center">
           {brandImages.map((image) => (
             <a href="#" key={image}>
-              <img className="m-3 w-[75px]" src={`/assets/img/${image}`} alt="" />
+              <img className="m-3 w-[75px]" src={image} />
             </a>
           ))}
         </div>
@@ -383,7 +396,7 @@ export default function Home() {
               </div>
             </div>
             <div className="order-first md:order-last">
-              <img className="rounded-lg w-full min-h-[300px] object-cover" src="/assets/img/illustrations/teamwork.svg" alt="" />
+              <img className="rounded-lg w-full min-h-[300px] object-cover" src={teamwork} alt="" />
             </div>
           </div>
         </div>
@@ -405,7 +418,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="order-first md:order-last min-h-[250px]">
-                <img className="w-full h-full object-contain pt-5 md:pt-0" src="/assets/img/illustrations/web-development.svg" alt="" />
+                <img className="w-full h-full object-contain pt-5 md:pt-0" src={webDevelopment} alt="" />
               </div>
             </div>
           </div>
@@ -538,8 +551,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Keep your existing React Footer component here */}
-      {/* <Footer /> */}
+      
     </>
   );
 }

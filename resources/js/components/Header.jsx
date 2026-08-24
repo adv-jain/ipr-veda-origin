@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import RepublicDay1 from "../../../config/assets/img/republic-day-01.jpg"
 
 export default function Header() {
     const [formData, setFormData] = useState({
@@ -33,7 +34,7 @@ export default function Header() {
             className="pt-20 bg-cover bg-center"
             style={{
                 backgroundImage:
-                    "url('/assets/img/republic-day-01.jpg')",
+                    `url(${RepublicDay1})`,
             }}
         >
             <div className="max-w-7xl mx-auto px-4 py-10 sm:py-12 xl:py-20">

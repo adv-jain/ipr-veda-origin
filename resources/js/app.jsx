@@ -44,6 +44,7 @@ function App() {
 <Route path='/privacypolicy' element={<PrivacyPolicy/>}/>
 <Route path="/whatsapp/connect" element={<WhatsAppConnect/>}   />
 <Route path='/verify-otp' element={<VerifyOtp/>} />
+
 </Routes>
            <Footer/>
         </BrowserRouter>
