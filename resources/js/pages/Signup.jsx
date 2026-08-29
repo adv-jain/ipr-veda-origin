@@ -40,7 +40,7 @@ function Signup() {
         number:'',
         
             });
-           navigate("/verify-otp", { state: { email: formData.email } });
+          navigate("/verify-otp", { state: { contact: formData.email || formData.number } });
 
         } catch (error) {
 

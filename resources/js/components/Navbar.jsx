@@ -64,27 +64,9 @@ export default function Navbar() {
                         Login
                     </NavLink>
 
-                    <NavLink
-                        to="/signup"
-                        className={({ isActive }) =>
-                            `rounded px-4 py-2 ${
-                                isActive
-                                    ? 'bg-yellow-600 text-black'
-                                    : 'bg-yellow-500 text-black'
-                            }`
-                        }
-                    >
-                        SignUp
-                    </NavLink>
                     
-                    <NavLink
-                     to="/verify-otp"
-                     className={({isActive})=>
-                    `rounded px-4 py-2 ${
-                        isActive ? '':''
-                    }`}
-                    >
-                    </NavLink>
+                    
+                      
 
                 </div>
 

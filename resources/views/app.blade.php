@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>IPR VEDA</title>
-      @viteReactRefresh
+    <meta charset="utf-8">
+    @routes
+    @viteReactRefresh
     @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+    @inertiaHead
 </head>
-
 <body>
-    <div id="app"></div>
+    @inertia
 </body>
 </html>

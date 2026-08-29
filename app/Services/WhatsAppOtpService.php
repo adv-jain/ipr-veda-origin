@@ -7,58 +7,68 @@ use Illuminate\Support\Facades\Log;
 
 class WhatsAppOtpService
 {
-    protected string $graphVersion;
-    protected string $phoneNumberId;
-    protected string $systemUserToken;
-    protected string $templateName;
-
-    public function __construct()
+    public function sendOtp($number, $otp)
     {
-        $this->graphVersion    = config('services.whatsapp.graph_version', 'v22.0');
-        $this->phoneNumberId   = config('services.whatsapp.phone_number_id');
-        $this->systemUserToken = config('services.whatsapp.system_user_token');
-        $this->templateName    = config('services.whatsapp.otp_template_name', 'otp_verification');
-    }
+        try {
+            $phoneNumberId = env('WHATSAPP_PHONE_NUMBER_ID');
+            $accessToken   = env('WHATSAPP_ACCESS_TOKEN');
 
-    /**
-     * Send an OTP to the given phone number using an approved WhatsApp template.
-     *
-     * @param string $phoneNumber E.164-ish digits only, e.g. 919876543210
-     * @param string $otpCode
-     * @return bool
-     */
-    public function sendOtp(string $phoneNumber, string $otpCode): bool
-    {
-        $response = Http::withToken($this->systemUserToken)
-            ->post("https://graph.facebook.com/{$this->graphVersion}/{$this->phoneNumberId}/messages", [
+            // ✅ Sirf digits nikalo
+            $formattedNumber = preg_replace('/[^0-9]/', '', $number);
+
+            // ✅ Agar 10-digit number hai (India), 91 prepend karo
+            if (strlen($formattedNumber) === 10) {
+                $formattedNumber = '91' . $formattedNumber;
+            }
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $accessToken,
+                'Content-Type'  => 'application/json',
+            ])->post("https://graph.facebook.com/v17.0/{$phoneNumberId}/messages", [
                 'messaging_product' => 'whatsapp',
-                'to' => $phoneNumber,
+                'to' => $formattedNumber,
                 'type' => 'template',
                 'template' => [
-                    'name' => $this->templateName,
-                    'language' => ['code' => 'en_US'],
+                    'name' => 'jaspers_market_order_confirmation_v1', // TODO: apna otp_verification template banne ke baad yahan replace karo
+                    'language' => [
+                        'code' => 'en_US'
+                    ],
                     'components' => [
                         [
                             'type' => 'body',
                             'parameters' => [
-                                ['type' => 'text', 'text' => $otpCode],
-                            ],
-                        ],
-                        // Some OTP templates also need the code repeated in a
-                        // button (copy-code) component - add here if your
-                        // approved template requires it.
-                    ],
-                ],
+                                [
+                                    'type' => 'text',
+                                    'text' => 'Customer'
+                                ],
+                                [
+                                    'type' => 'text',
+                                    'text' => (string) $otp
+                                ],
+                                [
+                                    'type' => 'text',
+                                    'text' => '3-5 business days'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
             ]);
 
-        if ($response->failed()) {
-            Log::error('WhatsApp OTP send failed', [
-                'phone' => $phoneNumber,
-                'response' => $response->json(),
-            ]);
-            return false;
+            if ($response->failed()) {
+                Log::error("WhatsApp API Error: " . $response->body());
+                $errorBody = $response->json();
+                $errorMsg = $errorBody['error']['message'] ?? 'Failed to send WhatsApp OTP';
+                throw new \Exception($errorMsg);
+            }
+
+            Log::info("WhatsApp OTP sent to: {$formattedNumber}");
+
+            return true;
+
+        } catch (\Exception $e) {
+            Log::error("WhatsApp sending failed: " . $e->getMessage());
+            throw new \Exception('Failed to send WhatsApp OTP: ' . $e->getMessage());
         }
-
-        return true;
     }
 }

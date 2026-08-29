@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getCsrfToken } from '../utils/csrf';
 
 function VerifyOtp() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const email = location.state?.email;
+    const contact = location.state?.contact;
+    const isEmail = contact?.includes('@');
 
-    const [otp, setOtp] = useState('');
     const [error, setError] = useState('');
-    const [digits, setDigits] = useState(['', '', '', '', '', '']);
+    const [digits, setDigits] = useState(['', '', '', '']);
+    const [loading, setLoading] = useState(false);
 
     const inputRefs = useRef([]);
 
@@ -17,16 +19,65 @@ function VerifyOtp() {
         inputRefs.current[0]?.focus();
     }, []);
 
+    // ✅ Ye function actual API call karta hai, poora otp string leke
+    const verifyOtp = async (otpValue) => {
+        setError('');
+        setLoading(true);
+
+        try {
+            const payload = { otp: otpValue };
+
+            if (isEmail) {
+                payload.email = contact;
+            } else {
+                payload.number = contact;
+            }
+
+            const response = await fetch('/api/verify-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-XSRF-TOKEN': getCsrfToken(),
+                },
+                credentials: 'include',
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Invalid OTP');
+            }
+
+            localStorage.setItem('auth_token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+
+            setTimeout(() => {
+    window.location.href = '/dashboard';
+}, 500);
+
+        } catch (error) {
+            setError(error.message || 'Invalid OTP');
+            setLoading(false);
+        }
+    };
+
     const handleChange = (index, value) => {
         const digit = value.replace(/\D/g, '').slice(-1);
 
         const next = [...digits];
         next[index] = digit;
         setDigits(next);
-        setOtp(next.join(''));
 
-        if (digit && index < 5) {
+        if (digit && index < digits.length - 1) {
             inputRefs.current[index + 1]?.focus();
+        }
+
+        // ✅ Auto-submit jab sab boxes fill ho jayein
+        const otpValue = next.join('');
+        if (otpValue.length === digits.length && next.every(d => d !== '')) {
+            verifyOtp(otpValue);
         }
     };
 
@@ -39,7 +90,7 @@ function VerifyOtp() {
             inputRefs.current[index - 1]?.focus();
         }
 
-        if (e.key === 'ArrowRight' && index < 5) {
+        if (e.key === 'ArrowRight' && index < digits.length - 1) {
             inputRefs.current[index + 1]?.focus();
         }
     };
@@ -50,65 +101,41 @@ function VerifyOtp() {
         const pasted = e.clipboardData
             .getData('text')
             .replace(/\D/g, '')
-            .slice(0, 6);
+            .slice(0, digits.length);
 
-        const next = ['', '', '', '', '', ''];
+        const next = Array(digits.length).fill('');
 
         pasted.split('').forEach((digit, index) => {
             next[index] = digit;
         });
 
         setDigits(next);
-        setOtp(next.join(''));
 
-        const focusIndex = Math.min(pasted.length, 5);
+        const focusIndex = Math.min(pasted.length, digits.length - 1);
         inputRefs.current[focusIndex]?.focus();
+
+        // ✅ Paste se bhi agar sab fill ho jayein, auto-submit
+        const otpValue = next.join('');
+        if (otpValue.length === digits.length && next.every(d => d !== '')) {
+            verifyOtp(otpValue);
+        }
     };
 
-    const handleSubmit = async (e) => {
+    // ✅ Manual submit button ke liye bhi (optional fallback)
+    const handleSubmit = (e) => {
         e.preventDefault();
-
-        setError('');
-
-        try {
-            const response = await fetch('/api/verify-otp', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    email,
-                    otp,
-                }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw data;
-            }
-
-            navigate('/');
-
-        } catch (error) {
-            setError(
-                error.message || 'Invalid OTP'
-            );
+        const otpValue = digits.join('');
+        if (otpValue.length === digits.length) {
+            verifyOtp(otpValue);
         }
     };
 
     return (
         <div className="relative min-h-screen flex items-center justify-center px-4">
-
-            {/* Background overlay */}
             <div className="fixed inset-0 bg-black/30 backdrop-blur-[1px] z-40" />
 
-            {/* OTP Modal */}
             <div className="relative z-50 w-full max-w-[512px] rounded-lg bg-white px-8 py-9 sm:px-10 sm:py-8 shadow-2xl">
-
                 <div className="text-center">
-
                     <h2 className="text-[28px] sm:text-[30px] font-bold text-black mb-5">
                         OTP Verification
                     </h2>
@@ -116,7 +143,7 @@ function VerifyOtp() {
                     <p className="text-[17px] text-gray-500 mb-8">
                         Enter OTP received on&nbsp;
                         <span className="text-gray-700">
-                            {email || 'your whatsapp'}
+                            {contact || 'your device'}
                         </span>
                     </p>
 
@@ -127,7 +154,6 @@ function VerifyOtp() {
                     )}
 
                     <form onSubmit={handleSubmit}>
-
                         <div
                             className="flex justify-center gap-3 sm:gap-4 mb-12"
                             onPaste={handlePaste}
@@ -142,6 +168,7 @@ function VerifyOtp() {
                                     inputMode="numeric"
                                     maxLength="1"
                                     value={digit}
+                                    disabled={loading}
                                     onChange={(e) =>
                                         handleChange(index, e.target.value)
                                     }
@@ -153,16 +180,11 @@ function VerifyOtp() {
                                 />
                             ))}
                         </div>
-
-                        <button
-                            type="submit"
-                            className="hidden"
-                            aria-hidden="true"
-                        >
-                            Verify OTP
-                        </button>
-
                     </form>
+
+                    {loading && (
+                        <p className="text-sm text-gray-500 mb-4">Verifying...</p>
+                    )}
 
                     <button
                         type="button"
@@ -173,7 +195,6 @@ function VerifyOtp() {
                     >
                         Resend OTP
                     </button>
-
                 </div>
             </div>
         </div>

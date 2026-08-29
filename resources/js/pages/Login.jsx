@@ -1,149 +1,113 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import login from "../../../config/assets/img/illustrations/login.svg" 
+
 
 function Login() {
-    const navigate = useNavigate();
-
-    const [formData, setFormData] = useState({
-        email: '',
-       
-    });
-
+    const [contact, setContact] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+        setContact(e.target.value);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         setError('');
         setSuccess('');
 
         try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
+            const isEmail = contact.includes('@');
+            const payload = isEmail 
+                ? { email: contact } 
+                : { number: contact };
+
+            const res = await fetch("/api/signup-otp", {
+                method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(payload),
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw data;
-            }
-
-            setSuccess(data.message);
-
+            const data = await res.json();
             
-             navigate('/');
+            if (!res.ok) {
+                throw new Error(data.message || 'Failed to send OTP');
+            }
+            
+            setSuccess(data.message);
+            
+            
+            setTimeout(() => {
+                navigate("/verify-otp", { 
+                    state: { contact: contact } 
+                });
+            }, 1500);
 
         } catch (error) {
-            if (error.errors) {
-                setError(
-                    Object.values(error.errors)
-                        .flat()
-                        .join(' ')
-                );
-            } else {
-                setError(error.message || 'Login failed');
-            }
+            setError(error.message);
         }
     };
-
+ 
     return (
-        <main className="min-h-screen py-16 md:py-20">
-
-            <section>
-                <div className="max-w-6xl mx-auto px-4">
-
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
-
-                        {/* Left Image */}
-                        <div className="text-center">
-                            <img
-                                src="/assets/img/illustrations/login.svg"
-                                alt="Login"
-                                className="w-full max-w-lg mx-auto"
-                            />
-                        </div>
-
-                        {/* Login Form */}
-                        <div className="w-full max-w-md mx-auto md:mx-0">
-
-                            <h2 className="text-5xl font-bold mb-12">
-                                <span className="border-b-4 border-yellow-500 pb-1">
-                                    Login
-                                </span>
-                            </h2>
-
-                            {/* Error */}
-                            {error && (
-                                <div className="mb-5 p-3 bg-red-100 text-red-700 rounded-lg">
-                                    {error}
-                                </div>
-                            )}
-
-                            {/* Success */}
-                            {success && (
-                                <div className="mb-5 p-3 bg-green-100 text-green-700 rounded-lg">
-                                    {success}
-                                </div>
-                            )}
-
-                            <form onSubmit={handleSubmit}>
-
-                                {/* Email */}
-                                <div className="mb-4">
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        placeholder="Email"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm outline-none focus:ring-2 focus:ring-yellow-400"
-                                    />
-                                </div>
-
-                               
-                                
-
-                                {/* Button */}
-                                <button
-                                    type="submit"
-                                    className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-7 py-3 rounded-lg shadow transition"
-                                >
-                                    Log in
-                                </button>
-
-                            </form>
-
-                            {/* Forgot password */}
-                            <p className="mt-6 text-gray-500">
-                                <NavLink
-                                    to="/verify-otp"
-                                    className="text-gray-600 hover:text-yellow-600"
-                                >
-                                    Get Otp
-                                </NavLink>
-                            </p>
-
-                        </div>
-
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+            <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
+                <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+                    Get OTP
+                </h2>
+                
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                        <label htmlFor="contact" className="block text-sm font-medium text-gray-700 mb-1">
+                            Email or Phone Number
+                        </label>
+                        <input 
+                            id="contact"           
+                            name="contact"         
+                            type="text" 
+                            value={contact}
+                            onChange={handleChange} 
+                            placeholder="e.g., user@email.com or 9876543210"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        />
                     </div>
+                    
+                    <button 
+                        type="submit" 
+                        className="w-full bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-blue-700"
+                    >
+                        Get OTP
+                    </button>
+                </form>
+      <div className="mt-4 text-center">
+    <span>For Signup </span>
 
-                </div>
-            </section>
-
-        </main>
+    <button
+        type="button"
+        onClick={() => navigate("/signup")}
+        className="bg-blue-600 text-white px-4 py-2 rounded"
+    >
+        Signup
+    </button>
+</div>
+                {error && (
+                    <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                        <p className="text-red-600 text-sm text-center">{error}</p>
+                    </div>
+                )}
+                
+                {success && (
+                    <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                        <p className="text-green-600 text-sm text-center">{success}</p>
+                    </div>
+                )}
+            </div>
+        </div>
     );
 }
 
