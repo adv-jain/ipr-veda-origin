@@ -52,7 +52,19 @@ Route::get('/account', function () {
 Route::get('/setting', function () {
     return Inertia::render('Setting');
 })->middleware(['auth', 'verified'])->name('setting');
+Route::get('/onboarding', function () {
+    return Inertia::render('Onboarding');
+})->middleware(['auth', 'verified'])->name('onboarding');
 
+Route::post('/onboarding', [AuthController::class, 'saveOnboarding'])
+    ->middleware(['auth', 'verified'])
+    ->name('onboarding.store');
+    Route::get('/dashboard', function () {
+    if (!auth()->user()->is_onboarded) {
+        return redirect('/onboarding');
+    }
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/{any}', function () {
     return view('spa');
-})->where('any', '^(?!dashboard|profile|services|account|setting).*$');
+})->where('any', '^(?!dashboard|profile|services|account|setting|onboarding).*$');

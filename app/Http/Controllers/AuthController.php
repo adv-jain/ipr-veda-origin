@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 
 class AuthController extends Controller
 {
-    // 1. Signup Method
+    
     public function signup(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -54,7 +54,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    // 2. Request OTP Method (For Login/Resend)
+   
     public function requestOtp(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -87,7 +87,7 @@ class AuthController extends Controller
         ]);
     }
 
-    // 3. Verify OTP Method (✅ FIXED: user_id query se hata diya)
+    
     public function verifyOtp(Request $request)
     {
         $validated = $request->validate([
@@ -97,7 +97,7 @@ class AuthController extends Controller
             'otp'     => 'required|string|digits:4',
         ]);
 
-        // User dhoondho
+        
         $user = null;
         if (!empty($validated['user_id'])) {
             $user = User::find($validated['user_id']);
@@ -111,7 +111,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'User not found.'], 404);
         }
 
-        // ✅ Fix: Ab sirf email/number aur otp se check karega (user_id hata diya)
+        
         $otpRecord = SignupOtp::where(function($query) use ($validated) {
             if (isset($validated['email'])) {
                 $query->where('email', $validated['email']);
@@ -128,33 +128,34 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid OTP.'], 422);
         }
 
-        // Expiry check (Safe check for null values)
+        
         if ($otpRecord->expires_at && Carbon::parse($otpRecord->expires_at)->isPast()) {
             return response()->json(['message' => 'OTP expired. Please request a new one.'], 422);
         }
 
-        // ✅ User ko verified mark karo
+        
         $user->update(['is_verified' => true]);
         
-        // ✅ OTP delete karo taaki dobara use na ho
+       
         $otpRecord->delete();
 
         // ✅ SABSE ZAROORI: User ko Laravel Session mein login karo (Breeze Dashboard ke liye)
         Auth::login($user);
 
-        // Token bhi return kar rahe hain (Future API use ke liye)
+       
         $token = $user->createToken('react-app')->plainTextToken;
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Account verified successfully.',
-            'token' => $token,
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-            ]
-        ]);
+       return response()->json([
+    'success' => true,
+    'message' => 'Account verified successfully.',
+    'token' => $token,
+    'is_onboarded' => $user->is_onboarded,   
+    'user' => [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+    ]
+]);
     }
 
     // 4. Resend OTP Method
@@ -215,4 +216,25 @@ class AuthController extends Controller
         }
         return response()->json(['success' => true, 'message' => 'Logout successful']);
     }
+
+public function saveOnboarding(Request $request)
+{
+    $validated = $request->validate([
+        'company_name'  => 'required|string|max:255',
+        'business_type' => 'required|string|max:255',
+        'preference'    => 'nullable|string|max:255',
+    ]);
+
+    $user = $request->user();
+    $user->update([
+        'company_name'  => $validated['company_name'],
+        'business_type' => $validated['business_type'],
+        'preference'    => $validated['preference'] ?? null,
+        'is_onboarded'  => true,
+    ]);
+
+    return redirect('/dashboard');
+}
+
+
 }

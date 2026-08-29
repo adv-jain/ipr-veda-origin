@@ -50,11 +50,13 @@ function VerifyOtp() {
                 throw new Error(data.message || 'Invalid OTP');
             }
 
-            localStorage.setItem('auth_token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            // localStorage.setItem('auth_token', data.token);
+            // localStorage.setItem('user', JSON.stringify(data.user));
+localStorage.setItem('auth_token', data.token);
+localStorage.setItem('user', JSON.stringify(data.user));
 
-            setTimeout(() => {
-    window.location.href = '/dashboard';
+setTimeout(() => {
+    window.location.href = data.is_onboarded ? '/dashboard' : '/onboarding';
 }, 500);
 
         } catch (error) {
