@@ -115,7 +115,7 @@ function Signup() {
         alt="WhatsApp"
         className="w-10 h-10 rounded-md"
     />
-    <h3>Whatsapp</h3>
+    <h3>Get Started</h3>
     <input type='radio'/>
 </div>
 

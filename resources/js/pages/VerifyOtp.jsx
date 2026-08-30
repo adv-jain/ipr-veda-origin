@@ -19,7 +19,7 @@ function VerifyOtp() {
         inputRefs.current[0]?.focus();
     }, []);
 
-    // ✅ Ye function actual API call karta hai, poora otp string leke
+    
     const verifyOtp = async (otpValue) => {
         setError('');
         setLoading(true);
@@ -50,8 +50,7 @@ function VerifyOtp() {
                 throw new Error(data.message || 'Invalid OTP');
             }
 
-            // localStorage.setItem('auth_token', data.token);
-            // localStorage.setItem('user', JSON.stringify(data.user));
+            
 localStorage.setItem('auth_token', data.token);
 localStorage.setItem('user', JSON.stringify(data.user));
 
@@ -76,7 +75,7 @@ setTimeout(() => {
             inputRefs.current[index + 1]?.focus();
         }
 
-        // ✅ Auto-submit jab sab boxes fill ho jayein
+        
         const otpValue = next.join('');
         if (otpValue.length === digits.length && next.every(d => d !== '')) {
             verifyOtp(otpValue);
@@ -116,14 +115,14 @@ setTimeout(() => {
         const focusIndex = Math.min(pasted.length, digits.length - 1);
         inputRefs.current[focusIndex]?.focus();
 
-        // ✅ Paste se bhi agar sab fill ho jayein, auto-submit
+        
         const otpValue = next.join('');
         if (otpValue.length === digits.length && next.every(d => d !== '')) {
             verifyOtp(otpValue);
         }
     };
 
-    // ✅ Manual submit button ke liye bhi (optional fallback)
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         const otpValue = digits.join('');
