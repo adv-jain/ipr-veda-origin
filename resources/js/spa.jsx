@@ -1,11 +1,9 @@
-
-import '../css/app.css'; // Ye Tailwind CSS ko load karega
-
+import '../css/app.css'; 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
-// Apne components ko yahan import karein (Apne folder structure ke hisaab se)
+
 import SignOtp from './Pages/SignOtp';
 import VerifyOtp from './Pages/VerifyOtp';
 import Home from './pages/Home';
@@ -19,28 +17,31 @@ import Footer from './components/Footer';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 
-
-
 function SPA() {
-    return (
-        <> 
-         <Navbar/>
-        <Routes>
-           
-            <Route path="/login" element={< Login/>} />
-            <Route path="/verify-otp" element={<VerifyOtp />} />
-            <Route path='/signup' element={<Signup/>} />
-           <Route path='/' element={<Home/>}/>
-           <Route path='/patent' element={<Patent/>}/>
-           <Route path='/trademark' element={<TradeMark/>} />
-           <Route path='/blog' element={<Blog/>}/>
-           <Route path='/about' element={<About/>} />
-           <Route path='/contact' element={<Contact/>}  />
-          
+    const location = useLocation();
 
-           <Route path='/signup-otp' element={<SignOtp/>} />
-        </Routes>
-        <Footer/>
+    
+    const hideLayoutPaths = ['/login', '/signup', '/verify-otp'];
+    const hideLayout = hideLayoutPaths.includes(location.pathname);
+
+    return (
+        <>
+            {!hideLayout && <Navbar />}
+
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/verify-otp" element={<VerifyOtp />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/patent" element={<Patent />} />
+                <Route path="/trademark" element={<TradeMark />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/signup-otp" element={<SignOtp />} />
+            </Routes>
+
+            {!hideLayout && <Footer />}
         </>
     );
 }

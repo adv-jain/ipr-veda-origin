@@ -8,7 +8,7 @@ use App\Http\Controllers\CreditsController;
 use App\Http\Controllers\SignupOtpController;
 use App\Http\Controllers\ContactController;
 
-// Route::post('/login', [AuthController::class, 'login']);
+ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot-password',[AuthController::class,'forgotpassword']);
 
 Route::post('/signup-otp',[SignupOtpController::class,'store']);

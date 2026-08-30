@@ -2,7 +2,7 @@ import { Head, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function Onboarding() {
-    const [step, setStep] = useState(0); 
+    const [step, setStep] = useState(0);
 
     const { data, setData, post, processing, errors } = useForm({
         company_name: '',
@@ -26,7 +26,6 @@ export default function Onboarding() {
 
             <div className="w-full max-w-xl bg-white rounded-xl shadow-lg p-8">
 
-               
                 {step > 0 && (
                     <div className="mb-8">
                         <div className="flex justify-between text-sm text-gray-500 mb-2">
@@ -42,13 +41,12 @@ export default function Onboarding() {
                     </div>
                 )}
 
-               
                 {step === 0 && (
                     <div className="text-center">
                         <h1 className="text-3xl font-bold mb-4">Welcome to IPR Veda 👋</h1>
                         <p className="text-gray-600 mb-8">
-                            Chaliye kuch details set karte hain taaki hum aapke liye
-                            dashboard ko personalize kar sakein. Sirf 3 chhote steps hain.
+                            Let's set up a few details so we can personalize your
+                            dashboard. It's just 3 quick steps.
                         </p>
                         <button
                             onClick={next}
@@ -59,11 +57,10 @@ export default function Onboarding() {
                     </div>
                 )}
 
-               
                 {step === 1 && (
                     <div>
                         <h2 className="text-2xl font-bold mb-2">Company Details</h2>
-                        <p className="text-gray-500 mb-6">Aapki company ka naam kya hai?</p>
+                        <p className="text-gray-500 mb-6">What is the name of your company?</p>
 
                         <input
                             type="text"
@@ -91,11 +88,10 @@ export default function Onboarding() {
                     </div>
                 )}
 
-                
                 {step === 2 && (
                     <div>
                         <h2 className="text-2xl font-bold mb-2">Business Type</h2>
-                        <p className="text-gray-500 mb-6">Aap kis field mein kaam karte hain?</p>
+                        <p className="text-gray-500 mb-6">Which field do you work in?</p>
 
                         <div className="grid grid-cols-2 gap-3">
                             {['Startup', 'Agency', 'Individual', 'Enterprise'].map((type) => (
@@ -131,11 +127,10 @@ export default function Onboarding() {
                     </div>
                 )}
 
-                
                 {step === 3 && (
                     <form onSubmit={handleSubmit}>
                         <h2 className="text-2xl font-bold mb-2">Almost done!</h2>
-                        <p className="text-gray-500 mb-6">Aapko kis cheez mein sabse zyada interest hai?</p>
+                        <p className="text-gray-500 mb-6">What are you most interested in?</p>
 
                         <select
                             value={data.preference}

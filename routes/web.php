@@ -34,12 +34,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
 
 Route::get('/services', function () {
     return Inertia::render('Services');
@@ -52,6 +46,11 @@ Route::get('/account', function () {
 Route::get('/setting', function () {
     return Inertia::render('Setting');
 })->middleware(['auth', 'verified'])->name('setting');
+
+Route::get('/consult',function(){
+    return Inertia::render('Consult');
+})->middleware(['auth','verified'])->name('consult');
+
 Route::get('/onboarding', function () {
     return Inertia::render('Onboarding');
 })->middleware(['auth', 'verified'])->name('onboarding');
@@ -67,4 +66,4 @@ Route::post('/onboarding', [AuthController::class, 'saveOnboarding'])
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/{any}', function () {
     return view('spa');
-})->where('any', '^(?!dashboard|profile|services|account|setting|onboarding).*$');
+})->where('any', '^(?!dashboard|profile|services|account|setting|consult|onboarding).*$');

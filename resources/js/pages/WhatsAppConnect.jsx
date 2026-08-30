@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import useFacebookSDK from '../hooks/useFacebookSDK';
 
-// TODO: move these to your .env (e.g. import.meta.env.VITE_FB_APP_ID)
+
 const APP_ID = 'YOUR_APP_ID';
 const CONFIG_ID = 'YOUR_CONFIG_ID';
 const GRAPH_VERSION = 'v22.0';
@@ -9,7 +9,7 @@ const GRAPH_VERSION = 'v22.0';
 function WhatsAppConnect() {
     const isSdkReady = useFacebookSDK(APP_ID, GRAPH_VERSION);
 
-    const [status, setStatus] = useState('idle'); // idle | connecting | success | error
+    const [status, setStatus] = useState('idle'); 
     const [error, setError] = useState('');
 
     const sendCodeToBackend = useCallback(async (code) => {

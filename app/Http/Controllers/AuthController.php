@@ -139,8 +139,7 @@ class AuthController extends Controller
        
         $otpRecord->delete();
 
-        // ✅ SABSE ZAROORI: User ko Laravel Session mein login karo (Breeze Dashboard ke liye)
-        Auth::login($user);
+           Auth::login($user);
 
        
         $token = $user->createToken('react-app')->plainTextToken;
@@ -158,7 +157,7 @@ class AuthController extends Controller
 ]);
     }
 
-    // 4. Resend OTP Method
+    
     public function resendOtp(Request $request)
     {
         $validated = $request->validate([
@@ -180,25 +179,25 @@ class AuthController extends Controller
         return response()->json(['message' => 'OTP resent successfully.']);
     }
 
-    // Helper: OTP Generate aur Send karna
+    
     protected function generateAndSendOtp(User $user): void
     {
         $code = (string) random_int(1000, 9999);
      
-        // ✅ Fix: Purane OTPs delete karo (same email/number ke)
+        
         SignupOtp::where('email', $user->email)
                  ->orWhere('number', $user->number)
                  ->delete();
 
-        // ✅ Fix: user_id column ko hata diya kyunki table mein nahi hai
+        
         SignupOtp::create([
             'email'      => $user->email,
             'number'     => $user->number,
             'otp'        => $code,
-            'expires_at' => Carbon::now()->addMinutes(10), // 10 minutes validity
+            'expires_at' => Carbon::now()->addMinutes(10), 
         ]);
      
-        // WhatsApp ya Email bhejna
+       
         if (class_exists('App\Services\WhatsAppOtpService')) {
             app('App\Services\WhatsAppOtpService')->sendOtp($user->number, $code);
         } else {

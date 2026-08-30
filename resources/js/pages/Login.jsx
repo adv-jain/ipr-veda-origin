@@ -57,7 +57,7 @@ function Login() {
         <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
             <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
                 <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-                    Get OTP
+                     Log into your account
                 </h2>
                 
                 <form onSubmit={handleSubmit} className="space-y-5">
@@ -72,20 +72,20 @@ function Login() {
                             value={contact}
                             onChange={handleChange} 
                             placeholder="e.g., user@email.com or 9876543210"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
                             required
                         />
                     </div>
                     
                     <button 
                         type="submit" 
-                        className="w-full bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-blue-700"
+                        className="w-full bg-yellow-600 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-yellow-700"
                     >
                         Get OTP
                     </button>
                 </form>
       <div className="mt-4 text-center">
-    <span>For Signup </span>
+    <span>Don't have account</span>
 
     <button
         type="button"
