@@ -7,7 +7,7 @@ export default function Consult() {
         <AuthenticatedLayout>
            
             <div className="flex min-h-screen">
-                {/* LEFT SIDEBAR */}
+                
                 <aside className="w-64 bg-gray-800 text-white p-6">
                     
                     <nav className="space-y-4">
@@ -19,7 +19,7 @@ export default function Consult() {
                     </nav>
                 </aside>
 
-                {/* MAIN CONTENT */}
+                
                 <div className="flex-1 p-8">
                     <h1 className="text-3xl font-bold mb-6">Consult with our Experts</h1>
                     <p className="text-gray-600 mb-6">Book a consultation session for legal or IPR-related advice.</p>
