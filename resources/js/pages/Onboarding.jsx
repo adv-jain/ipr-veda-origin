@@ -1,4 +1,4 @@
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -34,7 +34,8 @@ export default function Onboarding() {
     const { props } = usePage();
     const application = props.application;
 
-    const [step, setStep] = useState(1);
+    
+    const [step, setStep] = useState(application?.current_step || 1);
     const totalSteps = 4;
 
     const [trademarkType, setTrademarkType] = useState(application?.trademark_type || '');
@@ -51,10 +52,17 @@ export default function Onboarding() {
     const [paymentError, setPaymentError] = useState('');
     const [orderDetails, setOrderDetails] = useState(null);
 
+    const [showLeaveModal, setShowLeaveModal] = useState(false);
+    const [pendingNavigation, setPendingNavigation] = useState(null);
+
     const next = () => setStep((s) => Math.min(s + 1, totalSteps));
     const back = () => setStep((s) => Math.max(s - 1, 1));
 
     const saveStep = async (fields) => {
+        if (!application?.id) {
+            console.error('No application id available.');
+            return;
+        }
         try {
             await axios.post('/trademark/save-step', {
                 application_id: application.id,
@@ -71,7 +79,7 @@ export default function Onboarding() {
     };
 
     const goToStep2 = () => {
-        saveStep({ trademark_type: trademarkType });
+        saveStep({ trademark_type: trademarkType, current_step: 2 });
         next();
     };
 
@@ -98,7 +106,11 @@ export default function Onboarding() {
     };
 
     const goToStep3 = () => {
-        saveStep({ business_activity: businessActivity, selected_classes: selectedClasses });
+        saveStep({
+            business_activity: businessActivity,
+            selected_classes: selectedClasses,
+            current_step: 3,
+        });
         next();
     };
 
@@ -108,7 +120,7 @@ export default function Onboarding() {
     const totalPrice = plan.price * classCount;
 
     const choosePlanAndGoToPayment = () => {
-        saveStep({ plan: selectedPlan });
+        saveStep({ plan: selectedPlan, current_step: 4 });
         next();
     };
 
@@ -152,7 +164,7 @@ export default function Onboarding() {
                     });
 
                     if (verifyRes.data.status === 'success') {
-                        window.location.href = '/dashboard'; // redirect after success
+                        window.location.href = '/dashboard';
                     } else {
                         setPaymentError('Payment not verified.');
                         setPaying(false);
@@ -172,6 +184,43 @@ export default function Onboarding() {
             setPaying(false);
         });
         rzp.open();
+    };
+
+    // ---------------- LEAVE CONFIRMATION LOGIC ----------------
+
+    useEffect(() => {
+        const removeListener = router.on('before', (event) => {
+            if (application?.payment_status !== 'paid') {
+                event.preventDefault();
+                setPendingNavigation(event.detail.visit.url);
+                setShowLeaveModal(true);
+            }
+        });
+
+        return () => removeListener();
+    }, [application]);
+
+    useEffect(() => {
+        const handleBeforeUnload = (e) => {
+            if (application?.payment_status !== 'paid') {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [application]);
+
+    const confirmLeave = () => {
+        setShowLeaveModal(false);
+        if (pendingNavigation) {
+            router.visit(pendingNavigation, { replace: true });
+        }
+    };
+
+    const cancelLeave = () => {
+        setShowLeaveModal(false);
+        setPendingNavigation(null);
     };
 
     return (
@@ -525,6 +574,34 @@ export default function Onboarding() {
                     </div>
                 )}
             </div>
+
+            {/* Leave confirmation modal */}
+            {showLeaveModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm">
+                        <h3 className="text-lg font-bold text-gray-800 mb-2">
+                            Are you sure you want to leave?
+                        </h3>
+                        <p className="text-sm text-gray-500 mb-6">
+                            Your progress has been saved, but your trademark application is not yet complete.
+                        </p>
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={cancelLeave}
+                                className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmLeave}
+                                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
+                            >
+                                Leave
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

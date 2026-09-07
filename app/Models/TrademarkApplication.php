@@ -11,6 +11,7 @@ protected $fillable=[
         'plan',
         'amount',
         'payment_status',
+        'current_step',
         'razorpay_order_id',
         'razorpay_payment_id',
 ];

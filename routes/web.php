@@ -17,7 +17,7 @@ Route::prefix('api')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    // Trademark onboarding — ab /onboarding URL par
+   
     Route::get('/onboarding', [TrademarkApplicationController::class, 'show'])->name('onboarding');
     Route::post('/trademark/save-step', [TrademarkApplicationController::class, 'saveStep']);
     Route::post('/trademark/search-classes', [TrademarkApplicationController::class, 'searchClasses']);

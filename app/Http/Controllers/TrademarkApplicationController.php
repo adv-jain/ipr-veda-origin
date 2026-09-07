@@ -31,11 +31,12 @@ class TrademarkApplicationController extends Controller
             'business_activity' => 'sometimes|string',
             'selected_classes' => 'sometimes|array',
             'plan' => 'sometimes|string',
+             'current_step' => 'sometimes|integer|min:1|max:4',
         ]);
 
-        $application = TrademarkApplication::where('id', $validated['application_id'])
-            ->where('user_id', $request->user()->id)
-            ->firstOrFail();
+           $application = TrademarkApplication::where('id', $validated['application_id'])
+        ->where('user_id', $request->user()->id)
+        ->firstOrFail();
 
         $application->update(collect($validated)->except('application_id')->toArray());
 
