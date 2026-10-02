@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import subscribe from "../../../config/assets/img/subscribe3.svg"
 import iprPrefect from "../../../config/assets/img/ipr-perfect-rect.png"
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     const [email, setEmail] = useState("");
@@ -133,62 +134,7 @@ const Footer = () => {
                         </ul>
 
                         {/* Newsletter Card */}
-                        <div className="mt-10 rounded-lg bg-white p-6 shadow-sm ring-1 ring-gray-100">
-                            <div className="flex items-center gap-4">
-                                <img
-                                    src={subscribe}
-                                    alt="Subscribe"
-                                    className="w-[100px]  shrink-0"
-                                />
-
-                                <span className="text-gray-600">
-                                    Subscribe to our newsletter in order not
-                                    to miss new udpates, promotions and
-                                    discounts.
-                                </span>
-                            </div>
-
-                            <form
-                                onSubmit={handleSubscribe}
-                                className="mt-6"
-                            >
-                                <div className="flex">
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) =>
-                                            setEmail(e.target.value)
-                                        }
-                                        placeholder="Enter email"
-                                        aria-label="Recipient's username"
-                                        disabled={loading}
-                                        className="min-w-0 flex-1 rounded-l-md border border-gray-300 px-4 py-2.5 text-sm outline-none transition focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 disabled:bg-gray-100"
-                                    />
-
-                                    <button
-                                        type="submit"
-                                        disabled={loading}
-                                        className="rounded-r-md bg-yellow-500 px-5 py-2.5 text-sm font-medium text-black transition hover:bg-yellow-400 disabled:cursor-not-allowed disabled:opacity-60"
-                                    >
-                                        {loading
-                                            ? "Subscribing..."
-                                            : "Subscribe"}
-                                    </button>
-                                </div>
-
-                                {error && (
-                                    <p className="mt-2 text-sm text-red-600">
-                                        {error}
-                                    </p>
-                                )}
-
-                                {message && (
-                                    <p className="mt-2 text-sm text-green-600">
-                                        {message}
-                                    </p>
-                                )}
-                            </form>
-                        </div>
+                      
                     </div>
 
                     {/* Services */}
@@ -199,57 +145,57 @@ const Footer = () => {
 
                         <ul className="list-none space-y-2 p-0">
                             <li>
-                                <a
-                                    href="/trademark"
+                                <Link
+                                    to="/trademark/registration"
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Trademark Registeration
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="/copyright"
+                                <Link
+                                    to="/copyright/registration"
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Copyright Registeration
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="/Patent"
+                                <Link
+                                    to="/Patent/registration"
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Patent Registeration
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/msme/registration"
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     MSME Registeration
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/trademark/renewal"
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Trademark Renewal
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
+                                <Link                                    
+                                to="/object/reply"
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Objection Reply Filing
-                                </a>
+                                </Link>
                             </li>
                         </ul>
 
@@ -259,30 +205,30 @@ const Footer = () => {
 
                         <ul className="list-none space-y-2 p-0">
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/protect/infringement"
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Protect from Infringement
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/trademark/renewal"
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Everything about Renewals
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/ca-ip"
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     CA vs. IP Attorneys
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -295,66 +241,66 @@ const Footer = () => {
 
                         <ul className="list-none space-y-2 p-0">
                             <li>
-                                <a
-                                    href="/about"
+                                <Link
+                                    to="/about"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     About
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="/blog"
+                                <Link
+                                    to="/blog"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Blog
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="/contact"
+                                <Link
+                                    to="/contact"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Contact
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="/privacy-policy"
+                                <Link
+                                    to="/privacy-policy"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Privacy Policy
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="/disclaimer"
+                                <Link
+                                    to="/disclaimer"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Disclaimer
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="/refund-policy"
+                                <Link
+                                    to="/refund-policy"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Refund Policy
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="/credits"
+                                <Link
+                                    to="/credits"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Credits
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -367,30 +313,30 @@ const Footer = () => {
 
                         <ul className="list-none space-y-2 p-0">
                             <li>
-                                <a
-                                    href="#"
+                                {/* <Link
+                                    to="/offers"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Offers
-                                </a>
+                                </Link> */}
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
+                                {/* <Link
+                                    to="/shop"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Shop
-                                </a>
+                                </Link> */}
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
+                                {/* <Link
+                                    to="/ipr-guide"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     IPR&nbsp;Guide
-                                </a>
+                                </Link> */}
                             </li>
                         </ul>
 
@@ -400,40 +346,33 @@ const Footer = () => {
 
                         <ul className="list-none space-y-2 p-0">
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/find-attorney"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Find Attorney ID
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="track-application"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Track Application
-                                </a>
+                                </Link>
                             </li>
 
                             <li>
-                                <a
-                                    href="/find-classes"
+                                <Link
+                                    to="/find-classes"
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Find classes
-                                </a>
+                                </Link>
                             </li>
 
-                            <li>
-                                <a
-                                    href="#"
-                                    className="text-gray-600 no-underline hover:text-gray-900"
-                                >
-                                    IPR&nbsp;Guide
-                                </a>
-                            </li>
+                            
                         </ul>
                     </div>
                 </div>

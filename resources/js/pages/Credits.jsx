@@ -31,7 +31,7 @@ const Credits = () => {
   if (loading) {
     return (
       <div className="flex min-h-[300px] items-center justify-center">
-        <p className="text-gray-500">Loading...</p>
+        <p className="text-brand-dark/50">Loading...</p>
       </div>
     );
   }
@@ -39,7 +39,7 @@ const Credits = () => {
   if (error) {
     return (
       <div className="flex min-h-[300px] items-center justify-center">
-        <p className="text-red-500">{error}</p>
+        <p className="text-danger">{error}</p>
       </div>
     );
   }
@@ -52,21 +52,21 @@ const Credits = () => {
           
           <div className="mb-12 flex justify-center">
             <h2 className="text-center text-4xl font-bold">
-              <span className="border-b-4 border-blue-500 pb-2">
+              <span className="border-b-4 border-brand-primary pb-2">
                 Credits
               </span>
             </h2>
           </div>
 
-          <h1 className="mb-4 text-3xl font-bold">
+          <h1 className="mb-4 text-3xl font-bold text-brand-dark">
             {credits?.title}
           </h1>
 
-          <p className="mb-6">
+          <p className="mb-6 text-brand-dark">
             <strong>Last Updated:</strong> {credits?.last_updated}
           </p>
 
-          <p className="mb-6 leading-7 text-gray-700">
+          <p className="mb-6 leading-7 text-brand-dark/70">
             {credits?.description}
           </p>
 
@@ -77,7 +77,7 @@ const Credits = () => {
                   href={resource.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
+                  className="text-brand-primary hover:underline"
                 >
                   {resource.label}
                 </a>
@@ -90,14 +90,14 @@ const Credits = () => {
       {/* CTA Section */}
       <section className="py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col justify-between rounded-lg bg-blue-600 p-6 text-white md:p-8 lg:flex-row lg:items-center">
+          <div className="flex flex-col justify-between rounded-lg bg-brand-primary p-6 text-white md:p-8 lg:flex-row lg:items-center">
             
             <div className="pb-2 lg:pb-1">
-              <h2 className="mb-2 text-2xl font-bold text-yellow-400">
+              <h2 className="mb-2 text-2xl font-bold text-brand-accent">
                 Not sure which plan suits you?
               </h2>
 
-              <p className="mb-0">
+              <p className="mb-0 text-brand-text">
                 Imperdiet consectetur dolor, tristique himenaeos ultrices
                 tristique neque.
               </p>
@@ -106,7 +106,7 @@ const Credits = () => {
             <div className="my-2">
               <a
                 href="/contact"
-                className="inline-block rounded-md bg-white px-6 py-2 text-lg font-medium text-gray-800 transition hover:bg-gray-100"
+                className="inline-block rounded-md bg-white px-6 py-2 text-lg font-medium text-brand-dark transition hover:bg-brand-light"
               >
                 Contact us
               </a>

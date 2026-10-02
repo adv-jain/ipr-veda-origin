@@ -72,8 +72,8 @@ const PrivacyPolicy = () => {
                     {/* Page Heading */}
                     <div className="mb-12">
                         <div className="mx-auto max-w-2xl text-center">
-                            <h2 className="flex justify-center gap-5 text-3xl font-bold md:text-4xl">
-                                <span className="border-b-4 border-blue-500 pb-2">
+                            <h2 className="flex justify-center gap-5 text-3xl font-bold md:text-4xl text-brand-dark">
+                                <span className="border-b-4 border-brand-primary pb-2">
                                     Privacy Policies
                                 </span>
                             </h2>
@@ -81,21 +81,21 @@ const PrivacyPolicy = () => {
                     </div>
 
                     {/* Content */}
-                    <div className="prose prose-lg max-w-none">
+                    <div className="prose prose-lg max-w-none prose-headings:text-brand-dark prose-p:text-brand-dark/70">
 
-                        <h1 className="mb-6 text-3xl font-bold text-gray-900">
+                        <h1 className="mb-6 text-3xl font-bold text-brand-dark">
                             Privacy Policy of IPR Veda
                         </h1>
 
-                        <p className="mb-6 text-gray-600">
+                        <p className="mb-6 text-brand-dark/70">
                             <strong>Last Updated:</strong> 19-01-2024
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             1. Introduction:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             Welcome to IPR Veda. This Privacy Policy describes
                             how we collect, use, process, and share your
                             information, including personal information, in
@@ -105,11 +105,11 @@ const PrivacyPolicy = () => {
                             services.
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             2. Data Collection:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             We collect information that you provide directly to
                             us, such as when you create or modify your account,
                             request services, or communicate with us. This may
@@ -118,11 +118,11 @@ const PrivacyPolicy = () => {
                             choose to provide.
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             3. Use of Information:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             The information we collect is used to provide,
                             maintain, and improve our services, to develop new
                             services, and to protect IPR Veda and our users. We
@@ -131,11 +131,11 @@ const PrivacyPolicy = () => {
                             transactions.
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             4. Sharing of Information:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             We may share your information with third parties in
                             connection with the services we offer, particularly
                             with advertising platforms like Facebook and Google
@@ -144,72 +144,72 @@ const PrivacyPolicy = () => {
                             the privacy policies of these platforms.
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             5. Data Security:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             We implement measures to ensure the security of your
                             personal information from unauthorized access,
                             alteration, disclosure, or destruction.
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             6. User Rights:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             You have the right to access, update, or to delete
                             your personal information. Please contact us if you
                             wish to exercise these rights.
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             7. Changes to Privacy Policy:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             We may update this privacy policy from time to
                             time. We will notify you of any changes by posting
                             the new privacy policy on this page.
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             8. Contact Us:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             If you have any questions about this privacy policy,
                             please contact us at info@iprveda.com
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             9. Compliance with Legal Obligations:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             We will comply with all applicable laws and
                             regulations regarding data protection and will
                             cooperate with data protection authorities and law
                             enforcement agencies as required.
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             10. No Liability Clause:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             IPR Veda is not responsible for any third-party
                             links, services, or applications that may be
                             accessed through our services. We encourage you to
                             review the privacy policies of these third parties.
                         </p>
 
-                        <h2 className="mb-3 mt-8 text-2xl font-bold text-gray-900">
+                        <h2 className="mb-3 mt-8 text-2xl font-bold text-brand-dark">
                             11. Acceptance of Terms:
                         </h2>
 
-                        <p className="mb-6 leading-7 text-gray-600">
+                        <p className="mb-6 leading-7 text-brand-dark/70">
                             By using our services, you agree to the collection
                             and use of information in accordance with this
                             policy.
@@ -222,7 +222,7 @@ const PrivacyPolicy = () => {
             {/* Newsletter */}
             <section className="px-4 pb-16 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-7xl">
-                    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+                    <div className="rounded-xl border border-brand-border bg-white p-6 shadow-sm">
 
                         <div className="flex flex-col items-center gap-6 md:flex-row">
                             <img
@@ -231,7 +231,7 @@ const PrivacyPolicy = () => {
                                 alt="Subscribe"
                             />
 
-                            <span className="text-gray-600">
+                            <span className="text-brand-dark/70">
                                 Subscribe to our newsletter in order not to
                                 miss new udpates, promotions and discounts.
                             </span>
@@ -247,27 +247,27 @@ const PrivacyPolicy = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Enter email"
-                                    className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:rounded-r-none"
+                                    className="w-full rounded-lg border border-brand-border px-4 py-3 outline-none transition focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 sm:rounded-r-none bg-brand-light text-brand-dark placeholder-brand-dark/40"
                                     disabled={loading}
                                 />
 
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="mt-2 rounded-lg bg-yellow-500 px-6 py-3 font-medium text-white transition hover:bg-yellow-600 disabled:cursor-not-allowed disabled:opacity-60 sm:mt-0 sm:rounded-l-none"
+                                    className="mt-2 rounded-lg bg-brand-accent px-6 py-3 font-medium text-brand-dark transition hover:bg-warning disabled:cursor-not-allowed disabled:opacity-60 sm:mt-0 sm:rounded-l-none"
                                 >
                                     {loading ? "Subscribing..." : "Subscribe"}
                                 </button>
                             </div>
 
                             {error && (
-                                <p className="mt-3 text-sm text-red-600">
+                                <p className="mt-3 text-sm text-danger">
                                     {error}
                                 </p>
                             )}
 
                             {message && (
-                                <p className="mt-3 text-sm text-green-600">
+                                <p className="mt-3 text-sm text-success">
                                     {message}
                                 </p>
                             )}
