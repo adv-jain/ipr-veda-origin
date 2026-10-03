@@ -6,7 +6,8 @@ import {
   MapPin, Zap, Target, BookOpen, AlertCircle,
   ArrowRight, CreditCard, FileCheck, Smartphone
 } from 'lucide-react';
-import Login from "../../Login"
+
+import HomeLogin from '../../HomeLogin';
 
 export default function MSMERegistration() {
   const [formData, setFormData] = React.useState({ name: '', phone: '', email: '' });
@@ -65,7 +66,7 @@ export default function MSMERegistration() {
             </div>
 
             {/* Form */}
-           <Login/>
+           <HomeLogin/>
           </div>
         </div>
       </section>

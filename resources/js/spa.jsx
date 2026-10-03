@@ -11,6 +11,7 @@ import Blog from './pages/Blog';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Navbar from './components/Navbar';
+import SpecialNavbar from './components/SpecialNavbar'; 
 import Footer from './components/Footer';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
@@ -34,20 +35,33 @@ import CAVsIPAttorney from './pages/NavPages/footer/CAVsIPAttorney';
 import CopyrightInfringement from './pages/NavPages/Copyright/CopyrightInfringement';
 import IndianPatentSearch from './pages/NavPages/Patent/IndianPatentSearch';
 import TrademarkSearch from './pages/NavPages/Trademark/TrademarkSearch';
+import HomeLogin from './pages/HomeLogin';
 
 function SPA() {
     const location = useLocation();
 
-    
-    const hideLayoutPaths = ['/login', '/signup', '/verify-otp'];
-    const hideLayout = hideLayoutPaths.includes(location.pathname);
+    // 1. Navbar hide karne ke liye
+    const hideNavbarPaths = ['/verify-otp']; 
+    const hideNavbar = hideNavbarPaths.includes(location.pathname);
+
+    // 2. Footer hide karne ke liye
+    const hideFooterPaths = ['/login', '/verify-otp', '/homelogin'];
+    const hideFooter = hideFooterPaths.includes(location.pathname);
+
+    // 3. SpecialNavbar dikhane ke liye
+    const specialPages = [  '/signup', '/login', '/homelogin']; 
+    const isSpecialPage = specialPages.includes(location.pathname);
 
     return (
         <>
-            {!hideLayout && <Navbar />}
+            {/* ✅ FIX: hideLayout ki jagah hideNavbar use kiya */}
+            {!hideNavbar && (
+                isSpecialPage ? <SpecialNavbar /> : <Navbar />
+            )}
 
             <Routes>
                 <Route path="/login" element={<Login />} />
+                <Route path="/homelogin" element={<HomeLogin />} />
                 <Route path="/verify-otp" element={<VerifyOtp />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/" element={<Home />} />
@@ -57,30 +71,30 @@ function SPA() {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/signup-otp" element={<SignOtp />} />
-                <Route path="/trademark/registration" element={<TrademarkRegistration/>}/>
-                <Route path='/trademark/usa' element={<UsaTrademark/>} />
-                <Route path='/trademark/renewal' element={<TrademarkRenewal/>} />
-                <Route path='/trademark/individual' element={<IndividualTrademarkRegistration/>}/>
-                <Route path='/trademark/assignment' element={<TrademarkAssignment/>}/>
-                <Route path='/copyright/registration' element={<CopyRightRegistration/>}/>
-                <Route path='/patent/registration' element={<PatentRegistration/>}/>
-                <Route path='/msme/registration' element={<MSMERegistration/>}/>
-                <Route path='/object/reply' element={<ObjectionReplyFiling/>}/>
-                <Route path='/protect/infringement' element={<ProtectFromInfringement/>} />
-                 <Route path='refund-policy' element={<RefundPolicy/>}/>
-                 <Route path='/disclaimer' element={<Disclaimer/>}/> 
-                 <Route path='/credits' element={<Credits/>}/>  
-                 <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
-                 <Route path='/find-classes' element={<FindClasses/>} />
-                  <Route path='/track-application'  element={<TrackApplication/>}/>  
-                  <Route path='/ca-ip' element={<CAVsIPAttorney/>}/>  
-                  <Route path='/copyright/infringement' element={<CopyrightInfringement/>}/>    
-                  <Route path='/patent/search' element={<IndianPatentSearch/>} />
-                  <Route path='/trademark/search' element={<TrademarkSearch/>}/> 
-                 
-               </Routes>
+                <Route path="/trademark/registration" element={<TrademarkRegistration />} />
+                <Route path='/trademark/usa' element={<UsaTrademark />} />
+                <Route path='/trademark/renewal' element={<TrademarkRenewal />} />
+                <Route path='/trademark/individual' element={<IndividualTrademarkRegistration />} />
+                <Route path='/trademark/assignment' element={<TrademarkAssignment />} />
+                <Route path='/copyright/registration' element={<CopyRightRegistration />} />
+                <Route path='/patent/registration' element={<PatentRegistration />} />
+                <Route path='/msme/registration' element={<MSMERegistration />} />
+                <Route path='/object/reply' element={<ObjectionReplyFiling />} />
+                <Route path='/protect/infringement' element={<ProtectFromInfringement />} />
+                <Route path='/refund-policy' element={<RefundPolicy />} />
+                <Route path='/disclaimer' element={<Disclaimer />} /> 
+                <Route path='/credits' element={<Credits />} />  
+                <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+                <Route path='/find-classes' element={<FindClasses />} />
+                <Route path='/track-application' element={<TrackApplication />} />  
+                <Route path='/ca-ip' element={<CAVsIPAttorney />} />  
+                <Route path='/copyright/infringement' element={<CopyrightInfringement />} />    
+                <Route path='/patent/search' element={<IndianPatentSearch />} />
+                <Route path='/trademark/search' element={<TrademarkSearch />} /> 
+            </Routes>
 
-            {!hideLayout && <Footer />}
+            {/* ✅ FIX: hideLayout ki jagah hideFooter use kiya */}
+            {!hideFooter && <Footer />}
         </>
     );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Login from "../../Login"
+
+import HomeLogin from '../../HomeLogin';
 export default function IndividualTrademarkRegistration() {
   const [activeFaq, setActiveFaq] = useState(null);
 
@@ -71,7 +72,7 @@ export default function IndividualTrademarkRegistration() {
             </div>
           </div>
 
-      <Login/>
+      <HomeLogin/>
         </div>
       </section>
 

@@ -1,4 +1,5 @@
-import Login from '../../Login';
+import HomeLogin from '../../HomeLogin';
+
 import React, { useState } from 'react';
 
 export default function TrademarkRegistration() {
@@ -37,14 +38,14 @@ export default function TrademarkRegistration() {
             <div className="mt-8 flex flex-wrap gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <span className="text-brand-accent text-lg">★</span>
-                <span><b>4.5/5</b> Google Reviews (20k+)</span>
+                <span><b>4.5/5</b></span>
               </div>
              
             </div>
           </div>
 
          
-          <Login/>
+          <HomeLogin/> 
         </div>
       </section>
 

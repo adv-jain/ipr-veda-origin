@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Login from "../../Login"
+
+import HomeLogin from '../../HomeLogin';
 export default function TrademarkRenewal() {
   const [activeFaq, setActiveFaq] = useState(null);
 
@@ -71,7 +72,7 @@ export default function TrademarkRenewal() {
           </div>
 
           {/* Lead Capture Form */}
-          <Login/>
+          <HomeLogin/>
         </div>
       </section>
 

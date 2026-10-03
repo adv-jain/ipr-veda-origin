@@ -124,7 +124,7 @@ const navItems = [
       },
     ],
   },
-  { title: "Infringement", link: "/infringement" },
+  // ✅ About, Contact, Blog ko yahan wapas add kar diya gaya hai
   { title: "About", link: "/about" },
   { title: "Contact", link: "/contact" },
   { title: "Blog", link: "/blog" },
@@ -142,20 +142,31 @@ export default function Navbar() {
         <img src={iprPrefect} className="w-[85px] lg:w-[100px] xl:w-[110px]" alt="Logo" />
       </Link>
 
-      {/* Navigation Links */}
+      {/* Nav Items Container */}
       <div className="flex items-center gap-2 lg:gap-4 xl:gap-6">
         {navItems.map((item) => (
           <div
             key={item.title}
             onMouseEnter={() => {
-              setActiveMenu(item.title);
-              setActiveSubmenu(0);
+              // ✅ Sirf un items ke liye dropdown open karo jinke paas submenu hai
+              if (item.submenu) {
+                setActiveMenu(item.title);
+                setActiveSubmenu(0);
+              }
             }}
-            onMouseLeave={() => setActiveMenu(null)}
+            onMouseLeave={() => {
+              // ✅ Sirf un items ke liye dropdown close karo
+              if (item.submenu) setActiveMenu(null);
+            }}
             className="relative py-1"
           >
-            {/* Parent Item - NOT CLICKABLE, only hover trigger */}
-            <div className="whitespace-nowrap text-xs lg:text-sm xl:text-base font-medium text-gray-700 hover:text-yellow-500 transition-colors duration-200 cursor-default flex items-center gap-0.5 lg:gap-1">
+           
+            {/* ✅ <div> ko <Link> mein badal diya taaki sab click ho sake */}
+            <Link
+              to={item.link}
+              onClick={() => setActiveMenu(null)} // Click karne par dropdown band ho jayega
+              className="whitespace-nowrap text-xs lg:text-sm xl:text-base font-medium text-gray-700 hover:text-yellow-500 transition-colors duration-200 flex items-center gap-0.5 lg:gap-1 cursor-pointer"
+            >
               {item.title}
               {item.submenu && (
                 <ChevronDown
@@ -165,9 +176,9 @@ export default function Navbar() {
                   }`}
                 />
               )}
-            </div>
+            </Link>
 
-            {/* Simple Dropdown (no children) */}
+            {/* Dropdown Logic (Simple) */}
             {item.submenu &&
               activeMenu === item.title &&
               !item.submenu[0]?.children && (
@@ -187,7 +198,7 @@ export default function Navbar() {
                 </div>
               )}
 
-            {/* Mega Dropdown (with children) */}
+            {/* Dropdown Logic (Mega Menu with Children) */}
             {item.submenu &&
               activeMenu === item.title &&
               item.submenu[0]?.children && (
@@ -221,11 +232,11 @@ export default function Navbar() {
                                 : 'text-gray-400'
                             }`}
                           />
-                        </div>
+                </div>
                       ))}
                     </div>
 
-                    {/* Right Content Panel */}
+                    {/* Right Content */}
                     <div className="flex-1 p-6">
                       {item.submenu[activeSubmenu]?.children && (
                         <ul className="space-y-3">

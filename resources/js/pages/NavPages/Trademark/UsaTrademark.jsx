@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Login from "../../Login"
+
+import HomeLogin from '../../HomeLogin';
 export default function UsaTrademark() {
   const [activeFaq, setActiveFaq] = useState(null);
 
@@ -42,7 +43,7 @@ export default function UsaTrademark() {
           </div>
 
           {/* Lead Form Card */}
-          <Login/>
+          <HomeLogin/>
         </div>
       </section>
 
