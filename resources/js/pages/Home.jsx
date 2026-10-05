@@ -278,262 +278,483 @@ export default function Home() {
           <span className="bg-yellow-400 p-1"><strong>100+</strong></span>
           &nbsp;of the best companies in India.
         </p>
-        <div className="flex flex-wrap justify-center items-center">
-          {brandImages.map((image) => (
-            <a href="#" key={image}>
-              <img className="m-3 w-[75px]" src={image} />
-            </a>
-          ))}
+ <div className="w-full overflow-hidden">
+  <div className="flex w-max animate-scroll">
+
+    {/* First set */}
+    <div className="flex shrink-0">
+      {brandImages.map((image, index) => (
+        <img
+          key={`brand-${index}`}
+          src={image}
+          alt="Brand"
+          className="mx-6 w-[75px] h-[60px] object-contain shrink-0"
+        />
+      ))}
+    </div>
+
+    
+    <div className="flex shrink-0">
+      {brandImages.map((image, index) => (
+        <img
+          key={`brand-copy-${index}`}
+          src={image}
+          alt="Brand"
+          className="mx-6 w-[75px] h-[60px] object-contain shrink-0"
+        />
+      ))}
+    </div>
+
+  </div>
+</div>
+      </div>
+
+  <section>
+  <div className="max-w-6xl mx-auto my-20 py-16 px-6 bg-brand-light rounded-brand-xl overflow-hidden border border-brand-border/30">
+    <div className="text-center max-w-2xl mx-auto mb-16">
+      <h2 className="font-heading font-bold text-3xl md:text-4xl text-brand-dark">
+        How it Works?
+      </h2>
+      <p className="text-gray-500 mt-3 text-lg">
+        See the steps involved and understand the process&nbsp;
+      </p>
+    </div>
+    <div className="relative grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-brand-border/40 -z-0" />
+
+      {[
+        ["Trademark Search", "Done same day or within 12 hours"],
+        ["Application filling.", "Start using TM Mark. e.g YourBrand™"],
+        ["3 - 8 Months Period", "TM&nbsp;Registration Certificate"],
+      ].map(([title, text], index) => (
+        <div key={title} className="relative z-10 flex flex-col items-center text-center group">
+          <div className="w-20 h-20 rounded-full bg-white border-4 border-brand-light shadow-brand-sm flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-accent group-hover:border-brand-accent">
+            <span className="text-2xl font-bold text-brand-primary group-hover:text-brand-dark transition-colors">
+              {index + 1}
+            </span>
+          </div>
+          <div className="bg-white p-6 rounded-brand-lg shadow-sm border border-brand-border/20 hover:shadow-brand transition-shadow duration-300 w-full h-full">
+            <h4 className="text-xl font-heading font-semibold text-brand-dark mb-3">
+              {title}
+            </h4>
+            <p className="text-gray-600 leading-relaxed">
+              {text}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+     <section className="max-w-6xl mx-auto my-20 mt-[-20px] md:mt-[-35px] py-16 px-6">
+  <h1 className="mb-12 text-4xl font-heading font-bold text-brand-dark">
+    Quick Guides
+  </h1>
+
+  <div className="flex flex-col md:flex-row items-start gap-8">
+    
+    {/* Tab Buttons */}
+    <div className="flex flex-row md:flex-col gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 md:min-w-[200px]">
+      {guides.map((guide) => {
+        const isActive = activeGuide === guide.id;
+        return (
+          <button
+            key={guide.id}
+            type="button"
+            onClick={() => setActiveGuide(guide.id)}
+            className={`text-left px-5 py-3 rounded-brand-lg whitespace-nowrap md:whitespace-normal transition-all duration-300 border ${
+              isActive
+                ? "bg-brand-primary text-white border-brand-primary shadow-brand font-medium"
+                : "bg-white text-gray-600 border-gray-200 hover:border-brand-border hover:text-brand-primary hover:bg-brand-light"
+            }`}
+          >
+            {guide.title}
+          </button>
+        );
+      })}
+    </div>
+
+    {/* Content Area */}
+    <div className="w-full bg-white p-6 md:p-8 rounded-brand-xl border border-gray-100 shadow-brand-sm text-gray-700 leading-relaxed animate-fade-in">
+      {guides.find((guide) => guide.id === activeGuide)?.content}
+    </div>
+  </div>
+</section>
+
+     <section className="mt-[-60px] md:mt-[-80px]">
+  <div className="max-w-6xl mx-auto pt-0 pb-20 px-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      {/* Trademark Card */}
+      <div className="group border border-gray-200 rounded-brand-lg bg-white p-6 h-full transition-all duration-300 hover:shadow-brand hover:border-brand-border hover:-translate-y-1">
+        <div>
+          <div className="w-12 h-12 rounded-brand bg-brand-light text-brand-primary flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white font-bold">
+            TM
+          </div>
+          <h4 className="font-heading font-bold text-xl text-brand-dark mb-2">
+            Trademark
+          </h4>
+          <p className="text-gray-500 mb-4 leading-relaxed">
+            Your brand's shield: Distinctive signs protecting your ideas from copycats.
+          </p>
+          <a
+            className="text-sm font-medium inline-flex items-center gap-1 text-brand-primary transition-colors duration-300 group-hover:text-brand-hover"
+            href="trademark"
+          >
+            Learn More&nbsp;
+            <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
+          </a>
         </div>
       </div>
 
-      <section>
-        <div className="max-w-6xl mx-auto my-20 py-16 px-6 bg-gray-100 rounded-xl overflow-hidden">
-          <h2 className="font-bold text-3xl">How it Works?</h2>
-          <p className="text-gray-500 mt-3 mb-10">See the steps involved and understand the process&nbsp;</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              ["Trademark Search", "Done same day or within 12 hours"],
-              ["Application filling.", "Start using TM Mark. e.g YourBrand™"],
-              ["3 - 8 Months Period", "TM&nbsp;Registration Certificate"],
-            ].map(([title, text]) => (
-              <div key={title}>
-                <div className="my-8 text-sm border bg-yellow-400 rounded-full inline-flex w-8 h-8 items-center justify-center">✓</div>
-                <h4 className="text-xl font-semibold">{title}</h4>
-                <p className="mt-2">{text}</p>
-              </div>
-            ))}
+      {/* Copyright Card */}
+      <div className="group border border-gray-200 rounded-brand-lg bg-white p-6 h-full transition-all duration-300 hover:shadow-brand hover:border-brand-border hover:-translate-y-1">
+        <div>
+          <div className="w-12 h-12 rounded-brand bg-brand-light text-brand-primary flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white font-bold">
+            ©
           </div>
-        </div>
-      </section>
-
-      <section className="max-w-6xl mx-auto my-20 py-16 px-6">
-        <h1 className="mb-12 text-4xl font-bold">Quick Guides</h1>
-
-        <div className="flex flex-col md:flex-row items-start">
-          <div className="flex md:flex-col gap-2 mb-8 md:mb-0 md:pr-6 min-w-0 md:min-w-[128px]">
-            {guides.map((guide) => (
-              <button
-                key={guide.id}
-                type="button"
-                onClick={() => setActiveGuide(guide.id)}
-                className={`text-left px-4 py-3 rounded-md whitespace-nowrap md:whitespace-normal ${
-                  activeGuide === guide.id ? "bg-gray-200 font-semibold" : "bg-gray-100"
-                }`}
-              >
-                {guide.title}
-              </button>
-            ))}
-          </div>
-
-          <div className="w-full md:pl-3 text-gray-700 leading-7">
-            {guides.find((guide) => guide.id === activeGuide)?.content}
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div className="max-w-6xl mx-auto py-16 px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <ServiceCard
-              title="Trademark"
-              description="Your brand's shield: Distinctive signs protecting your ideas from copycats."
-              href="trademark"
-              icon="TM"
-            />
-            <ServiceCard
-              title="Copyright"
-              description="Your creation's shield: Protects your original work from unauthorized borrowing."
-              href="copyright"
-              icon="©"
-            />
-            <ServiceCard
-              title="Patent"
-              description="Copy my invention? Not on my patent! It's your brainchild, legally protected."
-              href="patent"
-              icon="P"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div className="max-w-6xl mx-auto py-16 px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div>
-              <h3 className="text-5xl font-bold pb-6 mb-5">
-                Expert IP protection in&nbsp;<span className="underline decoration-4 underline-offset-4">India</span>
-              </h3>
-            </div>
-            <div className="pt-4">
-              <p className="text-gray-500 mb-4">
-                Guard your ideas, brand your brilliance: <br />
-                Trademarks, Copyrights and Patents
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div className="flex justify-center md:justify-start items-center">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="text-center md:text-left">
-                  <h5 className="font-bold">Trademark Titans</h5>
-                  <p className="text-gray-500 my-3">Secure your brand, logo, and voice in India - trademark search, registration, and defense under one roof.</p>
-                </div>
-                <div className="text-center md:text-left">
-                  <h5 className="font-bold">Copyright Champions</h5>
-                  <p className="text-gray-500 my-3">From novels to melodies, safeguard your creations with comprehensive copyright registration and fearless protection.</p>
-                </div>
-                <div className="text-center md:text-left">
-                  <h5 className="font-bold">Patent Powerhouse</h5>
-                  <p className="text-gray-500 my-3">Unlock exclusive rights to your inventions - navigate the intricacies of Indian patent law with our expert guidance.</p>
-                </div>
-                <div className="text-center md:text-left">
-                  <h5 className="font-bold">One-Stop IP Oasis</h5>
-                  <p className="text-gray-500 my-3">Streamline your IP journey - trademarks, copyrights, patents, all under one roof for total peace of mind.</p>
-                </div>
-              </div>
-            </div>
-            <div className="order-first md:order-last">
-              <img className="rounded-lg w-full min-h-[300px] object-cover" src={teamwork} alt="" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-6 md:py-10">
-        <div className="w-full">
-          <div className="bg-blue-600 border rounded-none overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="flex flex-col justify-center">
-                <div className="text-white p-6 md:p-12">
-                  <h2 className="font-bold text-3xl mb-3">Empowering innovation, safeguarding your brilliance.</h2>
-                  <p className="mb-4">Ideas worth protecting? We empower innovation, safeguarding brilliance in India. Trademarks, patents, copyrights - your IP fortress under one roof.</p>
-                  <div className="my-3">
-                    <a className="inline-flex items-center bg-gray-200 text-gray-900 px-4 py-2 rounded mr-2 mt-2 font-mono" href="tel:+91 8506059559">
-                      ☎ 85060-59559
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div className="order-first md:order-last min-h-[250px]">
-                <img className="w-full h-full object-contain pt-5 md:pt-0" src={webDevelopment} alt="" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-12">
-        <div className="max-w-6xl mx-auto py-8 px-6">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center">
-            Protect Your Passion, Not Your Wallet: Affordable Trademarks for&nbsp;
-            <span className="underline decoration-4 underline-offset-4">Every Dream</span>
-          </h2>
-          <p className="text-gray-500 text-center mb-12 px-2 md:px-12">
-            Ideas worth guarding shouldn't break the bank. Our pocket-friendly trademarks empower every entrepreneur and artist to build a legacy.
+          <h4 className="font-heading font-bold text-xl text-brand-dark mb-2">
+            Copyright
+          </h4>
+          <p className="text-gray-500 mb-4 leading-relaxed">
+            Your creation's shield: Protects your original work from unauthorized borrowing.
           </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
-            {plans.map((plan) => (
-              <div key={plan.name} className={`relative rounded-lg h-full ${plan.popular ? "border-2 border-gray-400" : "border border-gray-200"}`}>
-                {plan.popular && (
-                  <span className="absolute top-0 right-0 bg-gray-300 rounded-bl-lg px-3 py-1 text-xs uppercase text-gray-900">
-                    Most Popular
-                  </span>
-                )}
-                <div className="p-6 flex flex-col justify-between h-full">
-                  <div>
-                    <h6 className="font-bold text-gray-500">{plan.name}</h6>
-                    <h4 className="text-5xl font-bold mb-6">{plan.price}</h4>
-                    <ul className="mb-6 space-y-2">
-                      {plan.items.map((item) => (
-                        <li key={item} className="flex items-center">
-                          <span className="mr-2 w-5 h-5 rounded-full flex items-center justify-center"><CheckIcon /></span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <a className={`w-full text-center rounded-md px-4 py-2 ${plan.buttonClass}`} href="#">
-                    {plan.button}
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
+          <a
+            className="text-sm font-medium inline-flex items-center gap-1 text-brand-primary transition-colors duration-300 group-hover:text-brand-hover"
+            href="copyright"
+          >
+            Learn More&nbsp;
+            <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
+          </a>
         </div>
-      </section>
+      </div>
 
-      <section className="py-12 mt-12">
-        <div className="max-w-6xl mx-auto py-12 px-6">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <h2 className="text-4xl font-bold mb-4">
-              Got any <span className="underline decoration-4 underline-offset-4">questions</span>?
-            </h2>
-            <p className="text-gray-500">Our team is always here to help. Send us a message and we'll get back to you shortly.</p>
+      {/* Patent Card */}
+      <div className="group border border-gray-200 rounded-brand-lg bg-white p-6 h-full transition-all duration-300 hover:shadow-brand hover:border-brand-border hover:-translate-y-1">
+        <div>
+          <div className="w-12 h-12 rounded-brand bg-brand-light text-brand-primary flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-brand-primary group-hover:text-white font-bold">
+            P
+          </div>
+          <h4 className="font-heading font-bold text-xl text-brand-dark mb-2">
+            Patent
+          </h4>
+          <p className="text-gray-500 mb-4 leading-relaxed">
+            Copy my invention? Not on my patent! It's your brainchild, legally protected.
+          </p>
+          <a
+            className="text-sm font-medium inline-flex items-center gap-1 text-brand-primary transition-colors duration-300 group-hover:text-brand-hover"
+            href="patent"
+          >
+            Learn More&nbsp;
+            <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <section className="mt-[-60px] md:mt-[-80px]">
+  <div className="max-w-6xl mx-auto py-20 px-6">
+    
+    {/* Top Heading Row */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h3 className="text-5xl font-heading font-bold pb-6 mb-5 text-brand-dark">
+          Expert IP protection in&nbsp;<span className="underline decoration-4 underline-offset-4 decoration-brand-accent">India</span>
+        </h3>
+      </div>
+      
+    </div>
+
+    {/* Bottom Content Row */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center mt-10">
+      
+      {/* Left: Feature Cards */}
+      <div className="flex justify-center md:justify-start items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          
+          {/* Card 1 */}
+          <div className="group bg-white p-5 rounded-brand-lg border border-gray-100 shadow-brand-sm transition-all duration-300 hover:shadow-brand hover:-translate-y-1 hover:border-brand-border text-center md:text-left">
+            <h5 className="font-heading font-bold text-brand-dark">Trademark Titans</h5>
+            <p className="text-gray-500 my-3 leading-relaxed">Secure your brand, logo, and voice in India - trademark search, registration, and defense under one roof.</p>
           </div>
 
-          <div className="flex justify-center">
-            <div className="w-full md:w-1/2">
-              <form className="p-3 md:p-6" method="post">
-                <div className="mb-4">
-                  <input className="shadow border border-gray-300 rounded-md w-full px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500" type="text" id="name-1" name="name" placeholder="Name" />
-                </div>
-                <div className="mb-4">
-                  <input className="shadow border border-gray-300 rounded-md w-full px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500" type="email" id="email-1" name="email" placeholder="Email" />
-                </div>
-                <div className="mb-4">
-                  <textarea className="shadow border border-gray-300 rounded-md w-full px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500" id="message-1" name="message" rows="6" placeholder="Message" />
-                </div>
-                <div>
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white shadow block w-full rounded-md px-4 py-3" type="submit">Send </button>
-                </div>
-              </form>
+          {/* Card 2 */}
+          <div className="group bg-white p-5 rounded-brand-lg border border-gray-100 shadow-brand-sm transition-all duration-300 hover:shadow-brand hover:-translate-y-1 hover:border-brand-border text-center md:text-left">
+            <h5 className="font-heading font-bold text-brand-dark">Copyright Champions</h5>
+            <p className="text-gray-500 my-3 leading-relaxed">From novels to melodies, safeguard your creations with comprehensive copyright registration and fearless protection.</p>
+          </div>
+
+          {/* Card 3 */}
+          <div className="group bg-white p-5 rounded-brand-lg border border-gray-100 shadow-brand-sm transition-all duration-300 hover:shadow-brand hover:-translate-y-1 hover:border-brand-border text-center md:text-left">
+            <h5 className="font-heading font-bold text-brand-dark">Patent Powerhouse</h5>
+            <p className="text-gray-500 my-3 leading-relaxed">Unlock exclusive rights to your inventions - navigate the intricacies of Indian patent law with our expert guidance.</p>
+          </div>
+
+          {/* Card 4 */}
+          <div className="group bg-white p-5 rounded-brand-lg border border-gray-100 shadow-brand-sm transition-all duration-300 hover:shadow-brand hover:-translate-y-1 hover:border-brand-border text-center md:text-left">
+            <h5 className="font-heading font-bold text-brand-dark">One-Stop IP Oasis</h5>
+            <p className="text-gray-500 my-3 leading-relaxed">Streamline your IP journey - trademarks, copyrights, patents, all under one roof for total peace of mind.</p>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Right: Image */}
+      <div className="order-first md:order-last group">
+        <img 
+          className="rounded-brand-lg w-full min-h-[300px] object-cover shadow-brand-sm transition-all duration-300 group-hover:shadow-brand group-hover:scale-[1.02]" 
+          src={teamwork} 
+          alt="" 
+        />
+      </div>
+
+    </div>
+  </div>
+</section>
+
+     <section className="mt-[-25px] md:mt-[-45px]">
+  <div className="max-w-6xl mx-auto px-6">
+    
+    
+    <div className="bg-brand-gradient rounded-brand-xl overflow-hidden shadow-brand-lg transition-all duration-300 hover:shadow-brand-lg hover:-translate-y-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+        
+        
+        <div className="flex flex-col justify-center">
+          <div className="text-white p-8 md:p-12">
+            <h2 className="font-heading font-bold text-3xl md:text-4xl mb-4 leading-tight">
+              Empowering innovation, safeguarding your brilliance.
+            </h2>
+            <p className="mb-6 text-brand-muted leading-relaxed text-lg">
+              Ideas worth protecting? We empower innovation, safeguarding brilliance in India. Trademarks, patents, copyrights - your IP fortress under one roof.
+            </p>
+            <div className="my-4">
+              <a 
+                className="inline-flex items-center bg-brand-accent text-brand-dark px-6 py-3 rounded-brand-md font-semibold shadow-brand-sm transition-all duration-300 hover:bg-brand-accent hover:shadow-brand hover:scale-105 mr-2 mt-2" 
+                href="tel:+91 8506059559"
+              >
+                ☎ 85060-59559
+              </a>
             </div>
           </div>
         </div>
-      </section>
 
-      <section className="py-8 mb-12">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-8 text-center">
-            <h2 className="text-4xl font-bold mb-5">
-              <span className="pb-3 underline decoration-4 underline-offset-4">FAQ<br /></span>
+        {/* Right: Image */}
+        <div className="order-first md:order-last min-h-[250px] flex items-center justify-center p-6 md:p-0">
+          <img 
+            className="w-full h-full max-h-[350px] object-contain transition-transform duration-500 hover:scale-105" 
+            src={webDevelopment} 
+            alt="" 
+          />
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+      <section className=" mt-[-10px] md:mt-[-18px] py-20 bg-brand-light/30">
+  <div className="max-w-6xl mx-auto py-8 px-6">
+    
+    {/* Heading */}
+    <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4 text-center text-brand-dark">
+      Protect Your Passion, Not Your Wallet: Affordable Trademarks for&nbsp;
+      <span className="underline decoration-4 underline-offset-4 decoration-brand-accent">Every Dream</span>
+    </h2>
+    <p className="text-gray-500 text-center mb-12 px-2 md:px-12 leading-relaxed max-w-3xl mx-auto">
+      Ideas worth guarding shouldn't break the bank. Our pocket-friendly trademarks empower every entrepreneur and artist to build a legacy.
+    </p>
+
+    {/* Plans Grid */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-6">
+      {plans.map((plan) => (
+        <div
+          key={plan.name}
+          className={`relative rounded-brand-xl h-full bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-brand ${
+            plan.popular
+              ? "border-2 border-brand-accent shadow-brand-lg"
+              : "border border-gray-200 shadow-brand-sm hover:border-brand-border"
+          }`}
+        >
+          {/* Most Popular Badge */}
+          {plan.popular && (
+            <span className="absolute top-0 right-0 bg-brand-accent text-brand-dark font-semibold rounded-bl-brand-xl rounded-tr-brand-xl px-4 py-1.5 text-xs uppercase tracking-wider shadow-sm">
+              Most Popular
+            </span>
+          )}
+
+          <div className="p-6 flex flex-col justify-between h-full">
+            <div>
+              {/* Plan Name */}
+              <h6 className="font-heading font-bold text-gray-500 uppercase tracking-wide text-sm">
+                {plan.name}
+              </h6>
+
+              {/* Price */}
+              <h4 className="text-5xl font-heading font-bold mb-6 text-brand-dark">
+                {plan.price}
+              </h4>
+
+              {/* Features List */}
+              <ul className="mb-6 space-y-3">
+                {plan.items.map((item) => (
+                  <li key={item} className="flex items-center text-gray-600">
+                    <span className="mr-3 w-5 h-5 rounded-full bg-brand-light text-brand-primary flex items-center justify-center shrink-0">
+                      <CheckIcon />
+                    </span>
+                    <span className="text-sm leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* CTA Button */}
+            <a
+              className={`w-full text-center rounded-brand-md px-4 py-3 font-medium transition-all duration-300 hover:shadow-brand ${plan.buttonClass}`}
+              href="#"
+            >
+              {plan.button}
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+    <section className="py-20 bg-brand-light/30">
+  <div className="max-w-6xl mx-auto px-6">
+    
+    {/* Grid Layout: Left (Heading + FAQ + AI) | Right (Form) */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start">
+      
+      {/* ================= LEFT SIDE: Heading + FAQ + AI Guide ================= */}
+      <div className="order-2 md:order-1">
+        
+        {/* Heading */}
+        <div className="mb-10">
+          <h2 className="text-4xl font-heading font-bold mb-4 text-brand-dark">
+            Got any <span className="underline decoration-4 underline-offset-4 decoration-brand-accent">questions</span>?
+          </h2>
+          <p className="text-gray-500">Our team is always here to help. Send us a message and we'll get back to you shortly.</p>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="mb-10">
+          <div className="mb-6">
+            <h2 className="text-3xl font-heading font-bold mb-3 text-brand-dark">
+              <span className="pb-2 underline decoration-4 underline-offset-4 decoration-brand-accent">FAQ</span>
             </h2>
-            <p className="text-gray-500 mb-5">Your Questions Answered: A Guide to IPR</p>
+            <p className="text-gray-500">Your Questions Answered: A Guide to IPR</p>
           </div>
 
-          <div className="max-w-3xl mx-auto text-gray-500">
+          <div className="text-gray-500">
             {faqs.map((faq, index) => {
               const isOpen = openFaq === index;
               return (
-                <div key={faq.question} className="border-b border-gray-200">
+                <div 
+                  key={faq.question} 
+                  className="border-b border-gray-200 transition-all duration-300 hover:border-brand-border"
+                >
                   <h2>
                     <button
                       type="button"
                       onClick={() => setOpenFaq(isOpen ? -1 : index)}
-                      className="w-full text-left py-5 flex justify-between items-center font-medium text-gray-700"
+                      className="w-full text-left py-4 flex justify-between items-center font-medium text-gray-700 transition-colors duration-300 hover:text-brand-primary group"
                     >
-                      <span>{faq.question}</span>
-                      <span className="text-xl">{isOpen ? "−" : "+"}</span>
+                      <span className="group-hover:translate-x-1 transition-transform duration-300">
+                        {faq.question}
+                      </span>
+                      <span className="text-xl text-brand-primary">{isOpen ? "−" : "+"}</span>
                     </button>
                   </h2>
-                  {isOpen && <div className="pb-5 leading-7">{faq.answer}</div>}
+                  {isOpen && (
+                    <div className="pb-4 leading-7 text-gray-600 animate-fade-in">
+                      {faq.answer}
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
         </div>
 
-        <div className="text-center mt-12">
-          <button className="bg-gray-300 text-gray-500 px-4 py-2 rounded-md cursor-not-allowed" type="button" disabled>
+        {/* AI Guide Button */}
+        <div>
+          <button 
+            className="bg-gray-200 text-gray-500 px-5 py-2.5 rounded-brand-md cursor-not-allowed font-medium" 
+            type="button" 
+            disabled
+          >
             AI Powered Complete IPR Guide
           </button>
+          <p className="mt-3 text-gray-400 text-sm">Coming your way soon</p>
         </div>
-        <p className="text-center mt-3">Coming your way soon</p>
-      </section>
+      </div>
+
+      {/* ================= RIGHT SIDE: Form ================= */}
+      <div className="order-1 md:order-2">
+        <div className="w-full">
+          {/* Form Card with Hover Popup */}
+          <form 
+            className="bg-white p-6 md:p-8 rounded-brand-xl border border-gray-100 shadow-brand-sm transition-all duration-300 hover:shadow-brand hover:-translate-y-1" 
+            method="post"
+          >
+            <div className="mb-5">
+              <input 
+                className="w-full px-4 py-3 rounded-brand-md border border-gray-300 outline-none transition-all duration-300 focus:ring-2 focus:ring-brand-primary focus:border-brand-primary hover:border-brand-border" 
+                type="text" 
+                id="name-1" 
+                name="name" 
+                placeholder="Name" 
+              />
+            </div>
+            <div className="mb-5">
+              <input 
+                className="w-full px-4 py-3 rounded-brand-md border border-gray-300 outline-none transition-all duration-300 focus:ring-2 focus:ring-brand-primary focus:border-brand-primary hover:border-brand-border" 
+                type="email" 
+                id="email-1" 
+                name="email" 
+                placeholder="Email" 
+              />
+            </div>
+            <div className="mb-5">
+              <textarea 
+                className="w-full px-4 py-3 rounded-brand-md border border-gray-300 outline-none transition-all duration-300 focus:ring-2 focus:ring-brand-primary focus:border-brand-primary hover:border-brand-border resize-none" 
+                id="message-1" 
+                name="message" 
+                rows="5" 
+                placeholder="Message" 
+              />
+            </div>
+            <div>
+              <button 
+                className="w-full bg-brand-primary hover:bg-brand-hover text-white shadow-brand-sm hover:shadow-brand block rounded-brand-md px-4 py-3 font-medium transition-all duration-300" 
+                type="submit"
+              >
+                Send
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+      
 
       <section className="py-6">
         <div className="w-full bg-blue-600">

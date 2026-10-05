@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Login from "../../Login"
+import HomeLogin from '../../HomeLogin';
 export default function TrademarkAssignment() {
   const [activeFaq, setActiveFaq] = useState(null);
 
@@ -75,7 +75,7 @@ export default function TrademarkAssignment() {
           </div>
 
           {/* Lead Capture Form */}
-         <Login/>
+         <HomeLogin/>
         </div>
       </section>
 

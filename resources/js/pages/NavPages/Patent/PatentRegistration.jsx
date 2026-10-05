@@ -6,21 +6,12 @@ import {
   Code, Radio, Building2, Scale, Zap, TrendingUp,
   DollarSign, Heart, MessageCircle, ArrowRight, Lightbulb, Eye
 } from 'lucide-react';
+import HomeLogin from "../../HomeLogin" 
 
 export default function PatentRegistration() {
-  const [activeTab, setActiveTab] = useState('procedure');
   const [openFaq, setOpenFaq] = useState(null);
-  const [formData, setFormData] = useState({ name: '', email: '', mobile: '' });
 
-  const tabs = [
-    { id: 'procedure', label: 'Procedure', icon: FileText },
-    { id: 'definition', label: 'Definition', icon: BookOpen },
-    { id: 'documents', label: 'Documents', icon: FileText },
-    { id: 'type', label: 'Type', icon: Scale },
-    { id: 'process', label: 'Process', icon: Zap },
-    { id: 'condition', label: 'Condition', icon: Shield },
-    { id: 'faq', label: 'FAQ', icon: MessageCircle },
-  ];
+  // ... (Saare data arrays jaise procedureSteps, documentsList, etc. same rahenge)
 
   const procedureSteps = [
     {
@@ -183,302 +174,208 @@ export default function PatentRegistration() {
             </div>
 
             {/* Form */}
-            <div className="bg-white rounded-2xl shadow-2xl p-6 lg:p-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Apply Now!</h3>
-              <p className="text-gray-500 mb-6 text-sm">Secure your intellectual property today</p>
-              
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
-                    placeholder="Enter your full name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
-                    placeholder="your@email.com"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
-                  <input
-                    type="tel"
-                    value={formData.mobile}
-                    onChange={(e) => setFormData({...formData, mobile: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none transition"
-                    placeholder="+91 9876543210"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-bold py-3 rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all transform hover:scale-[1.02] shadow-lg"
-                >
-                  Apply Now!
-                </button>
-              </form>
-
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
-                  <div className="flex items-center gap-1">
-                    <DollarSign className="w-4 h-4 text-green-600" />
-                    <span>Lowest Price</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Heart className="w-4 h-4 text-red-500" />
-                    <span>100% Satisfaction</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+           <HomeLogin/>
           </div>
         </div>
       </section>
 
-      {/* Tabs Navigation */}
-      <section className="sticky top-0 z-40 bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex overflow-x-auto scrollbar-hide">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
+      {/* ==================== ALL CONTENT SECTIONS (NO TABS) ==================== */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
+        
+        {/* 1. Procedure Section */}
+        <section id="procedure">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">Procedure for Patent Registration in India</h2>
+          <p className="text-gray-600 mb-10 max-w-3xl">A streamlined, step-by-step approach to securing your intellectual property rights efficiently.</p>
+          
+          <div className="space-y-6">
+            {procedureSteps.map((step, index) => {
+              const Icon = step.icon;
               return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-6 py-4 whitespace-nowrap border-b-2 transition-all font-medium text-sm ${
-                    activeTab === tab.id
-                      ? 'border-yellow-500 text-yellow-600'
-                      : 'border-transparent text-gray-600 hover:text-gray-900'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {tab.label}
-                </button>
+                <div key={index} className="flex gap-6 bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+                  <div className="flex-shrink-0">
+                    <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
+                      <Icon className="w-7 h-7 text-white" />
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="bg-yellow-100 text-yellow-700 font-bold text-sm px-3 py-1 rounded-full">Step {index + 1}</span>
+                      <h3 className="text-xl font-bold text-gray-800">{step.title}</h3>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed">{step.desc}</p>
+                  </div>
+                </div>
               );
             })}
           </div>
-        </div>
-      </section>
 
-      {/* Tab Content */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-        {/* Procedure Tab */}
-        {activeTab === 'procedure' && (
-          <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">Procedure for Patent Registration in India</h2>
-            <p className="text-gray-600 mb-10 max-w-3xl">A streamlined, step-by-step approach to securing your intellectual property rights efficiently.</p>
-            
-            <div className="space-y-6">
-              {procedureSteps.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <div key={index} className="flex gap-6 bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-                    <div className="flex-shrink-0">
-                      <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
-                        <Icon className="w-7 h-7 text-white" />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="bg-yellow-100 text-yellow-700 font-bold text-sm px-3 py-1 rounded-full">Step {index + 1}</span>
-                        <h3 className="text-xl font-bold text-gray-800">{step.title}</h3>
-                      </div>
-                      <p className="text-gray-600 leading-relaxed">{step.desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* CTA */}
-            <div className="mt-12 bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-8 lg:p-12 text-white">
-              <div className="grid lg:grid-cols-2 gap-8 items-center">
-                <div>
-                  <h3 className="text-2xl lg:text-3xl font-bold mb-3">Call Us For Quote</h3>
-                  <p className="text-blue-100">We can serve our clients more efficiently thanks to cutting-edge practice technology. Connect with us today.</p>
-                </div>
-                <div className="flex items-center justify-center lg:justify-end">
-                  <a href="tel:+918750048585" className="flex items-center gap-3 bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl hover:bg-yellow-400 transition-all transform hover:scale-105 shadow-xl">
-                    <Phone className="w-6 h-6" />
-                    <span className="text-xl">+91 8750048585</span>
-                  </a>
-                </div>
+          {/* CTA */}
+          <div className="mt-12 bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-8 lg:p-12 text-white">
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="text-2xl lg:text-3xl font-bold mb-3">Call Us For Quote</h3>
+                <p className="text-blue-100">We can serve our clients more efficiently thanks to cutting-edge practice technology. Connect with us today.</p>
+              </div>
+              <div className="flex items-center justify-center lg:justify-end">
+                <a href="tel:+918750048585" className="flex items-center gap-3 bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl hover:bg-yellow-400 transition-all transform hover:scale-105 shadow-xl">
+                  <Phone className="w-6 h-6" />
+                  <span className="text-xl">+91 8750048585</span>
+                </a>
               </div>
             </div>
           </div>
-        )}
+        </section>
 
-        {/* Definition Tab */}
-        {activeTab === 'definition' && (
-          <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Understanding Patent Registration</h2>
-            
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-8">
-              <p className="text-gray-700 leading-relaxed mb-4">
-                After the procedure of patent registration, one gets property rights to an invention administered by an individual or a firm. In case it is unique, the government will concede to you the full rights for your product. It awards you the full right of making, utilizing, selling, or bringing in the item or process and denies others from doing as such. According to the Patent Act, 1970 and Patent Rules 1972, patents are represented and governed in India.
-              </p>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                The lifetime of a patent is 20 years. This period is restricted in most cases, yet it could not be extended by the act of congress, and in rare cases, it could be extended for a couple of years.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                The patent could be for many things, be it a process, art, a method to manufacture, particular apparatus, machine, computer software, chemicals, drugs, or technical application. We, at LegalRaasta, act as patent specialists and assist organizations with registering themselves in Delhi NCR, Mumbai, Bengaluru, Chennai, and all other Indian cities.
-              </p>
-            </div>
+        {/* 2. Definition Section */}
+        <section id="definition">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Understanding Patent Registration</h2>
+          
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-8">
+            <p className="text-gray-700 leading-relaxed mb-4">
+              After the procedure of patent registration, one gets property rights to an invention administered by an individual or a firm. In case it is unique, the government will concede to you the full rights for your product. It awards you the full right of making, utilizing, selling, or bringing in the item or process and denies others from doing as such. According to the Patent Act, 1970 and Patent Rules 1972, patents are represented and governed in India.
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              The lifetime of a patent is 20 years. This period is restricted in most cases, yet it could not be extended by the act of congress, and in rare cases, it could be extended for a couple of years.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              The patent could be for many things, be it a process, art, a method to manufacture, particular apparatus, machine, computer software, chemicals, drugs, or technical application. We, at LegalRaasta, act as patent specialists and assist organizations with registering themselves in Delhi NCR, Mumbai, Bengaluru, Chennai, and all other Indian cities.
+            </p>
+          </div>
 
-            {/* What is Included */}
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">What is Included in Our Package?</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-              {['Prior Art Search', 'Application Drafting', 'Application Filing', 'Government Fees'].map((item, i) => (
-                <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-all">
-                  <CheckCircle className="w-8 h-8 text-yellow-500 mx-auto mb-3" />
-                  <p className="font-semibold text-gray-800">{item}</p>
+          {/* What is Included */}
+          <h3 className="text-2xl font-bold text-gray-800 mb-6">What is Included in Our Package?</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            {['Prior Art Search', 'Application Drafting', 'Application Filing', 'Government Fees'].map((item, i) => (
+              <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-all">
+                <CheckCircle className="w-8 h-8 text-yellow-500 mx-auto mb-3" />
+                <p className="font-semibold text-gray-800">{item}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 3. Documents Section */}
+        <section id="documents">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Documents Needed to Get Patent Registration in India</h2>
+          <p className="text-gray-600 mb-8">The following documents are required to get your patent registered smoothly and efficiently:</p>
+          
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+            <div className="grid md:grid-cols-2 gap-4">
+              {documentsList.map((doc, i) => (
+                <div key={i} className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg hover:bg-yellow-50 transition-colors">
+                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 text-sm">{doc}</span>
                 </div>
               ))}
             </div>
           </div>
-        )}
+        </section>
 
-        {/* Documents Tab */}
-        {activeTab === 'documents' && (
-          <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Documents Needed to Get Patent Registration in India</h2>
-            <p className="text-gray-600 mb-8">The following documents are required to get your patent registered smoothly and efficiently:</p>
-            
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-              <div className="grid md:grid-cols-2 gap-4">
-                {documentsList.map((doc, i) => (
-                  <div key={i} className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg hover:bg-yellow-50 transition-colors">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">{doc}</span>
+        {/* 4. Type Section */}
+        <section id="type">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Types of Patent Applications in India</h2>
+          <p className="text-gray-600 mb-8">Understanding the different types of patent applications helps you choose the right path for your innovation:</p>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {patentTypes.map((type, i) => (
+              <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-yellow-600" />
                   </div>
-                ))}
+                  <h4 className="text-lg font-bold text-gray-800">{type.title}</h4>
+                </div>
+                <p className="text-gray-600 text-sm leading-relaxed">{type.desc}</p>
               </div>
-            </div>
+            ))}
           </div>
-        )}
+        </section>
 
-        {/* Type Tab */}
-        {activeTab === 'type' && (
-          <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Types of Patent Applications in India</h2>
-            <p className="text-gray-600 mb-8">Understanding the different types of patent applications helps you choose the right path for your innovation:</p>
-            
+        {/* 5. Process Section */}
+        <section id="process">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Detailed Procedure for Patent Registration</h2>
+          <p className="text-gray-600 mb-10">A comprehensive walkthrough of the patent registration journey from ideation to grant.</p>
+          
+          <div className="space-y-6">
+            {processSteps.map((step, index) => (
+              <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                    {index + 1}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800">{step.title}</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed whitespace-pre-line">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 6. Condition & Advantages Section */}
+        <section id="condition">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Conditions, Costs & Rules for Patent Registration</h2>
+          
+          {/* Cost */}
+          <div className="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-8 text-white mb-10">
+            <h3 className="text-2xl font-bold mb-4">Cost Incurred</h3>
+            <p className="text-blue-100 mb-6">We at LegalRaasta, charge the following for patent registration:</p>
             <div className="grid md:grid-cols-2 gap-6">
-              {patentTypes.map((type, i) => (
-                <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                      <FileText className="w-5 h-5 text-yellow-600" />
-                    </div>
-                    <h4 className="text-lg font-bold text-gray-800">{type.title}</h4>
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed">{type.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Process Tab */}
-        {activeTab === 'process' && (
-          <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Detailed Procedure for Patent Registration</h2>
-            <p className="text-gray-600 mb-10">A comprehensive walkthrough of the patent registration journey from ideation to grant.</p>
-            
-            <div className="space-y-6">
-              {processSteps.map((step, index) => (
-                <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
-                      {index + 1}
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-800">{step.title}</h3>
-                  </div>
-                  <p className="text-gray-600 leading-relaxed whitespace-pre-line">{step.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Condition Tab */}
-        {activeTab === 'condition' && (
-          <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Conditions, Costs & Rules for Patent Registration</h2>
-            
-            {/* Cost */}
-            <div className="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-8 text-white mb-10">
-              <h3 className="text-2xl font-bold mb-4">Cost Incurred</h3>
-              <p className="text-blue-100 mb-6">We at LegalRaasta, charge the following for patent registration:</p>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                  <div className="text-3xl font-bold text-yellow-400 mb-2">₹19,999 onwards</div>
-                  <div className="text-sm text-blue-100">For a Provisional Patent</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                  <div className="text-3xl font-bold text-yellow-400 mb-2">₹35,999 onwards</div>
-                  <div className="text-sm text-blue-100">For a Permanent Patent</div>
-                </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                <div className="text-3xl font-bold text-yellow-400 mb-2">₹19,999 onwards</div>
+                <div className="text-sm text-blue-100">For a Provisional Patent</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                <div className="text-3xl font-bold text-yellow-400 mb-2">₹35,999 onwards</div>
+                <div className="text-sm text-blue-100">For a Permanent Patent</div>
               </div>
             </div>
+          </div>
 
-            {/* Requirements */}
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">Requirements of Getting a Patent in India</h3>
-            <div className="grid md:grid-cols-2 gap-6 mb-12">
+          {/* Requirements */}
+          <h3 className="text-2xl font-bold text-gray-800 mb-6">Requirements of Getting a Patent in India</h3>
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
+            {[
+              { title: 'Patentable Subject Matter', desc: 'According to the Patents Act, Section 3 and 4 carry the list of non-patentable topics. Your creation should not fall under this list.' },
+              { title: 'Inventive or Non-obviousness', desc: 'The topic you wish to get patented should not be obvious to specialists in the field. That is, it should be technologically advanced or economically gainful to be patented.' },
+              { title: 'Novelty', desc: 'The invention should be new and creative. Thus, it should not be utilized in the public domain or somewhere around the world.' },
+              { title: 'Industrial Applicability', desc: 'Finally, this invention should be handy and usable in the industries or public domain.' },
+            ].map((item, i) => (
+              <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-yellow-600" />
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-800">{item.title}</h4>
+                </div>
+                <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Rules */}
+          <h3 className="text-2xl font-bold text-gray-800 mb-6">Rules of Patent Registration</h3>
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+            <div className="grid md:grid-cols-2 gap-4">
               {[
-                { title: 'Patentable Subject Matter', desc: 'According to the Patents Act, Section 3 and 4 carry the list of non-patentable topics. Your creation should not fall under this list.' },
-                { title: 'Inventive or Non-obviousness', desc: 'The topic you wish to get patented should not be obvious to specialists in the field. That is, it should be technologically advanced or economically gainful to be patented.' },
-                { title: 'Novelty', desc: 'The invention should be new and creative. Thus, it should not be utilized in the public domain or somewhere around the world.' },
-                { title: 'Industrial Applicability', desc: 'Finally, this invention should be handy and usable in the industries or public domain.' },
-              ].map((item, i) => (
-                <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                      <Shield className="w-5 h-5 text-yellow-600" />
-                    </div>
-                    <h4 className="text-lg font-bold text-gray-800">{item.title}</h4>
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+                'The primary schedule of the Patent Act briefs the fee payable.',
+                '10% extra expense is charged if there should be an occurrence of records being documented physically.',
+                'The inventor can pay the charge utilizing electronic methods, demand draft, or banker’s cheque.',
+                'The fee charged would be paid to the Controller of Patents.',
+                'In the event that the application is transferred from a natural person to a person other than a natural person, the balance amount will be paid by the new candidate.',
+                'The equivalent is with the instance of new businesses. If the application is transferred, the split amount will be paid by the individual to whom the application is transferred.',
+                'The fee once paid will not be refunded, unless some excess amount is paid to the Controller of the Patents.',
+                'The charges can be paid in advance of the application process.',
+                'Some measures of charge can be discounted if the application is withdrawn before the main statement of complaint is given, as referenced in the First Schedule of the Act.',
+              ].map((rule, i) => (
+                <div key={i} className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+                  <ChevronRight className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 text-sm">{rule}</span>
                 </div>
               ))}
             </div>
-
-            {/* Rules */}
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">Rules of Patent Registration</h3>
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-              <div className="grid md:grid-cols-2 gap-4">
-                {[
-                  'The primary schedule of the Patent Act briefs the fee payable.',
-                  '10% extra expense is charged if there should be an occurrence of records being documented physically.',
-                  'The inventor can pay the charge utilizing electronic methods, demand draft, or banker’s cheque.',
-                  'The fee charged would be paid to the Controller of Patents.',
-                  'In the event that the application is transferred from a natural person to a person other than a natural person, the balance amount will be paid by the new candidate.',
-                  'The equivalent is with the instance of new businesses. If the application is transferred, the split amount will be paid by the individual to whom the application is transferred.',
-                  'The fee once paid will not be refunded, unless some excess amount is paid to the Controller of the Patents.',
-                  'The charges can be paid in advance of the application process.',
-                  'Some measures of charge can be discounted if the application is withdrawn before the main statement of complaint is given, as referenced in the First Schedule of the Act.',
-                ].map((rule, i) => (
-                  <div key={i} className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                    <ChevronRight className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700 text-sm">{rule}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
-        )}
 
-        {/* Advantages Tab (Mapped to Condition/Advantages logic) */}
-        {activeTab === 'condition' && (
+          {/* Advantages */}
           <div className="mt-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Advantages of Patent Registration</h2>
             <p className="text-gray-600 mb-8">The following advantages are crucial for your business growth and market positioning:</p>
@@ -505,44 +402,43 @@ export default function PatentRegistration() {
               })}
             </div>
           </div>
-        )}
+        </section>
 
-        {/* FAQ Tab */}
-        {activeTab === 'faq' && (
-          <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Frequently Asked Questions</h2>
-            <p className="text-gray-600 mb-10">Find answers to the most common questions about patent registration in India.</p>
-            
-            <div className="space-y-4 max-w-4xl">
-              {faqs.map((faq, i) => (
-                <div key={i} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                  <button
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="flex items-center gap-4">
-                      <span className="flex-shrink-0 w-8 h-8 bg-yellow-100 text-yellow-700 rounded-lg flex items-center justify-center font-bold text-sm">
-                        {i + 1}
-                      </span>
-                      <span className="font-semibold text-gray-800 text-sm md:text-base">{faq.q}</span>
-                    </div>
-                    <ChevronDown
-                      className={`w-5 h-5 text-gray-500 transition-transform flex-shrink-0 ${
-                        openFaq === i ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                  {openFaq === i && (
-                    <div className="px-6 pb-6 pl-16">
-                      <p className="text-gray-600 leading-relaxed text-sm">{faq.a}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+        {/* 7. FAQ Section */}
+        <section id="faq">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6">Frequently Asked Questions</h2>
+          <p className="text-gray-600 mb-10">Find answers to the most common questions about patent registration in India.</p>
+          
+          <div className="space-y-4 max-w-4xl">
+            {faqs.map((faq, i) => (
+              <div key={i} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="flex-shrink-0 w-8 h-8 bg-yellow-100 text-yellow-700 rounded-lg flex items-center justify-center font-bold text-sm">
+                      {i + 1}
+                    </span>
+                    <span className="font-semibold text-gray-800 text-sm md:text-base">{faq.q}</span>
+                  </div>
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-500 transition-transform flex-shrink-0 ${
+                      openFaq === i ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 pb-6 pl-16">
+                    <p className="text-gray-600 leading-relaxed text-sm">{faq.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-        )}
-      </section>
+        </section>
+
+      </div>
 
       {/* Why Choose Us */}
       <section className="bg-gradient-to-br from-gray-900 to-blue-900 text-white py-16">

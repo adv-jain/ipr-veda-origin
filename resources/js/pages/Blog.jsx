@@ -20,10 +20,7 @@ import {
 } from 'lucide-react';
 
 const Blog = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-
-  const categories = ['All', 'Trademarks', 'Patents', 'Copyrights', 'Legal Guides', 'Startups', 'AI & Tech'];
 
   const featuredPost = {
     id: 'feat-1',
@@ -115,12 +112,11 @@ const Blog = () => {
 
   const filteredPosts = useMemo(() => {
     return blogPosts.filter(post => {
-      const matchesCategory = activeCategory === 'All' || post.category === activeCategory;
       const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
+      return matchesSearch;
     });
-  }, [activeCategory, searchQuery]);
+  }, [searchQuery]);
 
   return (
     <div className="min-h-screen bg-brand-light font-sans text-brand-dark">
@@ -158,30 +154,10 @@ const Blog = () => {
         </div>
       </section>
 
-      {/* 2. Category Filters */}
-      <section className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-brand-border py-4 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex items-center gap-3 overflow-x-auto no-scrollbar pb-1">
-          <span className="text-sm font-bold text-brand-dark/50 uppercase tracking-wider mr-2 flex-shrink-0">Filter:</span>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`flex-shrink-0 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                activeCategory === cat
-                  ? 'bg-brand-primary text-white shadow-lg shadow-brand-primary/20'
-                  : 'bg-brand-light text-brand-dark/70 hover:bg-brand-border'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </section>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
-        {/* 3. Featured Post (Only show if no search/filter is active) */}
-        {activeCategory === 'All' && !searchQuery && (
+        {/* 3. Featured Post (Only show if no search is active) */}
+        {!searchQuery && (
           <section className="mb-16">
             <div className="flex items-center gap-2 mb-6">
               <TrendingUp className="w-5 h-5 text-brand-primary" />
@@ -263,7 +239,7 @@ const Blog = () => {
               <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-brand-border">
                 <Search className="w-12 h-12 text-brand-dark/30 mx-auto mb-4" />
                 <h3 className="text-lg font-bold text-brand-dark mb-2">No articles found</h3>
-                <p className="text-brand-dark/50">Try adjusting your search or filter to find what you're looking for.</p>
+                <p className="text-brand-dark/50">Try adjusting your search to find what you're looking for.</p>
               </div>
             )}
 
