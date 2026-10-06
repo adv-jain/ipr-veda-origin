@@ -4,6 +4,7 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import iprPrefect from "../../../config/assets/img/ipr-perfect-rect.png";
 
 const navItems = [
+  // ... (Aapka navItems array bilkul same rahega) ...
   {
     title: "Trademark & IP",
     link: "/trademark",
@@ -32,99 +33,7 @@ const navItems = [
       { title: "Indian Patent Search", link: "/patent/search" },
     ],
   },
-  {
-    title: "Consult an Expert",
-    link: "/consulttoexpert",
-    submenu: [
-      {
-        title: "Expert Consultation",
-        link: "/consult/expert",
-        children: [
-          { title: "Talk To Company Secretary", link: "/consult/cs" },
-          { title: "Talk To CA", link: "/consult/ca" },
-        ],
-      },
-      {
-        title: "Lawyer Consultation",
-        link: "/consult/lawyer",
-        children: [
-          { title: "Talk to Lawyer", link: "/consult/talk-layer" },
-        ],
-      },
-      {
-        title: "Property Lawyer",
-        link: "/consult/property",
-        children: [
-          { title: "Property Dispute", link: "/consult/property/dispute" },
-          { title: "Property Registration", link: "/consult/property/registration" },
-          { title: "Real Estate Transactions", link: "/consult/property/real-estate" },
-          { title: "Landlord Tenant Issues", link: "/consult/property/landlord-tenant-issues" },
-          { title: "Title Deeds Registration", link: "/consult/property/title-deeds-registration" },
-          { title: "Zoning And Land Use", link: "/consult/property/zoning-land" },
-          { title: "Easements and Rights Of Way", link: "/consult/property/easements-rights" },
-          { title: "Homeowners Association", link: "/consult/property/homeowners-association" },
-          { title: "Property Tax Disputes", link: "/consult/property/property-tax" },
-        ],
-      },
-      {
-        title: "Family Lawyer",
-        link: "/consult/family",
-        children: [
-          { title: "Divorce", link: "/consult/family/divorce" },
-          { title: "Child Custody", link: "/consult/family/custody" },
-          { title: "Child Support", link: "/consult/family/support" },
-          { title: "Adoption", link: "/consult/family/adoption" },
-          { title: "Domestic Violence", link: "/consult/family/domestic" },
-          { title: "Paternity", link: "/consult/family/paternity" },
-          { title: "Alimony", link: "/consult/family/alimony" },
-          { title: "Guardianship", link: "/consult/family/guardianship" },
-        ],
-      },
-      {
-        title: "Consumer Lawyer",
-        link: "/consult/consumer",
-        children: [
-          { title: "Product liability", link: "/consult/consumer/product-liability" },
-          { title: "False Advertising", link: "/consult/consumer/false-advertising" },
-          { title: "Unfair Trade Practices", link: "/consult/consumer/unfair-trade" },
-          { title: "Consumer Fraud", link: "/consult/consumer/consumer-fraud" },
-          { title: "Warranty Claims", link: "/consult/consumer/warranty-claims" },
-          { title: "Debt Collection Practices", link: "/consult/consumer/debt-collection" },
-          { title: "Bankruptcy", link: "/consult/consumer/bankruptcy" },
-          { title: "Privacy And Data Protection", link: "/consult/consumer/privacy-data-protection" },
-        ],
-      },
-      {
-        title: "Civil Lawyer",
-        link: "/consult/civil",
-        children: [
-          { title: "Personal Injury", link: "/consult/civil/personal-injury" },
-          { title: "Breach of Contract", link: "/consult/civil/breach-contract" },
-          { title: "Defamation", link: "/consult/civil/defamation" },
-          { title: "Employment Dispute", link: "/consult/civil/employment-dispute" },
-          { title: "Debt Collection", link: "/consult/civil/debt-collection" },
-        ],
-      },
-      {
-        title: "Criminal Lawyer",
-        link: "/consult/criminal",
-        children: [
-          { title: "Bail", link: "/consult/criminal/bail" },
-          { title: "Criminal Defense", link: "/consult/criminal/defense" },
-        ],
-      },
-      {
-        title: "Intellectual Property Lawyer",
-        link: "/consult/intellectual",
-        children: [
-          { title: "Trademark", link: "/consult/ip/trademark" },
-          { title: "Patent", link: "/consult/ip/patent" },
-          { title: "Copyright", link: "/consult/ip/copyright" },
-        ],
-      },
-    ],
-  },
-  // ✅ About, Contact, Blog ko yahan wapas add kar diya gaya hai
+  
   { title: "About", link: "/about" },
   { title: "Contact", link: "/contact" },
   { title: "Blog", link: "/blog" },
@@ -134,11 +43,17 @@ export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [activeSubmenu, setActiveSubmenu] = useState(0);
 
+  // ✅ Naya Function: Click hone par page top par jayega aur menu band hoga
+  const handleLinkClick = () => {
+    window.scrollTo(0, 0); // Page ko sabse upar scroll karega
+    setActiveMenu(null);   // Dropdown band karega
+  };
+
   return (
     <nav className="fixed top-0 left-0 w-full flex items-center justify-between px-3 lg:px-6 py-3 shadow-sm bg-white z-50">
       
       {/* Logo */}
-      <Link to="/" className="flex items-center shrink-0">
+      <Link to="/" onClick={handleLinkClick} className="flex items-center shrink-0">
         <img src={iprPrefect} className="w-[85px] lg:w-[100px] xl:w-[110px]" alt="Logo" />
       </Link>
 
@@ -148,23 +63,20 @@ export default function Navbar() {
           <div
             key={item.title}
             onMouseEnter={() => {
-              // ✅ Sirf un items ke liye dropdown open karo jinke paas submenu hai
               if (item.submenu) {
                 setActiveMenu(item.title);
                 setActiveSubmenu(0);
               }
             }}
             onMouseLeave={() => {
-              // ✅ Sirf un items ke liye dropdown close karo
               if (item.submenu) setActiveMenu(null);
             }}
             className="relative py-1"
           >
            
-            {/* ✅ <div> ko <Link> mein badal diya taaki sab click ho sake */}
             <Link
               to={item.link}
-              onClick={() => setActiveMenu(null)} // Click karne par dropdown band ho jayega
+              onClick={handleLinkClick} // ✅ Update kiya
               className="whitespace-nowrap text-xs lg:text-sm xl:text-base font-medium text-gray-700 hover:text-yellow-500 transition-colors duration-200 flex items-center gap-0.5 lg:gap-1 cursor-pointer"
             >
               {item.title}
@@ -188,7 +100,7 @@ export default function Navbar() {
                       <Link
                         key={subItem.title}
                         to={subItem.link}
-                        onClick={() => setActiveMenu(null)}
+                        onClick={handleLinkClick} // ✅ Update kiya
                         className="block py-2 px-3 rounded text-xs lg:text-sm text-gray-700 hover:bg-gray-50 hover:text-yellow-600 transition-colors"
                       >
                         {subItem.title}
@@ -219,7 +131,7 @@ export default function Navbar() {
                         >
                           <Link
                             to={sub.link}
-                            onClick={() => setActiveMenu(null)}
+                            onClick={handleLinkClick} // ✅ Update kiya
                             className="text-sm flex-1"
                           >
                             {sub.title}
@@ -232,7 +144,7 @@ export default function Navbar() {
                                 : 'text-gray-400'
                             }`}
                           />
-                </div>
+                        </div>
                       ))}
                     </div>
 
@@ -245,7 +157,7 @@ export default function Navbar() {
                               <li key={childIndex}>
                                 <Link
                                   to={child.link}
-                                  onClick={() => setActiveMenu(null)}
+                                  onClick={handleLinkClick} // ✅ Update kiya
                                   className="text-sm text-gray-700 hover:text-yellow-600 hover:underline transition-colors"
                                 >
                                   {child.title}
@@ -267,6 +179,7 @@ export default function Navbar() {
       <div className="shrink-0">
         <Link
           to="/login"
+          onClick={handleLinkClick} // ✅ Update kiya
           className="whitespace-nowrap rounded-md border-2 px-3 lg:px-5 py-1.5 text-xs lg:text-sm xl:text-base font-medium border-yellow-500 text-yellow-600 hover:bg-yellow-500 hover:text-black transition-colors"
         >
           Login

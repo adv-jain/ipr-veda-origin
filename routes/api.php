@@ -30,7 +30,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/logout-all', [AuthController::class, 'logoutAll']);
 });
-
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/stats', [AdminController::class, 'getStats']);
+    Route::get('/users', [AdminController::class, 'getUsers']);
+});
 Route::get('/test-env', function() {
     return response()->json([
         'phone_id' => env('WHATSAPP_PHONE_NUMBER_ID'),

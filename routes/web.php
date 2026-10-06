@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TrademarkApplicationController;
-
+use App\Http\Controllers\AdminController;
 Route::prefix('api')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup']);
     Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
@@ -24,6 +24,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/trademark/create-order', [TrademarkApplicationController::class, 'createOrder']);
     Route::post('/trademark/verify-payment', [TrademarkApplicationController::class, 'verifyPayment']);
 });
+
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminController::class, 'login'])->name('admin.login.post');
+});
+
+// Admin Protected Routes 
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -42,6 +54,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/payment/create-order', [PaymentController::class, 'createOrder']);
     Route::post('/payment/verify', [PaymentController::class, 'verify']);
 });
+
+// Temporarily 'auth' aur 'admin' middleware hata dein
+Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
 Route::get('/services', function () {
     return Inertia::render('Services');

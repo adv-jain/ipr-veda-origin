@@ -1,204 +1,194 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { 
-  Search, 
-  FileText, 
-  Shield, 
-  Database, 
-  Filter, 
-  CheckCircle, 
-  AlertTriangle, 
-  ArrowRight, 
-  HelpCircle, 
-  ChevronDown, 
-  ChevronUp, 
-  BookOpen, 
-  Target, 
-  Zap, 
-  Scale, 
-  TrendingUp,
-  Briefcase,
-  Lightbulb,
-  Globe,
-  Clock
+  Search, FileText, Shield, Database, CheckCircle, 
+  AlertTriangle, ArrowRight, HelpCircle, ChevronDown, 
+  Lightbulb, TrendingUp, Scale, Globe, Clock, 
+  FileCheck, XCircle, Target, Zap, Lock
 } from 'lucide-react';
 
 const IndianPatentSearch = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchType, setSearchType] = useState('keyword');
   const [openFaq, setOpenFaq] = useState(null);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  // Mock Data for Search Results
-  const mockResults = [
-    { id: 'IN202314056789A', title: 'Artificial Intelligence Based Fraud Detection System', applicant: 'TechCorp India Pvt Ltd', date: '2023-08-15', status: 'Published' },
-    { id: 'IN202241012345A', title: 'Method for Enhancing Battery Life in IoT Devices', applicant: 'GreenEnergy Solutions', date: '2022-11-20', status: 'Granted' },
-    { id: 'IN202411098765A', title: 'Biodegradable Packaging Material from Agricultural Waste', applicant: 'EcoPack Innovations', date: '2024-01-10', status: 'Examination' }
-  ];
-
   const searchTypes = [
     {
       id: 'novelty',
       title: 'Novelty / Patentability Search',
       icon: Lightbulb,
-      desc: 'Conducted before filing a patent to ensure your invention is new and non-obvious. It saves you from wasting money on unpatentable ideas.',
-      color: 'primary'
+      desc: 'Conducted before filing to ensure your invention is truly new. Saves you from wasting time and government fees on unpatentable ideas.',
+      color: 'bg-brand-primary/10 text-brand-primary border-brand-primary/20'
     },
     {
       id: 'fto',
       title: 'Freedom to Operate (FTO)',
       icon: Shield,
-      desc: 'Performed before launching a product to ensure you are not infringing on any active patents in India. Crucial for avoiding costly lawsuits.',
-      color: 'success'
+      desc: 'Performed before a product launch to ensure you aren\'t infringing on active patents. Crucial for avoiding costly injunctions and lawsuits.',
+      color: 'bg-green-50 text-green-700 border-green-200'
     },
     {
       id: 'invalidity',
       title: 'Invalidity / Validity Search',
       icon: Scale,
-      desc: 'Used during litigation to find "prior art" that can invalidate a competitor\'s patent or prove that your patent is valid and strong.',
-      color: 'danger'
+      desc: 'Used during litigation or licensing to find "prior art" that can invalidate a competitor\'s patent or prove your patent is rock-solid.',
+      color: 'bg-red-50 text-red-700 border-red-200'
     },
     {
       id: 'state',
       title: 'State-of-the-Art Search',
       icon: TrendingUp,
-      desc: 'A broad search to understand the current technological landscape, identify key players, and find white spaces for R&D.',
-      color: 'primary'
+      desc: 'A broad landscape analysis to understand current technology trends, identify key competitors, and find white spaces for your R&D.',
+      color: 'bg-purple-50 text-purple-700 border-purple-200'
     }
-  ];
-
-  const databases = [
-    { name: 'InPASS (Indian Patent Advanced Search System)', desc: 'The official database by the Indian Patent Office. Highly detailed but complex interface.', type: 'Official' },
-    { name: 'WIPO Patentscope', desc: 'Global database including Indian PCT applications. Great for international prior art.', type: 'Global' },
-    { name: 'Google Patents', desc: 'User-friendly, fast, and great for initial keyword-based searches and translations.', type: 'Free Tool' },
-    { name: 'IPRveda Proprietary AI Tool', desc: 'Our custom-built AI engine that uses semantic search to find hidden prior art missed by keyword searches.', type: 'Premium' }
   ];
 
   const faqs = [
     {
-      q: "Is it mandatory to conduct a patent search before filing in India?",
-      a: "While not legally mandatory, it is highly recommended. Filing a patent without a search can lead to rejection if prior art exists, wasting your time and government fees. A professional search increases your success rate by over 80%."
+      q: "Is a patent search legally mandatory before filing in India?",
+      a: "No, it is not legally mandatory. However, it is highly recommended. Over 80% of patent rejections happen due to overlooked 'prior art.' A professional search drastically increases your chances of a successful grant."
     },
     {
-      q: "How far back does an Indian Patent Search go?",
-      a: "A comprehensive search should cover global databases going back at least 20 years (the lifespan of a patent). However, for novelty, any public disclosure anywhere in the world, even before the internet era (like old journals), counts as prior art."
+      q: "Can I just use the free InPASS database myself?",
+      a: "InPASS is a great free tool, but interpreting patent 'claims' and using correct IPC (International Patent Classification) codes requires legal expertise. A missed keyword or wrong classification can give you a false sense of security. Our experts combine InPASS with global databases and semantic AI to find what keyword searches miss."
     },
     {
-      q: "What is the difference between a Keyword Search and an IPC Classification Search?",
-      a: "Keyword searches look for specific words in the text. IPC (International Patent Classification) searches look for the technical category of the invention. Professional searches always combine both using Boolean operators to ensure nothing is missed."
-    },
-    {
-      q: "Can I do a patent search myself using InPASS?",
-      a: "Yes, InPASS is free to use. However, interpreting patent claims and understanding legal boundaries requires expertise. A missed keyword or wrong IPC code can lead to a false sense of security. We recommend using IPRveda's expert search reports for critical business decisions."
+      q: "What happens if the search shows my idea is already patented?",
+      a: "Don't panic. This is exactly why you do the search *before* filing. Our attorneys will analyze the existing patent's claims. Often, we can help you 'design around' the existing patent by modifying your invention, or we may find the existing patent is weak and can be challenged."
     },
     {
       q: "How long does a professional patent search take?",
-      a: "A basic novelty search takes 3-5 business days. A comprehensive Freedom to Operate (FTO) search for a complex technology can take 2-3 weeks due to the depth of analysis required."
+      a: "A basic Novelty Search report is typically delivered in 3-5 business days. A comprehensive Freedom to Operate (FTO) search for complex technologies may take 2-3 weeks due to the depth of legal analysis required."
     },
     {
-      q: "What happens if my search shows my idea is already patented?",
-      a: "Don't panic. Our attorneys will analyze the claims of the existing patent. Often, you can 'design around' the existing patent by modifying your invention, or you may find that the existing patent is weak and can be challenged."
+      q: "Is my invention idea safe when I share it with IPRveda for a search?",
+      a: "Absolutely. We sign a strict, legally binding Non-Disclosure Agreement (NDA) with every client before you share any technical details. Your intellectual property remains 100% yours."
     }
   ];
 
-  const colorMap = {
-    primary: 'bg-brand-primary/10 text-brand-primary border-brand-primary/20',
-    success: 'bg-success/10 text-success border-success/20',
-    danger: 'bg-danger/10 text-danger border-danger/20',
-  };
-
   return (
-    <div className="min-h-screen bg-brand-light font-sans text-brand-dark">
+    <main className="font-sans text-gray-700 bg-white">
       
-      {/* 1. Hero Section with Mock Search UI */}
-      <section className="relative bg-gradient-to-br from-brand-dark via-brand-darker to-brand-dark pt-24 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSA2MCAwIEwgMCAwIDAgNjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30"></div>
+      {/* ==========================================
+          PHASE 1: HERO SECTION (Outcome-Focused)
+          Goal: Sell the report, not a fake search tool
+      ========================================== */}
+      <section className="relative bg-gradient-to-br from-brand-dark via-brand-darker to-brand-primary pt-24 pb-24 overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
         
-        <div className="relative max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-6">
-            <Database className="w-4 h-4 text-brand-text" />
-            <span className="text-sm font-semibold text-brand-text tracking-wide">Comprehensive IP Intelligence</span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight leading-tight">
-            Indian Patent Search: <br className="hidden sm:block" />
-            <span className="bg-gradient-to-r from-brand-accent to-brand-primary bg-clip-text text-transparent">
-              Discover Prior Art & Protect Your Innovation
-            </span>
-          </h1>
-          <p className="text-lg sm:text-xl text-brand-text max-w-3xl mx-auto mb-10 leading-relaxed">
-            Don't file a patent blind. Conduct a thorough Indian and global patent search to validate your invention, avoid infringement, and save thousands in legal fees.
-          </p>
-
-          {/* Mock Search Interface */}
-          <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-brand-lg p-4 sm:p-6 text-left">
-            <div className="flex flex-col sm:flex-row gap-3 mb-4">
-              <select 
-                value={searchType}
-                onChange={(e) => setSearchType(e.target.value)}
-                className="px-4 py-3 bg-brand-light border border-brand-border rounded-xl text-brand-dark font-medium focus:outline-none focus:ring-2 focus:ring-brand-primary sm:w-48"
-              >
-                <option value="keyword">Keyword Search</option>
-                <option value="applicant">Applicant Name</option>
-                <option value="ipc">IPC Classification</option>
-                <option value="patentNo">Patent Number</option>
-              </select>
-              <div className="relative flex-1">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-dark/40" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Enter keywords, e.g., 'Machine Learning Fraud Detection'..."
-                  className="w-full pl-12 pr-4 py-3 bg-brand-light border border-brand-border rounded-xl text-brand-dark placeholder-brand-dark/40 focus:outline-none focus:ring-2 focus:ring-brand-primary"
-                />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+             
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white mb-6 leading-tight">
+                Don't File Your Patent <br />
+                <span className="text-brand-accent">Blind.</span>
+              </h1>
+              <p className="text-xl text-gray-300 mb-8 leading-relaxed max-w-xl">
+                Over 80% of patent rejections happen due to overlooked "prior art." Get an expert-led Novelty or Freedom-to-Operate (FTO) search report to validate your invention before you spend a rupee on government fees.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <a href="#pricing" className="inline-flex justify-center items-center px-8 py-4 text-lg font-semibold text-brand-dark bg-brand-accent rounded-xl hover:bg-yellow-400 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                  Get a Search Quote <ArrowRight className="w-5 h-5 ml-2" />
+                </a>
+                <a href="#process" className="inline-flex justify-center items-center px-8 py-4 text-lg font-semibold text-white bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300">
+                  How It Works
+                </a>
               </div>
-              <button className="px-8 py-3 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-hover transition-colors flex items-center justify-center gap-2">
-                Search Patents <ArrowRight className="w-4 h-4" />
-              </button>
+
+              <div className="flex flex-wrap gap-6 text-sm text-gray-300">
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-brand-accent" />
+                  <span>Strict NDA Protection</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-brand-accent" />
+                  <span>Global + InPASS Databases</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-brand-accent" />
+                  <span>Attorney-Reviewed Reports</span>
+                </div>
+              </div>
             </div>
-            
-            {/* Mock Results Display */}
-            <div className="border-t border-brand-border pt-4 space-y-3">
-              <p className="text-xs font-bold text-brand-dark/50 uppercase tracking-wider mb-2">Live Preview (Mock Results)</p>
-              {mockResults.map((res, idx) => (
-                <div key={idx} className="flex items-start justify-between p-3 bg-brand-light rounded-lg hover:bg-white transition-colors cursor-pointer group">
-                  <div>
-                    <h4 className="text-sm font-bold text-brand-dark group-hover:text-brand-primary">{res.title}</h4>
-                    <p className="text-xs text-brand-dark/50 mt-1">{res.id} • {res.applicant}</p>
+
+            {/* Visual: Sample Report Preview (Builds desire for the outcome) */}
+            <div className="hidden lg:block relative">
+              <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-brand-accent/20 rounded-lg flex items-center justify-center">
+                      <FileCheck className="w-6 h-6 text-brand-accent" />
+                    </div>
+                    <div>
+                      <h3 className="text-white font-bold">IPRveda Search Report</h3>
+                      <p className="text-gray-400 text-xs">Confidential • Novelty Search</p>
+                    </div>
                   </div>
-                  <span className={`text-xs px-2 py-1 rounded-md font-medium ${
-                    res.status === 'Granted' ? 'bg-success/10 text-success border-success/20' : 
-                    res.status === 'Published' ? 'bg-brand-primary/10 text-brand-primary border-brand-primary/20' : 'bg-warning/10 text-warning border-warning/20'
-                  }`}>
-                    {res.status}
+                  <span className="bg-green-500/20 text-green-400 text-xs font-bold px-3 py-1 rounded-full border border-green-500/30">
+                    High Novelty Probability
                   </span>
                 </div>
-              ))}
+                
+                <div className="space-y-4">
+                  <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-gray-300 text-sm font-medium">Invention Title</span>
+                      <span className="text-gray-500 text-xs">AI-Based Fraud Detection</span>
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div className="bg-brand-accent h-2 rounded-full" style={{ width: '85%' }}></div>
+                    </div>
+                    <div className="flex justify-between mt-1">
+                      <span className="text-xs text-gray-400">Novelty Score</span>
+                      <span className="text-xs text-brand-accent font-bold">85%</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    {['Global Database Coverage (WIPO, Espacenet)', 'Indian InPASS Deep Dive', 'IPC Classification Mapping', 'Attorney Risk Assessment'].map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-3 text-sm text-gray-300">
+                        <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Decorative element behind */}
+              <div className="absolute -z-10 top-10 -right-10 w-full h-full bg-brand-primary/20 rounded-2xl blur-xl"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. Why Conduct a Patent Search? */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-6xl mx-auto">
+      {/* ==========================================
+          PHASE 2: TYPES OF SEARCHES
+      ========================================== */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-brand-dark mb-4">Types of Patent Searches We Offer</h2>
-            <p className="text-brand-dark/70 max-w-2xl mx-auto text-lg">Depending on your business goal, the type of search changes. Here is a detailed breakdown of our core search services.</p>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-dark mb-4">
+              Choose the Right Search for Your Goal
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Depending on where you are in your innovation journey, we offer four specialized search services.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {searchTypes.map((type) => {
               const Icon = type.icon;
               return (
-                <div key={type.id} className="bg-brand-light p-8 rounded-2xl border border-brand-border hover:shadow-brand hover:-translate-y-1 transition-all duration-300">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 border ${colorMap[type.color]}`}>
+                <div key={type.id} className="bg-brand-light/30 p-8 rounded-2xl border border-gray-200 hover:border-brand-primary/30 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 border ${type.color}`}>
                     <Icon className="w-7 h-7" />
                   </div>
-                  <h3 className="text-xl font-bold text-brand-dark mb-3">{type.title}</h3>
-                  <p className="text-brand-dark/70 leading-relaxed">{type.desc}</p>
+                  <h3 className="text-xl font-heading font-bold text-brand-dark mb-3">{type.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{type.desc}</p>
                 </div>
               );
             })}
@@ -206,69 +196,118 @@ const IndianPatentSearch = () => {
         </div>
       </section>
 
-      {/* 3. Databases & Tools */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-brand-light">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-brand-dark mb-6">
-              Databases We Use for <span className="text-brand-primary">Indian Patent Searches</span>
-            </h2>
-            <p className="text-brand-dark/70 text-lg leading-relaxed mb-8">
-              A reliable patent search requires access to multiple global and local databases. At IPRveda, we don't rely on just one tool. We cross-reference multiple sources to ensure 100% coverage of prior art.
-            </p>
-            <div className="space-y-4">
-              {[
-                'Access to over 100 million patent documents globally.',
-                'Deep integration with InPASS and WIPO Patentscope.',
-                'AI-powered semantic search to find conceptual similarities.',
-                'Manual verification by registered Indian Patent Agents.'
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-success flex-shrink-0" />
-                  <span className="text-brand-dark font-medium">{item}</span>
+      {/* ==========================================
+          PHASE 3: THE "ABSOLUTE NOVELTY" TRAP (UX Content Fix)
+          Goal: Break up the SEO wall of text into high-impact, scannable blocks
+      ========================================== */}
+      <section className="py-20 bg-brand-light/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            
+            {/* Left: The Problem */}
+            <div>
+              <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-dark mb-6">
+                The Hidden Risks of Skipping a Search
+              </h2>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                Many inventors mistakenly believe that if their product isn't sold in India, it's safe to patent. This is a dangerous myth. The Indian Patent Office follows an <strong className="text-brand-primary">Absolute Novelty</strong> standard.
+              </p>
+              
+              <div className="space-y-6">
+                <div className="flex gap-4 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                  <XCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-brand-dark mb-1">Global Prior Art Applies</h4>
+                    <p className="text-sm text-gray-600">Any public disclosure anywhere in the world (old journals, foreign patents, YouTube videos) can be used to reject your Indian application.</p>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="grid sm:grid-cols-2 gap-4">
-            {databases.map((db, idx) => (
-              <div key={idx} className="bg-white p-5 rounded-xl border border-brand-border shadow-sm hover:border-brand-primary transition-colors">
-                <div className="flex items-center justify-between mb-2">
-                  <Globe className="w-5 h-5 text-brand-primary" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-brand-primary/10 text-brand-primary rounded-full">{db.type}</span>
+                <div className="flex gap-4 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                  <XCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-brand-dark mb-1">The "Claims" Trap</h4>
+                    <p className="text-sm text-gray-600">DIY searches on Google Patents often miss crucial patents because they rely on simple keywords, ignoring the complex legal "claims" section where the true boundary lies.</p>
+                  </div>
                 </div>
-                <h4 className="font-bold text-brand-dark text-sm mb-1">{db.name}</h4>
-                <p className="text-xs text-brand-dark/50 leading-relaxed">{db.desc}</p>
+                <div className="flex gap-4 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                  <XCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-brand-dark mb-1">Wasted R&D Budget</h4>
+                    <p className="text-sm text-gray-600">Building a product only to receive a Cease & Desist letter later can bankrupt a startup. An FTO search prevents this.</p>
+                  </div>
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* Right: The IPRveda Solution */}
+            <div className="bg-brand-dark text-white rounded-3xl p-8 lg:p-10 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-brand-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+              
+              <h3 className="text-2xl font-heading font-bold mb-6 relative z-10">The IPRveda Advantage</h3>
+              <p className="text-gray-300 mb-8 relative z-10">
+                We don't just run a keyword search. We combine advanced technology with human legal expertise to deliver a legally defensible report.
+              </p>
+
+              <div className="space-y-6 relative z-10">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <Globe className="w-5 h-5 text-brand-accent" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white mb-1">Multi-Database Cross-Referencing</h4>
+                    <p className="text-sm text-gray-400">We combine InPASS, WIPO Patentscope, Espacenet, and proprietary AI semantic search tools.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <Target className="w-5 h-5 text-brand-accent" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white mb-1">IPC Classification Mapping</h4>
+                    <p className="text-sm text-gray-400">We map your invention to the correct International Patent Classification codes, ensuring we find conceptual matches, not just keyword matches.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <Scale className="w-5 h-5 text-brand-accent" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white mb-1">Attorney-Reviewed Analysis</h4>
+                    <p className="text-sm text-gray-400">Every report is reviewed by a registered Indian Patent Agent who provides actionable recommendations, not just a raw data dump.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* 4. Step-by-Step Guide */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-4xl mx-auto">
+      {/* ==========================================
+          PHASE 4: THE PROCESS
+      ========================================== */}
+      <section id="process" className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-brand-dark mb-4">How to Perform an Indian Patent Search</h2>
-            <p className="text-brand-dark/70 max-w-2xl mx-auto text-lg">Whether you do it yourself or hire us, understanding the process is crucial for a successful outcome.</p>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-dark mb-4">
+              How Our Search Process Works
+            </h2>
+            <p className="text-lg text-gray-600">A transparent, secure, and thorough approach to validating your innovation.</p>
           </div>
 
-          <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-brand-border before:to-transparent">
+          <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-300 before:to-transparent">
             {[
-              { step: '01', title: 'Deconstruct the Invention', desc: 'Break down your product into its core technical components. Identify the unique features that solve a specific problem.' },
-              { step: '02', title: 'Identify Keywords & IPC Codes', desc: 'Create a list of synonyms, technical terms, and International Patent Classification (IPC) codes relevant to your invention.' },
-              { step: '03', title: 'Execute Boolean Search Queries', desc: 'Use operators like AND, OR, NOT in databases like InPASS to combine keywords and classifications for precise results.' },
-              { step: '04', title: 'Analyze and Filter Results', desc: 'Read the abstracts and claims of the retrieved patents. Filter out irrelevant ones and shortlist the closest prior art.' },
-              { step: '05', title: 'Generate the Search Report', desc: 'Compile a detailed report mapping your invention against the found prior art, highlighting novelty and potential infringement risks.' }
+              { step: '01', title: 'Sign NDA & Share Details', desc: 'Your security is paramount. We begin by signing a strict Non-Disclosure Agreement. You then share your invention details, drawings, or a brief summary.' },
+              { step: '02', title: 'Deconstruction & Strategy', desc: 'Our experts break down your invention into core technical components and identify the relevant keywords and IPC classification codes.' },
+              { step: '03', title: 'Deep-Dive Search Execution', desc: 'We execute complex Boolean queries across global databases (InPASS, WIPO, Espacenet) and run semantic AI searches to catch conceptual similarities.' },
+              { step: '04', title: 'Actionable Report Delivery', desc: 'Within 3-5 business days, you receive a comprehensive, attorney-reviewed report mapping your invention against prior art, complete with a novelty score and strategic recommendations.' }
             ].map((item, idx) => (
-              <div key={idx} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-brand-primary text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+              <div key={idx} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-brand-primary text-white shadow-md shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
                   <span className="text-sm font-bold">{item.step}</span>
                 </div>
-                <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-brand-light p-6 rounded-2xl border border-brand-border shadow-sm">
-                  <h3 className="font-bold text-brand-dark text-lg mb-2">{item.title}</h3>
-                  <p className="text-brand-dark/70 text-sm leading-relaxed">{item.desc}</p>
+                <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-brand-light/30 p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
+                  <h3 className="text-xl font-heading font-bold text-brand-dark mb-2">{item.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -276,119 +315,80 @@ const IndianPatentSearch = () => {
         </div>
       </section>
 
-      {/* 5. Massive SEO / Long-form Content Section */}
-      <section className="bg-brand-light border-t border-brand-border py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto prose prose-lg max-w-none">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-brand-dark mb-8 text-center">
-            The Critical Importance of Patent Searching in India's Innovation Ecosystem
-          </h2>
-          
-          <div className="space-y-6 text-brand-dark/70 leading-relaxed">
-            <p>
-              India has emerged as a global hub for innovation, with startups and enterprises filing thousands of patents every year. However, the rush to secure intellectual property often leads to a critical oversight: skipping the patent search. Conducting a thorough <strong>Indian Patent Search</strong> is not just a legal formality; it is a strategic business imperative that can save companies from devastating financial losses and legal battles.
-            </p>
-
-            <h3 className="text-2xl font-bold text-brand-dark mt-10">Understanding Prior Art in the Indian Context</h3>
-            <p>
-              Under the Indian Patents Act, 1970, an invention is only patentable if it is new, involves an inventive step, and is capable of industrial application. "Prior art" refers to any evidence that your invention is already known. This could be an existing patent, a published research paper, a product sold in the market, or even a public demonstration. If prior art exists, your patent application will be rejected during the examination phase.
-            </p>
-            <p>
-              Many inventors mistakenly believe that if their product isn't sold in India, it's safe to patent. This is false. The Indian Patent Office follows an <strong>absolute novelty</strong> standard, meaning any public disclosure anywhere in the world can be used to reject your Indian patent application.
-            </p>
-
-            <div className="grid md:grid-cols-2 gap-6 my-10">
-              <div className="bg-white p-6 rounded-2xl border border-brand-primary/20 shadow-sm">
-                <h3 className="text-xl font-bold text-brand-dark mb-3 flex items-center gap-2">
-                  <Target className="w-5 h-5 text-brand-primary" /> Freedom to Operate (FTO)
-                </h3>
-                <p className="text-sm text-brand-primary">
-                  Before launching a product, an FTO search ensures you aren't stepping on someone else's active patent. In India, patent infringement penalties can include heavy damages and injunctions that halt your business operations.
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-2xl border border-success/20 shadow-sm">
-                <h3 className="text-xl font-bold text-brand-dark mb-3 flex items-center gap-2">
-                  <Briefcase className="w-5 h-5 text-success" /> Investor Due Diligence
-                </h3>
-                <p className="text-sm text-success">
-                  Venture capitalists and angel investors in India now mandate a clean FTO and novelty search report before funding. A robust IP search report increases your startup's valuation and credibility.
-                </p>
-              </div>
-            </div>
-
-            <h3 className="text-2xl font-bold text-brand-dark mt-10">Navigating InPASS and the Indian Patent Office Database</h3>
-            <p>
-              The Indian Patent Office provides the <strong>InPASS (Indian Patent Advanced Search System)</strong>, a powerful tool for public searches. While it is free, it requires a deep understanding of Boolean logic and IPC classifications to use effectively. A simple keyword search often yields thousands of irrelevant results or misses crucial patents that use different terminology for the same technology.
-            </p>
-            <p>
-              This is where professional search firms like <strong>IPRveda</strong> add immense value. Our patent analysts combine the use of InPASS with global databases like WIPO Patentscope, Espacenet, and proprietary AI tools to conduct semantic searches. We look for the <em>concept</em> of your invention, not just the exact keywords, ensuring a comprehensive and legally defensible search report.
-            </p>
-
-            <h3 className="text-2xl font-bold text-brand-dark mt-10">Common Mistakes to Avoid During a Patent Search</h3>
-            <ul className="list-disc pl-5 space-y-2">
-              <li><strong>Relying only on Google Patents:</strong> While useful for a quick check, it often misses unpublished applications or specific Indian legal statuses.</li>
-              <li><strong>Ignoring Non-Patent Literature (NPL):</strong> Scientific journals, conference papers, and even YouTube videos can constitute prior art.</li>
-              <li><strong>Stopping at the Abstract:</strong> The true legal boundary of a patent lies in its "Claims" section. Always analyze the claims to understand the exact scope of protection.</li>
-              <li><strong>Not updating the search:</strong> Patents are published continuously. A search done 6 months ago might miss a newly published application that blocks your path.</li>
-            </ul>
-
-            <p>
-              In conclusion, an Indian Patent Search is the foundation of a strong IP strategy. Whether you are an individual inventor protecting your life's work or a multinational corporation launching a new tech stack, investing in a professional search today prevents catastrophic legal issues tomorrow. Let IPRveda be your guide in navigating the complex landscape of Indian intellectual property.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. FAQs */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-3xl mx-auto">
+      {/* ==========================================
+          PHASE 5: EMPATHY-DRIVEN FAQ
+      ========================================== */}
+      <section className="py-20 bg-brand-light/30">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-brand-dark mb-4">Frequently Asked Questions</h2>
-            <p className="text-brand-dark/70">Expert answers to your patent search queries.</p>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-dark mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-lg text-gray-600">Clear answers to common inventor concerns about patent searching.</p>
           </div>
-          
+
           <div className="space-y-4">
-            {faqs.map((faq, idx) => (
-              <div key={idx} className="bg-brand-light rounded-2xl border border-brand-border overflow-hidden transition-all">
-                <button 
-                  onClick={() => toggleFaq(idx)}
-                  className="w-full flex items-center justify-between p-6 text-left hover:bg-white transition-colors"
+            {faqs.map((faq, idx) => {
+              const isOpen = openFaq === idx;
+              return (
+                <div 
+                  key={idx} 
+                  className={`bg-white rounded-xl border overflow-hidden transition-all duration-300 ${
+                    isOpen ? 'border-brand-primary/30 shadow-md' : 'border-gray-200 hover:border-brand-primary/30'
+                  }`}
                 >
-                  <h3 className="font-bold text-brand-dark pr-4 flex items-start gap-3">
-                    <HelpCircle className="w-5 h-5 text-brand-primary flex-shrink-0 mt-0.5" />
-                    {faq.q}
-                  </h3>
-                  {openFaq === idx ? <ChevronUp className="w-5 h-5 text-brand-dark/40 flex-shrink-0" /> : <ChevronDown className="w-5 h-5 text-brand-dark/40 flex-shrink-0" />}
-                </button>
-                {openFaq === idx && (
-                  <div className="px-6 pb-6 pt-0">
-                    <p className="text-brand-dark/70 leading-relaxed pl-8">{faq.a}</p>
-                  </div>
-                )}
-              </div>
-            ))}
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full text-left p-6 flex justify-between items-center font-semibold text-brand-dark hover:bg-brand-light/30 transition-colors"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="pr-4">{faq.q}</span>
+                    {isOpen ? (
+                      <ChevronDown className="w-5 h-5 text-brand-primary flex-shrink-0 rotate-180 transition-transform" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0 transition-transform" />
+                    )}
+                  </button>
+                  {isOpen && (
+                    <div className="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100 pt-4 animate-fade-in">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* 7. Final CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-brand-primary to-brand-darker text-white text-center">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">Ready to Secure Your Invention?</h2>
-          <p className="text-brand-text text-lg mb-10 max-w-2xl mx-auto">
-            Don't risk your R&D budget on an unpatentable idea. Get a comprehensive, attorney-reviewed Indian Patent Search report from IPRveda within 5 business days.
+      {/* ==========================================
+          PHASE 6: FINAL CTA
+      ========================================== */}
+      <section className="py-20 bg-gradient-to-br from-brand-primary to-brand-dark text-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
+            Validate Your Idea Before You Invest.
+          </h2>
+          <p className="text-xl text-gray-200 mb-10 max-w-2xl mx-auto">
+            Don't risk your R&D budget or government fees on an unpatentable idea. Get a comprehensive, attorney-reviewed Indian Patent Search report from IPRveda.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-4 bg-white text-brand-primary font-bold rounded-xl hover:bg-brand-light transition-colors shadow-lg flex items-center justify-center gap-2">
-              Order Search Report <FileText className="w-5 h-5" />
-            </button>
-            <button className="px-8 py-4 bg-brand-dark/50 backdrop-blur-sm text-white font-bold rounded-xl border border-white/30 hover:bg-brand-dark transition-colors flex items-center justify-center gap-2">
+            <a href="#contact" className="inline-flex items-center justify-center px-8 py-4 bg-brand-accent text-brand-dark font-bold rounded-xl hover:bg-yellow-400 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 gap-2">
+              <FileText className="w-5 h-5" />
+              Order Your Search Report
+            </a>
+            <a href="tel:+918506059559" className="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold rounded-xl border border-white/20 hover:bg-white/20 transition-all gap-2">
+              <Clock className="w-5 h-5" />
               Talk to a Patent Agent
-            </button>
+            </a>
           </div>
+          <p className="text-sm text-gray-400 mt-6">
+            100% Confidential • NDA Protected • Reports in 3-5 Business Days
+          </p>
         </div>
       </section>
 
-    </div>
+    </main>
   );
 };
 
