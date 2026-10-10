@@ -23,7 +23,7 @@ function Login() {
                 ? { email: contact } 
                 : { number: contact };
 
-            const res = await fetch("/api/signup-otp", {
+            const res = await fetch("/api/home-login", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

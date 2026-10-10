@@ -8,7 +8,7 @@ use App\Http\Controllers\CreditsController;
 use App\Http\Controllers\SignupOtpController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
-
+use App\Http\Controllers\IssueReportController;
  Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot-password',[AuthController::class,'forgotpassword']);
 
@@ -25,11 +25,23 @@ Route::post(
 
 Route::get('/credits', [CreditsController::class, 'index']);
 
+
+
+// User — report submit karne ke liye
+Route::middleware(['auth'])->group(function () {
+    Route::post('/report-issue', [IssueReportController::class, 'store']);
+});
+
+// Admin — reports dekhne ke liye
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/reports', [IssueReportController::class, 'index']);
+});
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/logout-all', [AuthController::class, 'logoutAll']);
 });
+Route::post('/home-login', [AuthController::class, 'HomeLogin']);
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     Route::get('/stats', [AdminController::class, 'getStats']);
     Route::get('/users', [AdminController::class, 'getUsers']);

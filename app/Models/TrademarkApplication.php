@@ -4,6 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 class TrademarkApplication extends Model{
 protected $fillable=[
+        'trade_id',
         'user_id',
         'trademark_type',
         'business_activity',
@@ -23,5 +24,24 @@ protected $casts = [
     {
         return $this->belongsTo(User::class);
     }
+    /**
+ * Generate unique trade ID
+ */
+public static function generateTradeId(): string
+{
+    $year = now()->format('Y');
+
+    $last = self::whereYear('created_at', $year)
+        ->whereNotNull('trade_id')
+        ->orderBy('id', 'desc')
+        ->first();
+
+    $sequence = 1;
+    if ($last && preg_match('/-(\d+)$/', $last->trade_id, $matches)) {
+        $sequence = (int) $matches[1] + 1;
+    }
+
+    return sprintf('IPR-%s-%04d', $year, $sequence);
+}
 }
 

@@ -1,13 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\TrademarkApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
-
+//onboarding data
 class TrademarkApplicationController extends Controller
 {
     public function show(Request $request)
@@ -189,34 +187,223 @@ PROMPT;
         }
     }
 
-    public function verifyPayment(Request $request)
-    {
-        $validated = $request->validate([
+   public function verifyPayment(Request $request)
+{
+    
+    $validated = $request->validate([
+        'application_id' => 'required|exists:trademark_applications,id',
+        'razorpay_payment_id' => 'required|string',
+        'razorpay_order_id' => 'required|string',
+        'razorpay_signature' => 'required|string',
+    ]);
+
+    
+    $application = TrademarkApplication::where('id', $validated['application_id'])
+        ->where('user_id', $request->user()->id)
+        ->firstOrFail();
+
+    
+    $generatedSignature = hash_hmac(
+        'sha256',
+        $validated['razorpay_order_id'] . '|' . $validated['razorpay_payment_id'],
+        config('services.razorpay.secret')
+    );
+
+    if ($generatedSignature !== $validated['razorpay_signature']) {
+        return response()->json([
+            'status' => 'failed',
+            'message' => 'Signature mismatch',
+        ], 400);
+    }
+
+    
+    $updateData = [
+        'payment_status' => 'paid',
+        'razorpay_payment_id' => $validated['razorpay_payment_id'],
+    ];
+
+    
+    if (empty($application->trade_id)) {
+        $updateData['trade_id'] = TrademarkApplication::generateTradeId();
+    }
+
+    
+    $application->update($updateData);
+
+    return response()->json(['status' => 'success']);
+}
+public function payLater(Request $request)
+{
+    // 1. Validate
+    $validated = $request->validate([
+        'application_id' => 'required|exists:trademark_applications,id',
+    ]);
+
+    // 2. Fetch application (security check)
+    $application = TrademarkApplication::where('id', $validated['application_id'])
+        ->where('user_id', $request->user()->id)   // ✅ security
+        ->firstOrFail();
+
+    // 3. Trade ID generate 
+    if (empty($application->trade_id)) {
+        $application->update([
+            'trade_id' => TrademarkApplication::generateTradeId(),
+            'payment_status' => 'pending',
+        ]);
+    }
+
+    // 4. Response
+    return response()->json([
+        'status' => 'success',
+        'trade_id' => $application->trade_id,
+    ]);
+}
+
+
+public function showApplication(Request $request, $tradeId)
+{
+    $application = TrademarkApplication::where('user_id', $request->user()->id)
+        ->where('trade_id', $tradeId)     // security
+        ->firstOrFail();
+
+    //decode class
+    $selectedClasses = is_string($application->selected_classes)
+        ? json_decode($application->selected_classes, true)
+        : ($application->selected_classes ?? []);
+
+    return Inertia::render('ApplicationDetail', [
+        'application' => $application,
+        'selectedClasses' => $selectedClasses,
+    ]);
+}
+
+//user dashboard
+public function Userdashboard(Request $request)
+{
+    // ✅ Saari applications fetch karo (ek user ki multiple ho sakti hain)
+    $applications = TrademarkApplication::where('user_id', $request->user()->id)
+        ->latest()
+        ->get();
+
+    // Agar ek bhi application nahi hai to onboarding pe bhejo
+    if ($applications->isEmpty()) {
+        return redirect()->route('onboarding');
+    }
+
+    // ✅ Har application ko frontend ke liye format karo
+    $formattedApplications = $applications->map(function ($application) {
+        // selected_classes decode karo
+        $selectedClasses = is_string($application->selected_classes)
+            ? json_decode($application->selected_classes, true)
+            : ($application->selected_classes ?? []);
+
+        return [
+            'id' => $application->id,
+            'trade_id' => $application->trade_id,
+            'trademark_type' => $application->trademark_type ?? 'Not specified',
+            'business_activity' => $application->business_activity ?? 'Not specified',
+            'selected_classes' => is_array($selectedClasses) ? $selectedClasses : [],
+            'plan' => $application->plan ?? 'standard',
+            'payment_status' => $application->payment_status ?? 'pending',
+            'total_paid' => $application->amount ?? 0,
+            'created_at' => $application->created_at ? $application->created_at->format('M d, Y') : 'N/A',
+            'razorpay_payment_id' => $application->razorpay_payment_id ?? null,
+        ];
+    });
+
+    // ✅ Inertia ko plural key ke saath bhejo
+    return Inertia::render('Dashboard', [
+        'applications' => $formattedApplications,
+    ]);
+}
+
+
+/**
+ * User ne onboarding chhod diya (leave modal se)
+ */
+public function notifyAbandoned(Request $request)
+{
+    try {
+        $request->validate([
             'application_id' => 'required|exists:trademark_applications,id',
-            'razorpay_payment_id' => 'required|string',
-            'razorpay_order_id' => 'required|string',
-            'razorpay_signature' => 'required|string',
         ]);
 
-        $application = TrademarkApplication::where('id', $validated['application_id'])
+        // Fetch application (sirf current user ki)
+        $application = TrademarkApplication::where('id', $request->application_id)
             ->where('user_id', $request->user()->id)
             ->firstOrFail();
 
-        $generatedSignature = hash_hmac(
-            'sha256',
-            $validated['razorpay_order_id'] . '|' . $validated['razorpay_payment_id'],
-            config('services.razorpay.secret')
+        // WhatsApp notification bhejo
+        $whatsapp = new \App\Services\WhatsAppNotificationService();
+        
+        $whatsapp->sendAbandonedOnboarding(
+            $application->user->number,                        // user ka number
+            $application->user->name,                          // user ka naam
+            url('/onboarding')                                 // resume link
         );
 
-        if ($generatedSignature !== $validated['razorpay_signature']) {
-            return response()->json(['status' => 'failed', 'message' => 'Signature mismatch'], 400);
-        }
-
-        $application->update([
-            'payment_status' => 'paid',
-            'razorpay_payment_id' => $validated['razorpay_payment_id'],
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Notification sent.',
         ]);
 
-        return response()->json(['status' => 'success']);
+    } catch (\Exception $e) {
+        \Log::error('notifyAbandoned failed', [
+            'error' => $e->getMessage(),
+        ]);
+
+        return response()->json([
+            'status'  => 'failed',
+            'message' => $e->getMessage(),
+        ], 500);
     }
+}
+
+
+
+
+/**
+ * User ne "Pay Later" click kiya
+ */
+
+// public function PayLater(Request $request)
+// {
+//     $request->validate([
+//         'application_id' => 'required|exists:trademark_applications,id',
+//     ]);
+
+//     $application = TrademarkApplication::where('id', $request->application_id)
+//         ->where('user_id', $request->user()->id)   // ✅ Security check add karo
+//         ->firstOrFail();
+
+//     // Trade ID generate karo (agar khali ho)
+//     if (empty($application->trade_id)) {
+//         $application->update([
+//             'trade_id'       => TrademarkApplication::generateTradeId(),
+//             'payment_status' => 'pending',
+//         ]);
+//     }
+
+//     // ✅ WhatsApp notification bhejo
+//     try {
+//         $whatsapp = new \App\Services\WhatsAppNotificationService();
+        
+//         $whatsapp->sendPayLaterReminder(
+//             $application->user->number,
+//             $application->trade_id,
+//             '₹' . ($application->amount ?? 0),
+//             url('/dashboard/application/' . $application->trade_id)
+//         );
+//     } catch (\Exception $e) {
+//         \Log::error('payLater WhatsApp failed', [
+//             'error' => $e->getMessage(),
+//         ]);
+//         // Notification fail ho, lekin main flow na ruke
+//     }
+
+//     return response()->json([
+//         'status'   => 'success',
+//         'trade_id' => $application->trade_id,
+//     ]);
+// }
 }

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Payment;
 use Inertia\Inertia;
-
+use App\Models\IssueReport;
 class AdminController extends Controller
 {
     
@@ -68,10 +68,23 @@ class AdminController extends Controller
             ->latest()
             ->paginate(10);
 
+            $reports = IssueReport::with('user:id,name,email')
+        ->latest()
+        ->get();
+
+    $reportStats = [
+        'total'       => IssueReport::count(),
+        'pending'     => IssueReport::pending()->count(),
+        'in_progress' => IssueReport::inProgress()->count(),
+        'resolved'    => IssueReport::resolved()->count(),
+    ];
+
         return Inertia::render('Admin/Dashboard', [
             'paidUsersCount' => $paidUsersCount,
             'onboardingStats' => $onboardingStats,
             'users' => $users,
+            'reports' => $reports,       
+        'reportStats' => $reportStats,
         ]);
     }
 

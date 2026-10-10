@@ -79,7 +79,7 @@ function SignOtp() {
                         type="submit" 
                         className="w-full bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-blue-700"
                     >
-                        Get OTP
+                        sinupoiyp
                     </button>
                 </form>
 

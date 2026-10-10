@@ -17,7 +17,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-    if(Auth::check() && request->user()->hasRole('admin')){
+    if(Auth::check() && $request->user()->hasRole('admin')){
         return $next($request);
     }
     if($request->expectsJson){

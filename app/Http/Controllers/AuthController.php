@@ -21,6 +21,7 @@ class AuthController extends Controller
             'name'   => 'required|string|max:255',
             'email'  => 'required|email|unique:users,email',
             'number' => 'required|string',
+            
         ]);
 
         if ($validator->fails()) {
@@ -56,7 +57,7 @@ class AuthController extends Controller
 
    
     public function requestOtp(Request $request)
-    {
+    {   $request->merge(['number' => $this->normalizeNumber($request->number)]);
         $validator = Validator::make($request->all(), [
             'email'  => 'nullable|email',
             'number' => 'nullable|string',
@@ -87,7 +88,31 @@ class AuthController extends Controller
         ]);
     }
 
-    
+    public function HomeLogin(Request $request)
+{
+    $request->merge(['number' => $this->normalizeNumber($request->number)]);
+    $request->validate(['number' => 'required|digits:10']);
+
+    $user = User::where('number', $request->number)->first();
+
+    if (!$user) {
+        return response()->json(['message' => 'User not found, please signup first.'], 404);
+    }
+
+    try {
+        $this->generateAndSendOtp($user);   // signup wala hi function, wahi WhatsApp service
+    } catch (\Throwable $e) {
+        return response()->json(['message' => $e->getMessage()], 500);
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'OTP sent successfully.',
+        'user_id' => $user->id,
+    ]);
+}
+
+
     public function verifyOtp(Request $request)
     {
         $validated = $request->validate([
@@ -233,6 +258,13 @@ public function saveOnboarding(Request $request)
     ]);
 
     return redirect('/dashboard');
+}
+
+
+protected function normalizeNumber(?string $number): string
+{
+    $digits = preg_replace('/\D/', '', (string) $number);
+    return strlen($digits) > 10 ? substr($digits, -10) : $digits;
 }
 
 

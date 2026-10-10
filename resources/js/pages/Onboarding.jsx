@@ -1,5 +1,5 @@
 import { Head, usePage, router } from '@inertiajs/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 const loadRazorpayScript = () => {
@@ -34,7 +34,9 @@ export default function Onboarding() {
     const { props } = usePage();
     const application = props.application;
 
-    
+    // ✅ Flag to skip leave confirmation on "Pay Later" click
+    const skipLeaveConfirmation = useRef(false);
+
     const [step, setStep] = useState(application?.current_step || 1);
     const totalSteps = 4;
 
@@ -164,6 +166,8 @@ export default function Onboarding() {
                     });
 
                     if (verifyRes.data.status === 'success') {
+                        // ✅ Payment successful — skip leave modal too
+                        skipLeaveConfirmation.current = true;
                         window.location.href = '/dashboard';
                     } else {
                         setPaymentError('Payment not verified.');
@@ -190,6 +194,12 @@ export default function Onboarding() {
 
     useEffect(() => {
         const removeListener = router.on('before', (event) => {
+            // ✅ Skip the modal if this navigation is intentional (Pay Later / Pay success)
+            if (skipLeaveConfirmation.current) {
+                skipLeaveConfirmation.current = false;
+                return;
+            }
+
             if (application?.payment_status !== 'paid') {
                 event.preventDefault();
                 setPendingNavigation(event.detail.visit.url);
@@ -202,6 +212,9 @@ export default function Onboarding() {
 
     useEffect(() => {
         const handleBeforeUnload = (e) => {
+            // ✅ Skip browser warning if this navigation is intentional
+            if (skipLeaveConfirmation.current) return;
+
             if (application?.payment_status !== 'paid') {
                 e.preventDefault();
                 e.returnValue = '';
@@ -214,6 +227,7 @@ export default function Onboarding() {
     const confirmLeave = () => {
         setShowLeaveModal(false);
         if (pendingNavigation) {
+            skipLeaveConfirmation.current = true; // ✅ User confirmed — bypass any future popup
             router.visit(pendingNavigation, { replace: true });
         }
     };
@@ -459,6 +473,7 @@ export default function Onboarding() {
                                 Pay Now →
                             </button>
                         </div>
+                        
                     </div>
                 )}
 
@@ -571,6 +586,47 @@ export default function Onboarding() {
                                 ← Back
                             </button>
                         </div>
+
+                        {/* <div className="mt-4 text-center">
+                            <button
+                                onClick={async () => {
+                                    // ✅ Set flag BEFORE navigation so `before` hook skips the modal
+                                    skipLeaveConfirmation.current = true;
+                                    await saveStep({ payment_status: 'pending' });
+                                    router.visit('/dashboard');
+                                }}
+                                className="text-gray-500 text-sm hover:text-gray-700 underline"
+                            >
+                                Pay Later - Go to Dashboard
+                            </button>
+                        </div> */}
+
+<div>
+                        <button
+    onClick={async () => {
+        skipLeaveConfirmation.current = true;
+        
+        // 1. Save step
+        await saveStep({ payment_status: 'pending' });
+        
+        // ✅ 2. Pay Later API call (trade_id + WhatsApp notification)
+        try {
+            const res = await axios.post('/trademark/pay-later', {
+                application_id: application.id,
+            });
+            console.log('Pay Later success:', res.data);
+        } catch (err) {
+            console.error('Pay Later failed:', err.response?.data || err.message);
+        }
+        
+        // 3. Dashboard pe jao
+        router.visit('/dashboard');
+    }}
+    className="text-gray-500 text-sm hover:text-gray-700 underline"
+>
+    Pay Later - Go to Dashboard
+</button>
+</div>
                     </div>
                 )}
             </div>

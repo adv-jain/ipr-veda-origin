@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use App\Http\Middleware\AdminMiddleware;   // ✅ Import add karo
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -18,19 +19,23 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
-        // ✅ API routes ko stateful banayein (Session/Cookies save karne ke liye)
+        // ✅ API routes ko stateful banayein
         $middleware->statefulApi();
 
-        // ✅ React se aane wali POST request ke liye CSRF token check ko bypass karein
+        // ✅ CSRF bypass for React POST requests
         $middleware->validateCsrfTokens(except: [
             'api/verify-otp',
             'api/signup-otp',
             'api/request-otp',
         ]);
 
-        // ✅ Guest user ko /login (React SPA route) par redirect karo,
-        // Laravel ke named 'login' route ko dhoondne ki jagah
+        // ✅ Guest user ko /login par redirect karo
         $middleware->redirectGuestsTo('/login');
+
+        // ✅ 'admin' middleware alias register karo
+        $middleware->alias([
+            'admin' => AdminMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

@@ -39,6 +39,7 @@ return [
     'phone_number_id'  => env('WHATSAPP_PHONE_NUMBER_ID'),
     'system_user_token'=> env('WHATSAPP_SYSTEM_USER_TOKEN'),
     'otp_template_name'=> env('WHATSAPP_OTP_TEMPLATE_NAME', 'otp_verification'),
+    'otp_language' => env('WHATSAPP_OTP_LANGUAGE', 'en_US'),
 ],
 
    'razorpay' => [
