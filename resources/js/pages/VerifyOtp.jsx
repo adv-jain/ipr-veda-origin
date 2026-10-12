@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getCsrfToken } from '../utils/csrf';
-import Login from "./Login"
 
 function VerifyOtp() {
     const location = useLocation();
@@ -16,11 +15,17 @@ function VerifyOtp() {
 
     const inputRefs = useRef([]);
 
+    // Redirect if no contact info (user directly landed here)
+    useEffect(() => {
+        if (!contact) {
+            navigate('/login', { replace: true });
+        }
+    }, [contact, navigate]);
+
     useEffect(() => {
         inputRefs.current[0]?.focus();
     }, []);
 
-    
     const verifyOtp = async (otpValue) => {
         setError('');
         setLoading(true);
@@ -51,17 +56,15 @@ function VerifyOtp() {
                 throw new Error(data.message || 'Invalid OTP');
             }
 
-            
-localStorage.setItem('auth_token', data.token);
-localStorage.setItem('user', JSON.stringify(data.user));
-
-setTimeout(() => {
-    window.location.href = data.is_onboarded ? '/dashboard' : '/onboarding';
-}, 500);
+            // Save auth data
+             handleAuthRedirect(data);
 
         } catch (error) {
             setError(error.message || 'Invalid OTP');
             setLoading(false);
+            // Clear digits on error
+            setDigits(['', '', '', '']);
+            inputRefs.current[0]?.focus();
         }
     };
 
@@ -76,7 +79,6 @@ setTimeout(() => {
             inputRefs.current[index + 1]?.focus();
         }
 
-        
         const otpValue = next.join('');
         if (otpValue.length === digits.length && next.every(d => d !== '')) {
             verifyOtp(otpValue);
@@ -116,19 +118,46 @@ setTimeout(() => {
         const focusIndex = Math.min(pasted.length, digits.length - 1);
         inputRefs.current[focusIndex]?.focus();
 
-        
         const otpValue = next.join('');
         if (otpValue.length === digits.length && next.every(d => d !== '')) {
             verifyOtp(otpValue);
         }
     };
 
-    
     const handleSubmit = (e) => {
         e.preventDefault();
         const otpValue = digits.join('');
         if (otpValue.length === digits.length) {
             verifyOtp(otpValue);
+        }
+    };
+
+    const handleResend = async () => {
+        setError('');
+        try {
+            const payload = isEmail ? { email: contact } : { number: contact };
+
+            const response = await fetch('/api/resend-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-XSRF-TOKEN': getCsrfToken(),
+                },
+                credentials: 'include',
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to resend OTP');
+            }
+
+            setDigits(['', '', '', '']);
+            inputRefs.current[0]?.focus();
+        } catch (err) {
+            setError(err.message || 'Failed to resend OTP');
         }
     };
 
@@ -190,10 +219,9 @@ setTimeout(() => {
 
                     <button
                         type="button"
-                        onClick={() => {
-                            setError('');
-                        }}
-                        className="text-[18px] text-slate-700 underline underline-offset-2 hover:text-black transition"
+                        onClick={handleResend}
+                        disabled={loading}
+                        className="text-[18px] text-slate-700 underline underline-offset-2 hover:text-black transition disabled:opacity-50"
                     >
                         Resend OTP
                     </button>

@@ -189,14 +189,7 @@ const CopyrightRegistration = () => {
                 You spent months creating it. Don't let someone steal it in seconds. Secure your books, code, music, or art with official copyright registration starting at just <span className="text-white font-bold">₹1,999</span>.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <a href="#pricing" className="inline-flex justify-center items-center px-8 py-4 text-lg font-semibold text-brand-dark bg-brand-accent rounded-xl hover:bg-yellow-400 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-                  Start Your Registration
-                </a>
-                <a href="tel:+918506059559" className="inline-flex justify-center items-center px-8 py-4 text-lg font-semibold text-white bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300">
-                  <Phone className="w-5 h-5 mr-2" /> Talk to an Expert
-                </a>
-              </div>
+              
 
               <div className="flex flex-wrap gap-6 text-sm text-gray-300">
                 <div className="flex items-center gap-2">

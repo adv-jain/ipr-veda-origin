@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use App\Models\WhatsAppNotification;
 //onboarding data
 class TrademarkApplicationController extends Controller
 {
@@ -321,6 +322,10 @@ public function Userdashboard(Request $request)
 /**
  * User ne onboarding chhod diya (leave modal se)
  */
+
+/**
+ * User ne onboarding chhod diya (leave modal se)
+ */
 public function notifyAbandoned(Request $request)
 {
     try {
@@ -328,18 +333,23 @@ public function notifyAbandoned(Request $request)
             'application_id' => 'required|exists:trademark_applications,id',
         ]);
 
-        // Fetch application (sirf current user ki)
+        // Security check — sirf current user ki application
         $application = TrademarkApplication::where('id', $request->application_id)
             ->where('user_id', $request->user()->id)
             ->firstOrFail();
 
-        // WhatsApp notification bhejo
-        $whatsapp = new \App\Services\WhatsAppNotificationService();
-        
+        // ✅ Context ke saath WhatsApp service call
+        $whatsapp = (new \App\Services\WhatsAppNotificationService())
+            ->withContext([
+                'user_id'        => $application->user_id,
+                'application_id' => $application->id,
+                'reason'         => \App\Models\WhatsAppNotification::REASON_ABANDONED,
+            ]);
+
         $whatsapp->sendAbandonedOnboarding(
-            $application->user->number,                        // user ka number
-            $application->user->name,                          // user ka naam
-            url('/onboarding')                                 // resume link
+            $application->user->number,
+            $application->user->name,
+            url('/onboarding')
         );
 
         return response()->json([
@@ -359,24 +369,22 @@ public function notifyAbandoned(Request $request)
     }
 }
 
-
-
-
 /**
  * User ne "Pay Later" click kiya
  */
-
-// public function PayLater(Request $request)
+// public function payLater(Request $request)
 // {
+//     // 1. Validate
 //     $request->validate([
 //         'application_id' => 'required|exists:trademark_applications,id',
 //     ]);
 
+//     // 2. Fetch application (security check)
 //     $application = TrademarkApplication::where('id', $request->application_id)
-//         ->where('user_id', $request->user()->id)   // ✅ Security check add karo
+//         ->where('user_id', $request->user()->id)
 //         ->firstOrFail();
 
-//     // Trade ID generate karo (agar khali ho)
+//     // 3. Trade ID generate (agar khali ho)
 //     if (empty($application->trade_id)) {
 //         $application->update([
 //             'trade_id'       => TrademarkApplication::generateTradeId(),
@@ -384,16 +392,22 @@ public function notifyAbandoned(Request $request)
 //         ]);
 //     }
 
-//     // ✅ WhatsApp notification bhejo
+//     // 4. ✅ Context ke saath WhatsApp service call
 //     try {
-//         $whatsapp = new \App\Services\WhatsAppNotificationService();
-        
+//         $whatsapp = (new \App\Services\WhatsAppNotificationService())
+//             ->withContext([
+//                 'user_id'        => $application->user_id,
+//                 'application_id' => $application->id,
+//                 'reason'         => \App\Models\WhatsAppNotification::REASON_PAY_LATER,
+//             ]);
+
 //         $whatsapp->sendPayLaterReminder(
 //             $application->user->number,
 //             $application->trade_id,
 //             '₹' . ($application->amount ?? 0),
 //             url('/dashboard/application/' . $application->trade_id)
 //         );
+
 //     } catch (\Exception $e) {
 //         \Log::error('payLater WhatsApp failed', [
 //             'error' => $e->getMessage(),
@@ -406,4 +420,5 @@ public function notifyAbandoned(Request $request)
 //         'trade_id' => $application->trade_id,
 //     ]);
 // }
+
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import iprvedabg from "./iprvedabg.png";
 
+
 function Login() {
     const [contact, setContact] = useState('');
     const [error, setError] = useState('');
@@ -45,7 +46,7 @@ function Login() {
                     state: { contact: contact } 
                 });
             }, 1500);
-
+        
         } catch (error) {
             setError(error.message);
         }

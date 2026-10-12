@@ -62,14 +62,7 @@ const About = () => {
             IPRveda transforms complex intellectual property laws into simple, strategic advantages. We don't just file paperwork; we build legal fortresses around your biggest ideas, so you can focus on scaling your business.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#contact" className="inline-flex justify-center items-center px-8 py-4 text-lg font-semibold text-brand-dark bg-brand-accent rounded-xl hover:bg-yellow-400 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-              Book a Free Strategy Call
-            </a>
-            <a href="#story" className="inline-flex justify-center items-center px-8 py-4 text-lg font-semibold text-white bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300">
-              Our Story
-            </a>
-          </div>
+         
         </div>
       </section>
 

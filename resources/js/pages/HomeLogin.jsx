@@ -114,7 +114,7 @@ export default function HomeLogin() {
               inputMode="numeric"
               value={otp}
               onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 4))}
-              placeholder="Enter 4-digit OTP"
+              placeholder="Enter otp"
               maxLength={4}
               required
               className="w-full px-4 py-2.5 text-center tracking-[0.5em] text-xl text-black bg-brand-light border border-brand-border rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary"

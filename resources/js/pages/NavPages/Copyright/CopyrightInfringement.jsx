@@ -158,14 +158,7 @@ const CopyrightInfringement = () => {
           <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
             It's frustrating to see your hard work stolen. Whether it's your code, art, music, or writing, IPRveda provides fast, aggressive legal action to remove the theft and recover your damages.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-4 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-hover transition-colors shadow-lg flex items-center justify-center gap-2">
-              Report Infringement <AlertTriangle className="w-4 h-4" />
-            </button>
-            <button className="px-8 py-4 bg-white/10 text-white font-bold rounded-xl border border-white/20 hover:bg-white/20 transition-colors flex items-center justify-center gap-2">
-              Book Free Consultation
-            </button>
-          </div>
+         
         </div>
       </section>
 

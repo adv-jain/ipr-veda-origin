@@ -64,14 +64,7 @@ export default function TrademarkRegistration() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a href="#pricing" className="inline-flex justify-center items-center px-8 py-4 text-lg font-semibold text-brand-dark bg-brand-accent rounded-lg hover:bg-yellow-400 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-                  Start Your Registration
-                </a>
-                <a href="tel:+918506059559" className="inline-flex justify-center items-center px-8 py-4 text-lg font-semibold text-white bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg hover:bg-white/20 transition-all duration-300">
-                   Talk to an Expert
-                </a>
-              </div>
+            
 
               {/* Micro-Testimonial */}
               <div className="mt-8 flex items-start gap-3 max-w-md">

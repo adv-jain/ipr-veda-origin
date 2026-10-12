@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+    const handleClick = ()=>{
+window.scrollTo(0,0);
+    }
     return (
         <footer className="w-full bg-white">
             {/* Main Footer */}
@@ -17,7 +20,7 @@ const Footer = () => {
                         <ul className="list-none space-y-2.5 p-0">
                             <li>
                                 <Link
-                                    to="/trademark/registration"
+                                    to="/trademark/registration" onClick={handleClick}
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Trademark Registration
@@ -26,7 +29,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/copyright/registration"
+                                    to="/copyright/registration" onClick={handleClick}
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Copyright Registration
@@ -35,7 +38,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/patent/registration"
+                                    to="/patent/registration" onClick={handleClick}
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Patent Registration
@@ -44,7 +47,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/msme/registration"
+                                    to="/msme/registration" onClick={handleClick}
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     MSME Registration
@@ -53,7 +56,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/trademark/renewal"
+                                    to="/trademark/renewal" onClick={handleClick}
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Trademark Renewal
@@ -62,7 +65,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/object/reply"
+                                    to="/object/reply" onClick={handleClick}
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Objection Reply Filing
@@ -80,7 +83,7 @@ const Footer = () => {
                         <ul className="list-none space-y-2.5 p-0">
                             <li>
                                 <Link
-                                    to="/protect/infringement"
+                                    to="/protect/infringement" onClick={handleClick}
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Protect from Infringement
@@ -89,7 +92,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/trademark/renewal"
+                                    to="/trademark/renewal" onClick={handleClick}
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     Everything about Renewals
@@ -98,7 +101,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/ca-ip"
+                                    to="/ca-ip" onClick={handleClick}
                                     className="text-gray-600 no-underline transition hover:text-gray-900"
                                 >
                                     CA vs. IP Attorneys
@@ -116,7 +119,7 @@ const Footer = () => {
                         <ul className="list-none space-y-2.5 p-0">
                             <li>
                                 <Link
-                                    to="/about"
+                                    to="/about" onClick={handleClick}
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     About
@@ -125,7 +128,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/blog"
+                                    to="/blog" onClick={handleClick}
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Blog
@@ -134,7 +137,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/contact"
+                                    to="/contact" onClick={handleClick}
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Contact
@@ -143,7 +146,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/privacy-policy"
+                                    to="/privacy-policy" onClick={handleClick}
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Privacy Policy
@@ -152,7 +155,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/disclaimer"
+                                    to="/disclaimer" onClick={handleClick}
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Disclaimer
@@ -161,7 +164,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/refund-policy"
+                                    to="/refund-policy" onClick={handleClick}
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Refund Policy
@@ -170,7 +173,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/credits"
+                                    to="/credits" onClick={handleClick}
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Credits
@@ -188,7 +191,7 @@ const Footer = () => {
                         <ul className="list-none space-y-2.5 p-0">
                             <li>
                                 <Link
-                                    to="/find-attorney"
+                                    to="/find-attorney" onClick={handleClick}
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Find Attorney ID
@@ -197,7 +200,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/track-application"
+                                    to="/track-application" onClick={handleClick}
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Track Application
@@ -206,7 +209,7 @@ const Footer = () => {
 
                             <li>
                                 <Link
-                                    to="/find-classes"
+                                    to="/find-classes" onClick={handleClick}
                                     className="text-gray-600 no-underline hover:text-gray-900"
                                 >
                                     Find Classes

@@ -28,7 +28,7 @@ export default function SpecialNavbar() {
           />
         </Link>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-0.5">
           <h4 className="text-brand-dark font-medium text-sm sm:text-base">
             Don't have account ?
           </h4>
