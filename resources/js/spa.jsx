@@ -40,21 +40,21 @@ import HomeLogin from './pages/HomeLogin';
 function SPA() {
     const location = useLocation();
 
-    // 1. Navbar hide karne ke liye
-    const hideNavbarPaths = ['/verify-otp']; 
+    // 1. Navbar hide 
+    const hideNavbarPaths = ['/signup','/verify-otp']; 
     const hideNavbar = hideNavbarPaths.includes(location.pathname);
 
-    // 2. Footer hide karne ke liye
-    const hideFooterPaths = ['/login', '/verify-otp', '/homelogin'];
+    // 2. Footer hide
+    const hideFooterPaths = ['/signup','/login', '/verify-otp', '/homelogin'];
     const hideFooter = hideFooterPaths.includes(location.pathname);
 
-    // 3. SpecialNavbar dikhane ke liye
-    const specialPages = [  '/signup', '/login', '/homelogin']; 
+    // 3. SpecialNavbar 
+    const specialPages = ['/login', '/homelogin']; 
     const isSpecialPage = specialPages.includes(location.pathname);
 
     return (
         <>
-            {/* ✅ FIX: hideLayout ki jagah hideNavbar use kiya */}
+            
             {!hideNavbar && (
                 isSpecialPage ? <SpecialNavbar /> : <Navbar />
             )}
@@ -65,8 +65,8 @@ function SPA() {
                 <Route path="/verify-otp" element={<VerifyOtp />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/" element={<Home />} />
-                <Route path="/patent" element={<Patent />} />
-                <Route path="/trademark" element={<TradeMark />} />
+                {/* <Route path="/patent" element={<Patent />} />
+                <Route path="/trademark" element={<TradeMark />} /> */}
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
@@ -93,7 +93,7 @@ function SPA() {
                 <Route path='/trademark/search' element={<TrademarkSearch />} /> 
             </Routes>
 
-            {/* ✅ FIX: hideLayout ki jagah hideFooter use kiya */}
+            
             {!hideFooter && <Footer />}
         </>
     );

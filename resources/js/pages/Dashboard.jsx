@@ -44,12 +44,7 @@ export default function Dashboard() {
                 {/* Sidebar — UNCHANGED */}
                 <aside className="w-64 bg-[#0f2942] text-white flex-shrink-0 h-full overflow-y-auto">
                     {/* Logo Area */}
-                    <div className="px-6 py-5 border-b border-white/10">
-                        <span className="text-lg font-bold">
-                            <span className="bg-yellow-400 text-[#0f2942] px-1">IPR</span>
-                            <span className="ml-1">Veda</span>
-                        </span>
-                    </div>
+                   
 
                     <nav className="p-4 space-y-1">
                         <button
@@ -96,15 +91,11 @@ export default function Dashboard() {
 >
     ⚠️ Report an issue
 </button>
-                        <button className="text-gray-500 hover:text-gray-800 text-xl relative">
-                            🔔
-                        </button>
+                        
                         <button className="text-gray-500 hover:text-gray-800 text-xl relative">
                             🛒
                         </button>
-                        <button className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200">
-                            👤
-                        </button>
+                       
                     </div>
 
                     <div className="p-8 space-y-6">

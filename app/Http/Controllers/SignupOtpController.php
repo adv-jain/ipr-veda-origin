@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
+use App\Models\User;
+use App\Services\WhatsAppOtpService;
 class SignupOtpController extends Controller
 {
     public function store(Request $request)
@@ -30,11 +32,15 @@ class SignupOtpController extends Controller
 
         
         try {
-            if (isset($validateData['email'])) {
-                $this->sendEmailOTP($validateData['email'], $otp);
-                $message = 'OTP sent to email successfully!';
-            } elseif (isset($validateData['number'])) {
-                $this->sendWhatsAppOTP($validateData['number'], $otp);
+            if (isset($validateData['number'])) {
+                $user = User::where('number',$validateData['number'])->first();
+                if(!$user){
+                    return response()->json([
+'message' => 'User not found. Please signup first.'
+                    ],404);
+                }
+                
+                app(WhatsAppOtpService::class)->sendOtp($user, $otp);
                 $message = "OTP sent to your WhatsApp number";
             }
         } catch (\Exception $e) {
@@ -43,7 +49,7 @@ class SignupOtpController extends Controller
             ], 500);
         }
 
-        // ✅ Sirf success ke baad hi record create karo
+        
         $otpRecord = SignupOtp::create([
             'email'  => $validateData['email'] ?? null,
             'number' => $validateData['number'] ?? null,

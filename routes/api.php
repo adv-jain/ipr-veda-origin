@@ -22,7 +22,7 @@ Route::post(
     '/disclaimer/contact-click',
     [DisclaimerController::class, 'contactClick']
 );
-
+Route::post('/track-purchase-intent', [PaymentController::class, 'trackIntent']);
 Route::get('/credits', [CreditsController::class, 'index']);
 
 
@@ -46,10 +46,10 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     Route::get('/stats', [AdminController::class, 'getStats']);
     Route::get('/users', [AdminController::class, 'getUsers']);
 });
-Route::get('/test-env', function() {
-    return response()->json([
-        'phone_id' => env('WHATSAPP_PHONE_NUMBER_ID'),
-        'token_exists' => !empty(env('WHATSAPP_ACCESS_TOKEN')),
-    ]);
-});
+// Route::get('/test-env', function() {
+//     return response()->json([
+//         'phone_id' => env('WHATSAPP_PHONE_NUMBER_ID'),
+//         'token_exists' => !empty(env('WHATSAPP_ACCESS_TOKEN')),
+//     ]);
+// });
 

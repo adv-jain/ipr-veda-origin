@@ -6,6 +6,7 @@ import {
     Shield, FileText, FileCheck, Search, ChevronRight, ChevronDown,
     X, Check, Clock, Star, TrendingUp, AlertCircle,
 } from 'lucide-react';
+import { getCsrfToken } from '../utils/csrf';
 
 export default function ServiceHub() {
     const [activeTab, setActiveTab] = useState('Trademark/IP');
@@ -271,12 +272,7 @@ export default function ServiceHub() {
                 {/* ============ SIDEBAR (Same as Dashboard) ============ */}
                 <aside className="w-64 bg-[#0f2942] text-white flex-shrink-0 h-full overflow-y-auto">
                     {/* Logo Area */}
-                    <div className="px-6 py-5 border-b border-white/10">
-                        <span className="text-lg font-bold">
-                            <span className="bg-yellow-400 text-[#0f2942] px-1">IPR</span>
-                            <span className="ml-1">Veda</span>
-                        </span>
-                    </div>
+                    
 
                     <nav className="p-4 space-y-1">
                         <button
@@ -468,195 +464,213 @@ export default function ServiceHub() {
 
                 {/* ============ MODAL (View Details) ============ */}
                 {selectedService && (
-                    <div
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                        onClick={() => setSelectedService(null)}
-                    >
-                        {/* Blurred backdrop */}
-                        <div className="absolute inset-0 bg-black/40 backdrop-blur-md" />
-
-                        {/* Modal content */}
-                        <div
-                            className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            {/* Header */}
-                            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-start justify-between z-10">
-                                <div className="flex-1 pr-4">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <h2 className="text-xl font-bold text-gray-900">
-                                            {selectedService.title}
-                                        </h2>
-                                        {selectedService.popular && (
-                                            <span className="text-[10px] bg-yellow-400 text-black px-2 py-0.5 rounded-full font-semibold">
-                                                Popular
-                                            </span>
-                                        )}
-                                    </div>
-                                    <p className="text-sm text-gray-500">
-                                        {selectedService.tagline}
-                                    </p>
-                                </div>
-                                <button
-                                    onClick={() => setSelectedService(null)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition"
-                                    aria-label="Close"
-                                >
-                                    <X size={20} className="text-gray-500" />
-                                </button>
-                            </div>
-
-                            {/* Body */}
-                            <div className="px-6 py-5">
-                                {/* Price + Rating */}
-                                <div className="flex items-center justify-between mb-5 p-4 bg-gray-50 rounded-xl">
-                                    <div>
-                                        <p className="text-xs text-gray-500 mb-1">Starts from</p>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-2xl font-bold text-gray-900">
-                                                {selectedService.price}
-                                            </span>
-                                            <span className="text-sm text-gray-400 line-through">
-                                                {selectedService.mrp}
-                                            </span>
-                                            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
-                                                Save{' '}
-                                                {Math.round(
-                                                    ((parseInt(selectedService.mrp.replace(/\D/g, '')) -
-                                                        parseInt(
-                                                            selectedService.price.replace(/\D/g, '')
-                                                        )) /
-                                                        parseInt(
-                                                            selectedService.mrp.replace(/\D/g, '')
-                                                        )) *
-                                                        100
-                                                )}
-                                                %
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <div className="flex items-center gap-1 mb-1">
-                                            <Star
-                                                size={16}
-                                                className="fill-yellow-400 text-yellow-400"
-                                            />
-                                            <span className="font-semibold text-gray-900">
-                                                {selectedService.rating}
-                                            </span>
-                                        </div>
-                                        <p className="text-xs text-gray-500">
-                                            {selectedService.reviews} reviews
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Description */}
-                                <div className="mb-6">
-                                    <h3 className="text-sm font-semibold text-gray-900 mb-2">
-                                        About this service
-                                    </h3>
-                                    <p className="text-sm text-gray-600 leading-relaxed">
-                                        {selectedService.description}
-                                    </p>
-                                </div>
-
-                                {/* Features */}
-                                <div className="mb-6">
-                                    <h3 className="text-sm font-semibold text-gray-900 mb-3">
-                                        What's included
-                                    </h3>
-                                    <ul className="space-y-2">
-                                        {selectedService.features.map((feature, idx) => (
-                                            <li
-                                                key={idx}
-                                                className="flex items-start gap-2 text-sm text-gray-600"
-                                            >
-                                                <Check
-                                                    size={16}
-                                                    className="text-green-500 mt-0.5 flex-shrink-0"
-                                                />
-                                                <span>{feature}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-
-                                {/* Timeline + Documents */}
-                                <div className="grid grid-cols-2 gap-4 mb-6">
-                                    <div className="p-4 bg-blue-50 rounded-xl">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <Clock size={16} className="text-blue-600" />
-                                            <h4 className="text-xs font-semibold text-gray-900">
-                                                Timeline
-                                            </h4>
-                                        </div>
-                                        <p className="text-sm text-gray-700">
-                                            {selectedService.timeline}
-                                        </p>
-                                    </div>
-                                    <div className="p-4 bg-purple-50 rounded-xl">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <FileText size={16} className="text-purple-600" />
-                                            <h4 className="text-xs font-semibold text-gray-900">
-                                                Documents Required
-                                            </h4>
-                                        </div>
-                                        <p className="text-sm text-gray-700">
-                                            {selectedService.documents.length} documents
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Documents List */}
-                                <div className="mb-6">
-                                    <h3 className="text-sm font-semibold text-gray-900 mb-3">
-                                        Documents you'll need
-                                    </h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {selectedService.documents.map((doc, idx) => (
-                                            <span
-                                                key={idx}
-                                                className="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full"
-                                            >
-                                                {doc}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* CTA */}
-                                {/* CTA */}
-<div className="flex gap-3 pt-2">
-    <button
+    <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4"
         onClick={() => setSelectedService(null)}
-        className="flex-1 py-3 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
     >
-        Cancel
-    </button>
-    <button
-        onClick={() => {
-            
-            router.visit('/onboarding', {
-                method: 'get',
-                data: {
-                    service_id: selectedService.id,
-                    service_title: selectedService.title,
-                    service_price: selectedService.price.replace(/[^\d]/g, ''),
-                },
-            });
-            setSelectedService(null);
-        }}
-        className="flex-1 py-3 bg-[#0f2942] text-white rounded-xl text-sm font-semibold hover:bg-[#0a1e30] transition flex items-center justify-center gap-2"
-    >
-        <TrendingUp size={16} />
-        Proceed to Buy
-    </button>
-</div>
-                            </div>
+        {/* Blurred backdrop */}
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-md" />
+
+        {/* Modal content */}
+        <div
+            className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+        >
+            {/* Header (Fixed) */}
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 px-6 py-4 flex items-start justify-between z-10">
+                <div className="flex-1 pr-4">
+                    <div className="flex items-center gap-2 mb-1">
+                        <h2 className="text-xl font-bold text-gray-900">
+                            {selectedService.title}
+                        </h2>
+                        {selectedService.popular && (
+                            <span className="text-[10px] bg-yellow-400 text-black px-2 py-0.5 rounded-full font-semibold">
+                                Popular
+                            </span>
+                        )}
+                    </div>
+                    <p className="text-sm text-gray-500">
+                        {selectedService.tagline}
+                    </p>
+                </div>
+                <button
+                    onClick={() => setSelectedService(null)}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition"
+                    aria-label="Close"
+                >
+                    <X size={20} className="text-gray-500" />
+                </button>
+            </div>
+
+            {/* Scrollable Body */}
+            <div className="flex-1 overflow-y-auto px-6 py-5">
+                {/* Price + Rating */}
+                <div className="flex items-center justify-between mb-5 p-4 bg-gray-50 rounded-xl">
+                    <div>
+                        <p className="text-xs text-gray-500 mb-1">Starts from</p>
+                        <div className="flex items-center gap-2">
+                            <span className="text-2xl font-bold text-gray-900">
+                                {selectedService.price}
+                            </span>
+                            <span className="text-sm text-gray-400 line-through">
+                                {selectedService.mrp}
+                            </span>
+                            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                                Save{' '}
+                                {Math.round(
+                                    ((parseInt(selectedService.mrp.replace(/\D/g, '')) -
+                                        parseInt(
+                                            selectedService.price.replace(/\D/g, '')
+                                        )) /
+                                        parseInt(
+                                            selectedService.mrp.replace(/\D/g, '')
+                                        )) *
+                                        100
+                                )}
+                                %
+                            </span>
                         </div>
                     </div>
-                )}
+                    <div className="text-right">
+                        <div className="flex items-center gap-1 mb-1">
+                            <Star
+                                size={16}
+                                className="fill-yellow-400 text-yellow-400"
+                            />
+                            <span className="font-semibold text-gray-900">
+                                {selectedService.rating}
+                            </span>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                            {selectedService.reviews} reviews
+                        </p>
+                    </div>
+                </div>
+
+                {/* Description */}
+                <div className="mb-6">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                        About this service
+                    </h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                        {selectedService.description}
+                    </p>
+                </div>
+
+                {/* Features */}
+                <div className="mb-6">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                        What's included
+                    </h3>
+                    <ul className="space-y-2">
+                        {selectedService.features.map((feature, idx) => (
+                            <li
+                                key={idx}
+                                className="flex items-start gap-2 text-sm text-gray-600"
+                            >
+                                <Check
+                                    size={16}
+                                    className="text-green-500 mt-0.5 flex-shrink-0"
+                                />
+                                <span>{feature}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Timeline + Documents */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="p-4 bg-blue-50 rounded-xl">
+                        <div className="flex items-center gap-2 mb-2">
+                            <Clock size={16} className="text-blue-600" />
+                            <h4 className="text-xs font-semibold text-gray-900">
+                                Timeline
+                            </h4>
+                        </div>
+                        <p className="text-sm text-gray-700">
+                            {selectedService.timeline}
+                        </p>
+                    </div>
+                    <div className="p-4 bg-purple-50 rounded-xl">
+                        <div className="flex items-center gap-2 mb-2">
+                            <FileText size={16} className="text-purple-600" />
+                            <h4 className="text-xs font-semibold text-gray-900">
+                                Documents Required
+                            </h4>
+                        </div>
+                        <p className="text-sm text-gray-700">
+                            {selectedService.documents.length} documents
+                        </p>
+                    </div>
+                </div>
+
+                {/* Documents List */}
+                <div className="mb-2"> {/* Bottom margin thoda kam kar diya kyunki footer alag hai */}
+                    <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                        Documents you'll need
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                        {selectedService.documents.map((doc, idx) => (
+                            <span
+                                key={idx}
+                                className="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full"
+                            >
+                                {doc}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Sticky Footer (Fixed at bottom) */}
+            <div className="flex-shrink-0 bg-white border-t border-gray-200 px-6 py-4 rounded-b-2xl">
+                <div className="flex gap-3">
+                    <button
+                        onClick={() => setSelectedService(null)}
+                        className="flex-1 py-3 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        onClick={async () => {
+                            const serviceId = selectedService.id;
+                            const title = selectedService.title;
+                            const price = selectedService.price.replace(/[^\d]/g, '');
+
+                            try {
+                                await fetch('/api/track-purchase-intent', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json',
+                                        'X-XSRF-TOKEN': getCsrfToken(),
+                                    },
+                                    credentials: 'include',
+                                    body: JSON.stringify({
+                                        service_id: serviceId,
+                                        service_title: title,
+                                        amount: price,
+                                    }),
+                                });
+                            } catch (error) {
+                                console.error("Tracking failed, but moving forward:", error);
+                            } finally {
+                                router.visit(`/onboarding?service_id=${serviceId}&service_price=${price}&service_title=${title}`);
+                                setSelectedService(null);
+                            }
+                        }}
+                        className="flex-1 py-3 bg-[#0f2942] text-white rounded-xl text-sm font-semibold hover:bg-[#1a3c5c] transition flex items-center justify-center gap-2"
+                    >
+                        <TrendingUp size={16} />
+                        Proceed to Buy
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+)}
 
                 {/* ============ REPORT ISSUE MODAL ============ */}
                 {showReportModal && (

@@ -7,7 +7,7 @@ const navItems = [
   // ... (Aapka navItems array bilkul same rahega) ...
   {
     title: "Trademark & IP",
-    link: "/trademark",
+    
     submenu: [
       { title: "Trademark Registration", link: "/trademark/registration" },
       { title: "Trademark Search", link: "/trademark/search" },
@@ -19,7 +19,7 @@ const navItems = [
   },
   {
     title: "Copyright & Design",
-    link: "/copyright",
+    
     submenu: [
       { title: "Copyright Registration", link: "/copyright/registration" },
       { title: "Copyright Infringement", link: "/copyright/infringement" },
@@ -27,7 +27,7 @@ const navItems = [
   },
   {
     title: "Patent",
-    link: "/patent",
+  
     submenu: [
       { title: "Patent Registration", link: "/patent/registration" },
       { title: "Indian Patent Search", link: "/patent/search" },
@@ -43,10 +43,10 @@ export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [activeSubmenu, setActiveSubmenu] = useState(0);
 
-  // ✅ Naya Function: Click hone par page top par jayega aur menu band hoga
+  
   const handleLinkClick = () => {
-    window.scrollTo(0, 0); // Page ko sabse upar scroll karega
-    setActiveMenu(null);   // Dropdown band karega
+    window.scrollTo(0, 0); 
+    setActiveMenu(null);   
   };
 
   return (

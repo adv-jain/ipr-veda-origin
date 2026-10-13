@@ -78,7 +78,7 @@ function Login() {
                         error ? 'border-danger' : 'border-brand-border'
                     }`}>
                         <legend className="text-xs font-medium text-brand-dark/70 px-1">
-                            Email or Phone Number
+                             Phone Number
                         </legend>
                         <input 
                             id="contact"
@@ -86,7 +86,7 @@ function Login() {
                             type="text" 
                             value={contact}
                             onChange={handleChange} 
-                            placeholder="e.g., user@email.com or 9876543210"
+                            placeholder="9876543210"
                             className="w-full py-1 bg-transparent text-brand-dark placeholder-brand-dark/40 focus:outline-none focus:ring-0 focus:border-0 border-0"
                             required
                         />

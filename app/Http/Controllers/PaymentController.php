@@ -76,4 +76,30 @@ class PaymentController extends Controller
             return response()->json(['status' => 'failed', 'message' => 'Signature verification failed'], 400);
         }
     }
+
+    public function trackIntent(Request $request)
+{
+    $validated = $request->validate([
+        'service_id'    => 'required|string',
+        'service_title' => 'required|string',
+        'amount'        => 'required|numeric',
+    ]);
+
+    $user = $request->user(); // Ya auth()->user()
+
+    // Check karein ki pehle se koi pending entry hai ya nahi
+    $purchase = ServicePurchase::firstOrCreate(
+        [
+            'user_id'    => $user->id,
+            'service_id' => $validated['service_id'],
+            'status'     => 'pending', // Sirf pending wale check karein
+        ],
+        [
+            'service_title' => $validated['service_title'],
+            'amount'        => $validated['amount'],
+        ]
+    );
+
+    return response()->json(['success' => true, 'purchase' => $purchase]);
+}
 }

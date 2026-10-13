@@ -20,9 +20,13 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name'   => 'required|string|max:255',
             'email'  => 'required|email|unique:users,email',
-            'number' => 'required|string',
+            'number' => 'required|string|unique:users,number',
             
-        ]);
+        ],
+
+            [ 'number.unique' => 'This mobile number is already registered.', 
+            'email.unique' => 'This email is already registered.', ]
+        );
 
         if ($validator->fails()) {
             return response()->json([
@@ -31,6 +35,7 @@ class AuthController extends Controller
                 'errors'  => $validator->errors(),
             ], 422);
         }
+  
 
         $user = User::create([
             'name'        => $request->name,
@@ -54,6 +59,9 @@ class AuthController extends Controller
             'user_id' => $user->id,
         ], 201);
     }
+
+
+
 
    
     public function requestOtp(Request $request)
@@ -224,7 +232,7 @@ class AuthController extends Controller
      
        
         if (class_exists('App\Services\WhatsAppOtpService')) {
-            app('App\Services\WhatsAppOtpService')->sendOtp($user->number, $code);
+            app('App\Services\WhatsAppOtpService')->sendOtp($user, $code);
         } else {
             Log::info("OTP for {$user->number} is: {$code} (Testing Mode)");
         }

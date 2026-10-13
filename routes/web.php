@@ -85,6 +85,7 @@ Route::middleware(['auth'])->group(function () {
 
 // Temporarily 'auth' aur 'admin' middleware hata dein
 // Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::post('/track-purchase-intent', [App\Http\Controllers\PaymentController::class, 'trackIntent'])->middleware('auth');
 
 Route::get('/services', function () {
     return Inertia::render('Services');

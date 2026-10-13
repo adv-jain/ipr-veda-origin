@@ -4,10 +4,12 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-
+use App\Models\WhatsappNotification;
+use App\Models\User;
 class WhatsAppOtpService
+
 {
-    public function sendOtp(string $number, string|int $otp): bool
+    public function sendOtp(User $user, string|int $otp): bool
     {
         $config        = config('services.whatsapp');
         $phoneNumberId = $config['phone_number_id'] ?? null;
@@ -22,7 +24,7 @@ class WhatsAppOtpService
         }
 
         // Sirf digits rakho, 10-digit India number ho to 91 prepend karo
-        $to = preg_replace('/\D/', '', $number);
+        $to = preg_replace('/\D/', '', $user->number);
         if (strlen($to) === 10) {
             $to = '91' . $to;
         }
@@ -78,12 +80,19 @@ class WhatsAppOtpService
 
         if ($response->failed()) {
             $error = $response->json('error') ?? [];
-
+        WhatsappNotification::create([
+                'user_id'       => $user->id,
+                'number'        => $to,
+                'reason'        => 'otp',
+                'template_name' => $template,
+                'status'        => 'failed',
+                'error_message' => $error['message'] ?? 'Unknown error',
+            ]);
             Log::error('WhatsApp API Error', [
                 'status'  => $response->status(),
-                'code'    => $error['code'] ?? null,
+                
                 'message' => $error['message'] ?? null,
-                'details' => $error['error_data']['details'] ?? null,
+                
                 'to'      => $to,
             ]);
 
@@ -91,7 +100,14 @@ class WhatsAppOtpService
                 'Failed to send WhatsApp OTP: ' . ($error['message'] ?? 'Unknown error')
             );
         }
-
+// --- SUCCESS CASE: Database me log karein ---
+        WhatsappNotification::create([
+            'user_id'       => $user->id,
+            'number'        => $to,
+            'reason'        => 'otp',
+            'template_name' => $template,
+            'status'        => 'sent',
+        ]);
         Log::info("WhatsApp OTP request accepted for {$to}", [
             'wamid' => $response->json('messages.0.id'),
         ]);
