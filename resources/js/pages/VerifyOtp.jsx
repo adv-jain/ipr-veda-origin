@@ -172,12 +172,9 @@ function VerifyOtp() {
                         OTP Verification
                     </h2>
 
-                    <p className="text-[17px] text-gray-500 mb-8">
-                        Enter OTP received on&nbsp;
-                        <span className="text-gray-700">
-                            {contact || 'your device'}
-                        </span>
-                    </p>
+                  <p className="text-[17px] text-gray-500 mb-8">
+    Please enter the 4-digit OTP.
+</p>
 
                     {error && (
                         <div className="mb-5 p-3 bg-red-100 text-red-700 rounded text-sm">
