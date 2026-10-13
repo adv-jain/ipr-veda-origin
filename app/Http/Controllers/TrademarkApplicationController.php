@@ -136,57 +136,136 @@ Rules:
 PROMPT;
     }
 
-    public function createOrder(Request $request)
-    {
-        $validated = $request->validate([
-            'application_id' => 'required|exists:trademark_applications,id',
-        ]);
+    // public function createOrder(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'application_id' => 'required|exists:trademark_applications,id',
+    //     ]);
 
+    //     $application = TrademarkApplication::where('id', $validated['application_id'])
+    //         ->where('user_id', $request->user()->id)
+    //         ->firstOrFail();
+
+    //     $classCount = max(count($application->selected_classes ?? []), 1);
+    //     $pricePerClass = $application->plan === 'standard' ? 1499 : 1999;
+    //     $subtotal = $pricePerClass * $classCount;
+    //     $gst = round($subtotal * 0.18);
+    //     $finalAmount = $subtotal + $gst;
+
+    //     $application->update(['amount' => $finalAmount]);
+
+    //     try {
+    //         $response = Http::withBasicAuth(
+    //             config('services.razorpay.key'),
+    //             config('services.razorpay.secret')
+    //         )->post('https://api.razorpay.com/v1/orders', [
+    //             'amount' => $finalAmount * 100, // paise
+    //             'currency' => 'INR',
+    //             'receipt' => 'trademark_' . $application->id,
+    //         ]);
+
+    //         if (!$response->successful()) {
+    //             return response()->json(['error' => 'Order creation failed'], 500);
+    //         }
+
+    //         $order = $response->json();
+
+    //         $application->update(['razorpay_order_id' => $order['id']]);
+
+    //         return response()->json([
+    //             'key' => config('services.razorpay.key'),
+    //             'amount' => $order['amount'],
+    //             'currency' => $order['currency'],
+    //             'order_id' => $order['id'],
+    //             'final_amount' => $finalAmount,
+    //             'subtotal' => $subtotal,
+    //             'gst' => $gst,
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         Log::error('Razorpay order error', ['error' => $e->getMessage()]);
+    //         return response()->json(['error' => 'Order creation failed'], 500);
+    //     }
+    // }
+
+
+
+
+ public function createOrder(Request $request)
+{
+    $validated = $request->validate([
+        'application_id' => 'nullable|exists:trademark_applications,id',
+        'service_id'     => 'nullable|string',
+        'service_title'  => 'nullable|string',
+        'service_price'  => 'nullable|numeric',
+    ]);
+
+    // ✅ CASE 1: application_id provided (signup/onboarding flow)
+    if (!empty($validated['application_id'])) {
         $application = TrademarkApplication::where('id', $validated['application_id'])
             ->where('user_id', $request->user()->id)
             ->firstOrFail();
+    }
+    // ✅ CASE 2: ServiceHub flow — naya draft application banao
+    else {
+        $application = TrademarkApplication::create([
+    'user_id'        => $request->user()->id,
+    'service_id'     => $validated['service_id'] ?? null,
+    'service_title'  => $validated['service_title'] ?? null,
+    'trademark_type' => $validated['service_title'] ?? 'Service Purchase',
+    'current_step'   => 4,
+    'payment_status' => 'pending',
+]);
+    }
 
+    // ✅ Price Calculation — service_price priority
+    if (!empty($validated['service_price'])) {
+        $subtotal = (int) $validated['service_price'];
+    } else {
         $classCount = max(count($application->selected_classes ?? []), 1);
         $pricePerClass = $application->plan === 'standard' ? 1499 : 1999;
         $subtotal = $pricePerClass * $classCount;
-        $gst = round($subtotal * 0.18);
-        $finalAmount = $subtotal + $gst;
+    }
 
-        $application->update(['amount' => $finalAmount]);
+    $gst = round($subtotal * 0.18);
+    $finalAmount = $subtotal + $gst;
 
-        try {
-            $response = Http::withBasicAuth(
-                config('services.razorpay.key'),
-                config('services.razorpay.secret')
-            )->post('https://api.razorpay.com/v1/orders', [
-                'amount' => $finalAmount * 100, // paise
-                'currency' => 'INR',
-                'receipt' => 'trademark_' . $application->id,
-            ]);
+    $application->update(['amount' => $finalAmount]);
 
-            if (!$response->successful()) {
-                return response()->json(['error' => 'Order creation failed'], 500);
-            }
+    try {
+        $response = Http::withBasicAuth(
+            config('services.razorpay.key'),
+            config('services.razorpay.secret')
+        )->post('https://api.razorpay.com/v1/orders', [
+            'amount'   => $finalAmount * 100,
+            'currency' => 'INR',
+            'receipt'  => 'trademark_' . $application->id,
+        ]);
 
-            $order = $response->json();
-
-            $application->update(['razorpay_order_id' => $order['id']]);
-
-            return response()->json([
-                'key' => config('services.razorpay.key'),
-                'amount' => $order['amount'],
-                'currency' => $order['currency'],
-                'order_id' => $order['id'],
-                'final_amount' => $finalAmount,
-                'subtotal' => $subtotal,
-                'gst' => $gst,
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('Razorpay order error', ['error' => $e->getMessage()]);
+        if (!$response->successful()) {
             return response()->json(['error' => 'Order creation failed'], 500);
         }
+
+        $order = $response->json();
+
+        $application->update(['razorpay_order_id' => $order['id']]);
+
+        return response()->json([
+            'key'            => config('services.razorpay.key'),
+            'amount'         => $order['amount'],
+            'currency'       => $order['currency'],
+            'order_id'       => $order['id'],
+            'final_amount'   => $finalAmount,
+            'subtotal'       => $subtotal,
+            'gst'            => $gst,
+            'application_id' => $application->id,  // ✅ important — frontend ko batao
+        ]);
+
+    } catch (\Exception $e) {
+        Log::error('Razorpay order error', ['error' => $e->getMessage()]);
+        return response()->json(['error' => 'Order creation failed'], 500);
     }
+}
 
    public function verifyPayment(Request $request)
 {

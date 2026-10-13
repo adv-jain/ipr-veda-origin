@@ -15,6 +15,8 @@ protected $fillable=[
         'current_step',
         'razorpay_order_id',
         'razorpay_payment_id',
+        'service_id',
+        'service_title',
 ];
 protected $casts = [
         'selected_classes' => 'array',

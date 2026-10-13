@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\IssueReport;
-use App\Models\WhatsAppNotification;   // ✅ Naya import
+use App\Models\WhatsAppNotification;   
 use Inertia\Inertia;
+use App\Models\TrademarkApplication;
 
 class AdminController extends Controller
 {
@@ -113,6 +114,29 @@ class AdminController extends Controller
             'failed' => WhatsAppNotification::where('status', 'failed')->count(),
             'today'  => WhatsAppNotification::whereDate('created_at', today())->count(),
         ];
+        $servicePurchases = TrademarkApplication::with('user')
+        ->whereNotNull('service_id')                    // sirf service purchases
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function ($app) {
+            return [
+                'id'             => $app->id,
+                'user_name'      => $app->user?->name ?? 'Unknown',
+                'user_email'     => $app->user?->email ?? '—',
+                'service_id'     => $app->service_id,
+                'service_title'  => $app->service_title ?? $app->trademark_type,
+                'amount'         => $app->amount,
+                'payment_status' => $app->payment_status,
+                'trade_id'       => $app->trade_id,
+                'created_at'     => $app->created_at->format('d M Y, h:i A'),
+            ];
+             });
+              $serviceStats = [
+        'total'    => $servicePurchases->count(),
+        'paid'     => $servicePurchases->where('payment_status', 'paid')->count(),
+        'pending'  => $servicePurchases->where('payment_status', 'pending')->count(),
+        'revenue'  => $servicePurchases->where('payment_status', 'paid')->sum('amount'),
+    ];
 
         // ============================================
         // 4. Pass to Inertia
@@ -130,6 +154,9 @@ class AdminController extends Controller
             // WhatsApp Logs tab
             'notifications'     => $notifications,
             'notificationStats' => $notificationStats,
+            //services
+            'servicePurchases'  => $servicePurchases, 
+              'serviceStats'      => $serviceStats,
         ]);
     }
 

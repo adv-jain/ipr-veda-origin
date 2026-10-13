@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getCsrfToken } from '../utils/csrf';
+import { handleAuthRedirect } from '../utils/authRedirect';
 
 function VerifyOtp() {
     const location = useLocation();

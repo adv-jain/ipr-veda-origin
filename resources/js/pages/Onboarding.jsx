@@ -17,6 +17,8 @@ const loadRazorpayScript = () => {
     });
 };
 
+
+
 const TRADEMARK_TYPES = [
     { value: 'Brand Name', label: 'Brand Name' },
     { value: 'Brand Name + Logo', label: 'Brand Name + Logo', sub: 'Name + Graphic representation of brand' },
@@ -33,11 +35,20 @@ const PLANS = {
 export default function Onboarding() {
     const { props } = usePage();
     const application = props.application;
-
+    const {url} = usePage();
+const urlParams = new URLSearchParams(url.split('?')[1]||'');
+  const serviceId = urlParams.get('service_id');
+    const serviceTitle = urlParams.get('service_title');
+    const servicePrice = urlParams.get('service_price');
     // ✅ Flag to skip leave confirmation on "Pay Later" click
     const skipLeaveConfirmation = useRef(false);
 
     const [step, setStep] = useState(application?.current_step || 1);
+    const [selectedService, setSelectedService] = useState(
+        serviceId 
+            ? { id: serviceId, title: serviceTitle, price: servicePrice } 
+            : null
+    );
     const totalSteps = 4;
 
     const [trademarkType, setTrademarkType] = useState(application?.trademark_type || '');
@@ -131,12 +142,24 @@ export default function Onboarding() {
     const finalAmount = totalPrice + gstAmount;
 
     useEffect(() => {
-        if (step === 4) {
-            axios.post('/trademark/create-order', { application_id: application.id })
-                .then((res) => setOrderDetails(res.data))
-                .catch(() => setPaymentError('Could not initiate payment.'));
-        }
-    }, [step]);
+    if (step === 4) {
+        axios.post('/trademark/create-order', {
+            application_id: application?.id || null,   // ✅ null agar application nahi hai
+            service_id: serviceId,                     // ✅ ServiceHub se
+            service_title: serviceTitle,               // ✅ ServiceHub se
+            service_price: servicePrice,               // ✅ ServiceHub se
+        })
+            .then((res) => {
+                setOrderDetails(res.data);
+                // ✅ Agar naya application create hua hai toh state update karo
+                if (res.data.application_id && !application?.id) {
+                    // Optional: application state set karo
+                    console.log('New application created:', res.data.application_id);
+                }
+            })
+            .catch(() => setPaymentError('Could not initiate payment.'));
+    }
+}, [step]);
 
     const handlePayNow = async () => {
         setPaymentError('');
@@ -478,158 +501,189 @@ export default function Onboarding() {
                 )}
 
                 {/* ---------------- STEP 4 : PAYMENT ---------------- */}
-                {step === 4 && (
-                    <div>
-                        <div className="mb-6">
-                            <span className="text-lg font-bold">
-                                <span className="bg-yellow-400 px-1">IPR</span>Veda
-                            </span>
-                        </div>
+           {step === 4 && (
+    <div>
+        <div className="mb-6">
+            <span className="text-lg font-bold">
+                <span className="bg-yellow-400 px-1">IPR</span>Veda
+            </span>
+        </div>
 
-                        <h2 className="text-2xl font-bold mb-1">Choose Payment Method</h2>
-                        <p className="text-gray-500 mb-6">Payment Options</p>
+        <h2 className="text-2xl font-bold mb-1">Choose Payment Method</h2>
+        <p className="text-gray-500 mb-6">Payment Options</p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="md:col-span-2 border border-gray-200 rounded-lg overflow-hidden">
-                                <div className="flex">
-                                    <div className="w-1/3 border-r border-gray-200">
-                                        <button
-                                            onClick={() => setPaymentMethod('upi')}
-                                            className={`w-full text-left px-4 py-4 border-l-4 ${paymentMethod === 'upi' ? 'border-blue-900 bg-white font-semibold' : 'border-transparent bg-gray-50 text-gray-500'}`}
-                                        >
-                                            UPI
-                                            <div className="text-xs font-normal text-gray-400">Gpay, PhonePe, Paytm & more</div>
-                                        </button>
-                                        <button
-                                            onClick={() => setPaymentMethod('card')}
-                                            className={`w-full text-left px-4 py-4 border-l-4 ${paymentMethod === 'card' ? 'border-blue-900 bg-white font-semibold' : 'border-transparent bg-gray-50 text-gray-500'}`}
-                                        >
-                                            Credit/Debit/ATM Card
-                                            <div className="text-xs font-normal text-gray-400">Visa, MasterCard, Rupay & more</div>
-                                        </button>
-                                        <button
-                                            onClick={() => setPaymentMethod('netbanking')}
-                                            className={`w-full text-left px-4 py-4 border-l-4 ${paymentMethod === 'netbanking' ? 'border-blue-900 bg-white font-semibold' : 'border-transparent bg-gray-50 text-gray-500'}`}
-                                        >
-                                            Net Banking
-                                            <div className="text-xs font-normal text-gray-400">Pay using all Indian banks</div>
-                                        </button>
-                                    </div>
-
-                                    <div className="w-2/3 p-6">
-                                        {paymentMethod === 'upi' && (
-                                            <>
-                                                <h3 className="font-semibold text-lg mb-4">Pay with UPI</h3>
-                                                <p className="text-sm text-gray-500 mb-3">Select UPI App</p>
-                                                <div className="flex gap-4 mb-4">
-                                                    {['Google pay', 'PhonePe', 'Paytm', 'Other UPI ID'].map((app) => (
-                                                        <button key={app} onClick={() => setSelectedUpiApp(app)} className="flex flex-col items-center gap-1">
-                                                            <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center text-xs ${selectedUpiApp === app ? 'border-blue-900' : 'border-gray-200'}`}>
-                                                                {app.slice(0, 2)}
-                                                            </div>
-                                                            <span className="text-xs text-gray-600">{app}</span>
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                                <p className="text-sm text-gray-500 mb-4">
-                                                    Pay through the {selectedUpiApp} app on your phone
-                                                </p>
-                                            </>
-                                        )}
-
-                                        {paymentMethod === 'card' && <h3 className="font-semibold text-lg mb-4">Pay with Card</h3>}
-                                        {paymentMethod === 'netbanking' && <h3 className="font-semibold text-lg mb-4">Pay with Net Banking</h3>}
-
-                                        {paymentError && <p className="text-red-500 text-sm mb-3">{paymentError}</p>}
-
-                                        <button
-                                            onClick={handlePayNow}
-                                            disabled={paying || !orderDetails}
-                                            className="w-full bg-blue-900 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 disabled:opacity-50 transition"
-                                        >
-                                            {paying ? 'Processing...' : `PAY ₹${orderDetails?.final_amount ?? finalAmount}`}
-                                        </button>
-
-                                        <p className="text-sm text-orange-600 mt-4">
-                                            ⚡ Hurry! Your Expert will be assigned right after the Payment
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="border border-gray-200 rounded-lg p-5">
-                                <h3 className="font-semibold mb-4">Trademark Registration</h3>
-                                <p className="text-sm font-medium text-gray-700 mb-3">₹ Price details</p>
-
-                                <div className="flex justify-between text-sm mb-2">
-                                    <span className="text-gray-600">Professional Fees</span>
-                                    <span>₹{orderDetails?.subtotal ?? totalPrice}</span>
-                                </div>
-                                <div className="flex justify-between text-sm mb-3 pb-3 border-b border-gray-200">
-                                    <span className="text-gray-600">GST @ 18%</span>
-                                    <span>₹{orderDetails?.gst ?? gstAmount}</span>
-                                </div>
-                                <div className="flex justify-between font-bold mb-6">
-                                    <span>Total Amount</span>
-                                    <span>₹{orderDetails?.final_amount ?? finalAmount}</span>
-                                </div>
-
-                                <div className="flex justify-around text-center text-xs text-gray-600">
-                                    <div><div className="text-2xl mb-1">🛡️</div>100% Secure Payment</div>
-                                    <div><div className="text-2xl mb-1">💳</div>Guaranteed Satisfaction</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="mt-6">
-                            <button onClick={back} className="flex items-center gap-1 border border-gray-300 rounded-lg px-6 py-2 text-gray-700 hover:bg-gray-50 transition">
-                                ← Back
-                            </button>
-                        </div>
-
-                        {/* <div className="mt-4 text-center">
-                            <button
-                                onClick={async () => {
-                                    // ✅ Set flag BEFORE navigation so `before` hook skips the modal
-                                    skipLeaveConfirmation.current = true;
-                                    await saveStep({ payment_status: 'pending' });
-                                    router.visit('/dashboard');
-                                }}
-                                className="text-gray-500 text-sm hover:text-gray-700 underline"
-                            >
-                                Pay Later - Go to Dashboard
-                            </button>
-                        </div> */}
-
-<div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* ============ LEFT: Payment Methods ============ */}
+            <div className="md:col-span-2 border border-gray-200 rounded-lg overflow-hidden">
+                <div className="flex">
+                    {/* Left column — tabs */}
+                    <div className="w-1/3 border-r border-gray-200">
                         <button
-    onClick={async () => {
-        skipLeaveConfirmation.current = true;
-        
-        // 1. Save step
-        await saveStep({ payment_status: 'pending' });
-        
-        // ✅ 2. Pay Later API call (trade_id + WhatsApp notification)
-        try {
-            const res = await axios.post('/trademark/pay-later', {
-                application_id: application.id,
-            });
-            console.log('Pay Later success:', res.data);
-        } catch (err) {
-            console.error('Pay Later failed:', err.response?.data || err.message);
-        }
-        
-        // 3. Dashboard pe jao
-        router.visit('/dashboard');
-    }}
-    className="text-gray-500 text-sm hover:text-gray-700 underline"
->
-    Pay Later - Go to Dashboard
-</button>
-</div>
+                            onClick={() => setPaymentMethod('upi')}
+                            className={`w-full text-left px-4 py-4 border-l-4 ${
+                                paymentMethod === 'upi'
+                                    ? 'border-blue-900 bg-white font-semibold'
+                                    : 'border-transparent bg-gray-50 text-gray-500'
+                            }`}
+                        >
+                            UPI
+                            <div className="text-xs font-normal text-gray-400">
+                                Gpay, PhonePe, Paytm & more
+                            </div>
+                        </button>
+                        <button
+                            onClick={() => setPaymentMethod('card')}
+                            className={`w-full text-left px-4 py-4 border-l-4 ${
+                                paymentMethod === 'card'
+                                    ? 'border-blue-900 bg-white font-semibold'
+                                    : 'border-transparent bg-gray-50 text-gray-500'
+                            }`}
+                        >
+                            Credit/Debit/ATM Card
+                            <div className="text-xs font-normal text-gray-400">
+                                Visa, MasterCard, Rupay & more
+                            </div>
+                        </button>
+                        <button
+                            onClick={() => setPaymentMethod('netbanking')}
+                            className={`w-full text-left px-4 py-4 border-l-4 ${
+                                paymentMethod === 'netbanking'
+                                    ? 'border-blue-900 bg-white font-semibold'
+                                    : 'border-transparent bg-gray-50 text-gray-500'
+                            }`}
+                        >
+                            Net Banking
+                            <div className="text-xs font-normal text-gray-400">
+                                Pay using all Indian banks
+                            </div>
+                        </button>
                     </div>
-                )}
+
+                    {/* Right column — method details */}
+                    <div className="w-2/3 p-6">
+                        {paymentMethod === 'upi' && (
+                            <>
+                                <h3 className="font-semibold text-lg mb-4">Pay with UPI</h3>
+                                <p className="text-sm text-gray-500 mb-3">Select UPI App</p>
+                                <div className="flex gap-4 mb-4">
+                                    {['Google pay', 'PhonePe', 'Paytm', 'Other UPI ID'].map(
+                                        (app) => (
+                                            <button
+                                                key={app}
+                                                onClick={() => setSelectedUpiApp(app)}
+                                                className="flex flex-col items-center gap-1"
+                                            >
+                                                <div
+                                                    className={`w-12 h-12 rounded-full border-2 flex items-center justify-center text-xs ${
+                                                        selectedUpiApp === app
+                                                            ? 'border-blue-900'
+                                                            : 'border-gray-200'
+                                                    }`}
+                                                >
+                                                    {app.slice(0, 2)}
+                                                </div>
+                                                <span className="text-xs text-gray-600">
+                                                    {app}
+                                                </span>
+                                            </button>
+                                        )
+                                    )}
+                                </div>
+                                <p className="text-sm text-gray-500 mb-4">
+                                    Pay through the {selectedUpiApp} app on your phone
+                                </p>
+                            </>
+                        )}
+
+                        {paymentMethod === 'card' && (
+                            <>
+                                <h3 className="font-semibold text-lg mb-4">Pay with Card</h3>
+                                <p className="text-sm text-gray-500 mb-4">
+                                    You'll be redirected to secure payment gateway
+                                </p>
+                            </>
+                        )}
+
+                        {paymentMethod === 'netbanking' && (
+                            <>
+                                <h3 className="font-semibold text-lg mb-4">
+                                    Pay with Net Banking
+                                </h3>
+                                <p className="text-sm text-gray-500 mb-4">
+                                    Select your bank on the next screen
+                                </p>
+                            </>
+                        )}
+
+                        {paymentError && (
+                            <p className="text-red-500 text-sm mb-3">{paymentError}</p>
+                        )}
+
+                        <button
+                            onClick={handlePayNow}
+                            disabled={paying || !orderDetails}
+                            className="w-full bg-blue-900 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 disabled:opacity-50 transition"
+                        >
+                            {paying
+                                ? 'Processing...'
+                                : `PAY ₹${orderDetails?.final_amount ?? finalAmount}`}
+                        </button>
+
+                        <p className="text-sm text-orange-600 mt-4">
+                            ⚡ Hurry! Your Expert will be assigned right after the Payment
+                        </p>
+                    </div>
+                </div>
             </div>
+
+            {/* ============ RIGHT: Price Summary ============ */}
+            <div className="border border-gray-200 rounded-lg p-5">
+                {/* ✅ Dynamic service name */}
+                <h3 className="font-semibold mb-4">
+                    {selectedService?.title || 'Trademark Registration'}
+                </h3>
+                <p className="text-sm font-medium text-gray-700 mb-3">₹ Price details</p>
+
+                <div className="flex justify-between text-sm mb-2">
+                    <span className="text-gray-600">Professional Fees</span>
+                    <span>₹{orderDetails?.subtotal ?? totalPrice}</span>
+                </div>
+                <div className="flex justify-between text-sm mb-3 pb-3 border-b border-gray-200">
+                    <span className="text-gray-600">GST @ 18%</span>
+                    <span>₹{orderDetails?.gst ?? gstAmount}</span>
+                </div>
+                <div className="flex justify-between font-bold mb-6">
+                    <span>Total Amount</span>
+                    <span>₹{orderDetails?.final_amount ?? finalAmount}</span>
+                </div>
+
+                <div className="flex justify-around text-center text-xs text-gray-600">
+                    <div>
+                        <div className="text-2xl mb-1">🛡️</div>
+                        100% Secure Payment
+                    </div>
+                    <div>
+                        <div className="text-2xl mb-1">💳</div>
+                        Guaranteed Satisfaction
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div className="mt-6">
+            <button
+                onClick={back}
+                className="flex items-center gap-1 border border-gray-300 rounded-lg px-6 py-2 text-gray-700 hover:bg-gray-50 transition"
+            >
+                ← Back
+            </button>
+        </div>
+    </div>
+)}
+        </div>
+
+
+            
 
             {/* Leave confirmation modal */}
             {showLeaveModal && (
